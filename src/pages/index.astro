@@ -7,6 +7,8 @@ import { researchThemes } from '../data/research';
 
 const homepageTitle = `${aboutProfile.name} — Nonlinear Optimization at ${aboutProfile.institution}`;
 const homepageDescription = `${aboutProfile.name} is ${aboutProfile.position} at ${aboutProfile.institution}, researching mathematical optimization with a focus on bilevel optimization.`;
+const homepageCountry = aboutProfile.contact.addressLines.at(-1);
+const homepageInstitution = [aboutProfile.institution, homepageCountry].filter(Boolean).join(', ');
 ---
 
 <BaseLayout
@@ -16,10 +18,11 @@ const homepageDescription = `${aboutProfile.name} is ${aboutProfile.position} at
 	<section class="hero page-shell" aria-labelledby="page-title">
 		<div class="hero__content">
 			<h1 id="page-title">{aboutProfile.name}</h1>
-			<p class="hero__affiliation">{aboutProfile.institution}</p>
+			<p class="hero__affiliation">{homepageInstitution}</p>
 			<p class="hero__statement">
-				My research develops mathematical models and algorithms for structured optimization
-				problems, with a particular interest in hierarchical decisions and complex systems.
+				My research focuses on bilevel, mixed-integer, nonlinear, robust, equilibrium, and
+				network optimization, with applications in energy systems and markets as well as
+				machine learning and AI.
 			</p>
 
 			<nav class="hero__links" aria-label="Explore research">

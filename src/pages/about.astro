@@ -50,7 +50,7 @@ const publicationAnchor = (key: string) => `publication-${key.replace(/[^a-zA-Z0
 		</section>
 		<section class="about-section" aria-labelledby="editorial-title">
 			<header class="about-section__heading"><h2 id="editorial-title">Editorial Service</h2></header>
-			<ul class="fact-list">{editorialService.map((item) => <li>{item.period && <time>{item.period}</time>}<div><h3>{item.title}</h3>{item.organization && <p>{item.organization}</p>}</div></li>)}</ul>
+			<ul class="fact-list">{editorialService.map((item) => <li>{item.period && <time>{item.period}</time>}<div>{item.organization && <h3>{item.organization}</h3>}<p>{item.title}</p></div></li>)}</ul>
 		</section>
 		<section class="about-section" aria-labelledby="reviewing-title">
 			<header class="about-section__heading"><h2 id="reviewing-title">Reviewing Activity</h2></header>

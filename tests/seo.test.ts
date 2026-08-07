@@ -28,6 +28,13 @@ test('homepage metadata is descriptive and derives identity from canonical About
 	assert.doesNotMatch(homepage, /<h1[^>]*>Martin Schmidt<\/h1>|<p class="hero__affiliation">Trier University<\/p>/);
 });
 
+test('homepage research statement and institution presentation use the reviewed wording', () => {
+	assert.match(homepage, /My research focuses on bilevel, mixed-integer, nonlinear, robust, equilibrium, and\s+network optimization, with applications in energy systems and markets as well as\s+machine learning and AI\./s);
+	assert.match(homepage, /const homepageCountry = aboutProfile\.contact\.addressLines\.at\(-1\)/);
+	assert.match(homepage, /<p class="hero__affiliation">\{homepageInstitution\}<\/p>/);
+	assert.doesNotMatch(homepage, /structured optimization\s+problems, with a particular interest/);
+});
+
 test('shared shell identity derives from About data and primary navigation is unchanged', () => {
 	assert.match(layout, /import \{ aboutProfile \} from '\.\.\/data\/about'/);
 	assert.match(footer, /import \{ aboutProfile \} from '\.\.\/data\/about'/);
@@ -115,6 +122,10 @@ test('About contact columns derive address, email, and profile links from canoni
 	assert.match(aboutPage, /href=\{aboutProfile\.contact\.institutionUrl\}/);
 	assert.match(aboutPage, /aboutProfile\.profileLinks\.map/);
 	assert.doesNotMatch(aboutPage, /martin\.schmidt@uni-trier\.de|scholar\.google\.com|orcid\.org|bsky\.app|instagram\.com/);
+});
+
+test('Editorial Service renders date, journal, then role without changing canonical records', () => {
+	assert.match(aboutPage, /editorialService\.map\(\(item\) => <li>\{item\.period && <time>\{item\.period\}<\/time>}<div>\{item\.organization && <h3>\{item\.organization}<\/h3>}<p>\{item\.title}<\/p><\/div><\/li>\)/);
 });
 
 test('major page headings have no decorative section numbers', () => {
