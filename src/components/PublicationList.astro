@@ -1,5 +1,6 @@
 ---
 import type { Publication } from '../lib/publications';
+import { externalLinkAttributes } from '../lib/links';
 
 interface Props {
 	publications: Publication[];
@@ -7,6 +8,10 @@ interface Props {
 }
 
 const { publications, filterable = false } = Astro.props;
+const monthName = (month: number) => new Intl.DateTimeFormat('en-GB', { month: 'short', timeZone: 'UTC' }).format(new Date(Date.UTC(2000, month - 1, 1)));
+const publicationDate = (publication: Publication) => publication.year
+	? `${publication.month ? `${monthName(publication.month)} ` : ''}${publication.year}`
+	: '—';
 ---
 
 <ol class="publication-list" data-publication-list={filterable || undefined}>
@@ -19,7 +24,7 @@ const { publications, filterable = false } = Astro.props;
 			data-search={`${publication.title} ${publication.authors} ${publication.venue ?? ''} ${publication.year ?? ''}`.toLocaleLowerCase()}
 		>
 			<article aria-labelledby={`publication-${publication.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`}>
-				<div class="publication__year">{publication.year ?? '—'}</div>
+				<div class="publication__year">{publicationDate(publication)}</div>
 				<div class="publication__body">
 					<h3 id={`publication-${publication.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`}>{publication.title}</h3>
 					<p class="publication__authors">{publication.authors}</p>
@@ -27,7 +32,7 @@ const { publications, filterable = false } = Astro.props;
 					{publication.links.length > 0 && (
 						<ul class="publication__links" aria-label={`Links for ${publication.title}`}>
 							{publication.links.map((link) => (
-								<li><a href={link.href}>{link.label}<span class="sr-only"> for {publication.title}</span></a></li>
+								<li><a href={link.href} {...externalLinkAttributes(link.href)}>{link.label}<span class="sr-only"> for {publication.title}</span></a></li>
 							))}
 						</ul>
 					)}

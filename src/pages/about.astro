@@ -4,6 +4,7 @@ import TalkList from '../components/TalkList.astro';
 import { aboutProfile, academicLeadership, academicPositions, affiliationsAndFellowships, awards, editorialService, education, reviewingActivity } from '../data/about';
 import { introductoryCourseTalks, selectedPlenaryAndKeynoteTalks } from '../data/talks';
 import { publicationsByKeys } from '../lib/publications';
+import { externalLinkAttributes } from '../lib/links';
 
 const factSections = [
 	{ id: 'positions', title: 'Academic Positions', items: academicPositions },
@@ -22,8 +23,7 @@ const publicationAnchor = (key: string) => `publication-${key.replace(/[^a-zA-Z0
 		<p class="intro__lead">{aboutProfile.position} at {aboutProfile.institution}.</p>
 	</header>
 	<div class="about-sections">
-		<section class="about-section about-bio" aria-labelledby="bio-title">
-			<header class="about-section__heading"><h2 id="bio-title">Short Academic Biography</h2></header>
+		<section class="about-section about-bio" aria-label="Academic biography">
 			<div class="about-bio__layout"><img src={aboutProfile.portrait.src} alt={aboutProfile.portrait.alt} width="960" height="640" loading="eager" /><p>{aboutProfile.biography}</p></div>
 		</section>
 		<section class="about-section" aria-labelledby="contact-title">
@@ -37,8 +37,8 @@ const publicationAnchor = (key: string) => `publication-${key.replace(/[^a-zA-Z0
 				<div class="contact-column">
 					<h3>Profiles</h3>
 					<ul class="profile-links" aria-label="Academic profiles and social media">
-						<li><a href={aboutProfile.contact.institutionUrl}>University profile</a></li>
-						{aboutProfile.profileLinks.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+						<li><a href={aboutProfile.contact.institutionUrl} {...externalLinkAttributes(aboutProfile.contact.institutionUrl)}>University profile</a></li>
+						{aboutProfile.profileLinks.map((link) => <li><a href={link.href} {...externalLinkAttributes(link.href)}>{link.label}</a></li>)}
 					</ul>
 				</div>
 			</div>

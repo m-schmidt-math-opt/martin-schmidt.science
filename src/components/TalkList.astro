@@ -1,5 +1,6 @@
 ---
 import type { Talk, TalkType } from '../data/talks';
+import { externalLinkAttributes } from '../lib/links';
 
 interface Props { talks: Talk[] }
 const { talks } = Astro.props;
@@ -27,7 +28,7 @@ const location = (talk: Talk) => [talk.venue, talk.city, talk.region, talk.count
 					{!location(talk) && talk.deliveryMode === 'online' && <p class="talk-entry__location">Online</p>}
 					{(talk.types.length > 0 || talk.links.length > 0) && <div class="talk-entry__footer">
 						{talk.types.length > 0 && <ul class="talk-types" aria-label="Talk types">{talk.types.map((type) => typeLabels[type] && <li>{typeLabels[type]}</li>)}</ul>}
-						{talk.links.length > 0 && <ul class="talk-links" aria-label={`Links for ${talk.title}`}>{talk.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}</ul>}
+						{talk.links.length > 0 && <ul class="talk-links" aria-label={`Links for ${talk.title}`}>{talk.links.map((link) => <li><a href={link.href} {...externalLinkAttributes(link.href)}>{link.label}</a></li>)}</ul>}
 					</div>}
 				</div>
 			</article>

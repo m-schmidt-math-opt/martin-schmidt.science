@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PersonPortrait from '../components/PersonPortrait.astro';
 import { focusLine, getAlumni, getCurrentPeople, type CurrentGroup } from '../data/people';
+import { externalLinkAttributes } from '../lib/links';
 
 const currentSections: Array<{ group: CurrentGroup; title: string }> = [
 	{ group: 'secretary', title: "Secretary's Office" },
@@ -43,7 +44,7 @@ const formerPostdocs = getAlumni('former-postdoc');
 									{(person.email || person.homepage) && (
 										<ul class="person-card__links" aria-label={`Contact links for ${person.name}`}>
 											{person.email && <li><a href={`mailto:${person.email}`}>Email</a></li>}
-											{person.homepage && <li><a href={person.homepage}>Homepage</a></li>}
+											{person.homepage && <li><a href={person.homepage} {...externalLinkAttributes(person.homepage)}>Homepage</a></li>}
 										</ul>
 									)}
 								</div>

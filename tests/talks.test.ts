@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { introductoryCourseTalks, invitedTalks, plenaryAndKeynoteTalks, selectedPlenaryAndKeynoteTalks, talks } from '../src/data/talks.ts';
 
@@ -27,4 +28,11 @@ test('featured talk collections use only matching explicit types', () => {
 
 test('unspecified talks are never inferred to be contributed', () => {
 	assert.ok(talks.filter((talk) => talk.types.length === 0 || talk.types.includes('unspecified')).every((talk) => !talk.types.includes('contributed')));
+});
+
+test('the latest canonical talk is surfaced first in the Talks page recent section', () => {
+	const talksPage = readFileSync(new URL('../src/pages/talks.astro', import.meta.url), 'utf8');
+	assert.match(talksPage, /const recentTalks = archive\.slice\(0, 6\)/);
+	assert.match(talksPage, /title: 'Recent Talks', items: recentTalks/);
+	assert.equal(talks[0].date.start, '2026-08-03');
 });

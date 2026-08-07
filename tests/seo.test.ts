@@ -73,10 +73,18 @@ test('homepage typography keeps the name restrained and group portraits readable
 });
 
 test('homepage uses the supplied local optimization figure without the obsolete geometry', () => {
-	assert.match(homepage, /src="\/images\/homepage-optimization\.png"/);
-	assert.match(homepage, /alt="Optimization diagram"/);
+	assert.match(homepage, /src="\/images\/homepage-optimization-abstract\.png"/);
+	assert.match(homepage, /alt="Abstract optimization diagram"/);
 	assert.doesNotMatch(homepage, /hero-geometry/);
 	assert.doesNotMatch(globalCss, /hero-geometry/);
+});
+
+test('research section terminology and compact spacing follow the current editorial direction', () => {
+	const researchPage = readFileSync(new URL('../src/pages/research.astro', import.meta.url), 'utf8');
+	assert.match(homepage, /Core Research Topics/);
+	assert.match(researchPage, /Core Research Topics/);
+	assert.doesNotMatch(`${homepage}\n${researchPage}`, /Core Research Themes/);
+	assert.match(globalCss, /--space-section-y:\s*clamp\(0\.75rem, 1\.5vw, 1\.25rem\)/);
 });
 
 test('internal page headings remain smaller than the homepage heading by design', () => {
@@ -124,6 +132,7 @@ test('footer profile links stay canonical and the shared shell provides one back
 		assert.ok(aboutProfile.profileLinks.some((link) => link.label === label));
 	}
 	assert.doesNotMatch(footer, /https?:\/\/(?:scholar\.google|orcid\.org|bsky\.app|www\.instagram)/);
+	assert.match(footer, /site-footer__identity[\s\S]*site-footer__profiles[\s\S]*site-footer__nav/);
 	assert.equal((layout.match(/id="top"/g) ?? []).length, 1);
 	assert.equal((layout.match(/class="back-to-top"/g) ?? []).length, 1);
 	assert.match(layout, /href="#top" aria-label="Back to top"/);

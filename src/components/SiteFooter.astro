@@ -1,5 +1,6 @@
 ---
 import { aboutProfile } from '../data/about';
+import { externalLinkAttributes } from '../lib/links';
 ---
 
 <footer class="site-footer">
@@ -7,6 +8,9 @@ import { aboutProfile } from '../data/about';
 		<div class="site-footer__identity">
 			<a href="/">{aboutProfile.name}</a>
 			<p>{aboutProfile.siteSubtitle}<br />{aboutProfile.institution}</p>
+			<nav class="site-footer__profiles" aria-label="Academic profiles and social media">
+				{aboutProfile.profileLinks.map((link) => <a href={link.href} {...externalLinkAttributes(link.href)}>{link.label}</a>)}
+			</nav>
 		</div>
 
 		<nav class="site-footer__nav" aria-label="Footer navigation">
@@ -25,10 +29,6 @@ import { aboutProfile } from '../data/about';
 				<a href="/software-data/">Software &amp; Data</a>
 				<a href="/news/">News</a>
 			</div>
-		</nav>
-
-		<nav class="site-footer__profiles" aria-label="Academic profiles and social media">
-			{aboutProfile.profileLinks.map((link) => <a href={link.href}>{link.label}</a>)}
 		</nav>
 
 		<p class="site-footer__meta">© {new Date().getFullYear()} {aboutProfile.name}</p>
@@ -99,9 +99,10 @@ import { aboutProfile } from '../data/about';
 	}
 
 	.site-footer__profiles {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.35rem 1rem;
+		display: grid;
+		justify-items: start;
+		gap: 0.3rem;
+		margin-top: 0.8rem;
 	}
 
 	.site-footer__profiles a {
@@ -127,8 +128,5 @@ import { aboutProfile } from '../data/about';
 			grid-column: 1 / -1;
 		}
 
-		.site-footer__profiles {
-			grid-column: 1 / -1;
-		}
 	}
 </style>

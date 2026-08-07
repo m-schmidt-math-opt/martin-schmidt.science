@@ -2,6 +2,7 @@
 import { projects } from '../data/projects';
 import { resources } from '../data/resources';
 import { publicationsByKeys } from '../lib/publications';
+import { externalLinkAttributes } from '../lib/links';
 
 interface Props {
 	variant?: 'homepage' | 'research';
@@ -49,7 +50,7 @@ const sectionDescription = variant === 'research'
 					<p class="research-output__type">{item.type}</p>
 					<h3>{item.title}</h3>
 					<p class="research-output__description">{item.description}</p>
-					<a href={item.href}>{item.linkLabel}<span aria-hidden="true"> →</span></a>
+					<a href={item.href} {...externalLinkAttributes(item.href)}>{item.linkLabel}<span aria-hidden="true"> →</span></a>
 				</article>
 			))}
 		</div>

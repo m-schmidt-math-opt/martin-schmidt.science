@@ -26,3 +26,17 @@ test('the two verified legacy works and working publication artifact are canonic
 	assert.match(parser, /return 'Data'/);
 	assert.match(parser, /return 'Source files'/);
 });
+
+test('verified publication months are parsed, displayed conditionally, and used for sorting', () => {
+	assert.match(bib, /@article\{Reinmann_et_al:2022,[\s\S]*?month\s*=\s*Sep/);
+	assert.match(bib, /@article\{Vohle_Schmidt:2021,[\s\S]*?month\s*=\s*Aug/);
+	const parser = readFileSync(new URL('../src/lib/publications.ts', import.meta.url), 'utf8');
+	const list = readFileSync(new URL('../src/components/PublicationList.astro', import.meta.url), 'utf8');
+	assert.match(parser, /\(b\.month \?\? 0\) - \(a\.month \?\? 0\)/);
+	assert.match(list, /publication\.month \?/);
+});
+
+test('external publication links use the shared new-tab policy', () => {
+	const list = readFileSync(new URL('../src/components/PublicationList.astro', import.meta.url), 'utf8');
+	assert.match(list, /externalLinkAttributes\(link\.href\)/);
+});

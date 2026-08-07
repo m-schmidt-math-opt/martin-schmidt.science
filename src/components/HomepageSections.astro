@@ -5,6 +5,7 @@ import { aboutProfile, academicLeadership, academicPositions, editorialService }
 import { focusLine, getCurrentPeople } from '../data/people';
 import { featuredResources } from '../data/resources';
 import { homepageNews } from '../data/news';
+import { externalLinkAttributes } from '../lib/links';
 const formatActivityDate = (date: string) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`));
 const formatList = (items: string[]) => {
 	if (items.length < 2) return items[0] ?? '';
@@ -87,7 +88,7 @@ const supportStaff = getCurrentPeople('secretary');
 			{homepageNews.map((item) => (
 				<li>
 					<p class="activity__meta"><time datetime={item.date}>{formatActivityDate(item.date)}</time><span>{item.category}</span></p>
-					<p class="activity__title">{item.link ? <a href={item.link.href}>{item.title}</a> : item.title}</p>
+					<p class="activity__title">{item.link ? <a href={item.link.href} {...externalLinkAttributes(item.link.href)}>{item.title}</a> : item.title}</p>
 				</li>
 			))}
 		</ol>

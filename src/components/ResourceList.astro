@@ -1,6 +1,7 @@
 ---
 import type { ResearchResource } from '../data/resources';
 import { publications } from '../lib/publications';
+import { externalLinkAttributes } from '../lib/links';
 
 interface Props {
 	resources: ResearchResource[];
@@ -24,7 +25,7 @@ const publicationByKey = new Map(publications.map((publication) => [publication.
 				{(!gateway || index > 0) && <p class:list={{ 'pending-copy': resource.descriptionPending }}>{resource.description}</p>}
 				{(resource.links.length > 0 || resource.relatedPublicationKeys?.length) && (
 					<ul class="research-resource__links" aria-label={`Links for ${resource.name}`}>
-						{resource.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+						{resource.links.map((link) => <li><a href={link.href} {...externalLinkAttributes(link.href)}>{link.label}</a></li>)}
 						{resource.relatedPublicationKeys?.map((key) => { const publication = publicationByKey.get(key); return publication && <li><a href={`/publications/#publication-${publication.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`}>Related publication: {publication.title}</a></li>; })}
 					</ul>
 				)}

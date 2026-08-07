@@ -22,6 +22,7 @@ export interface Publication {
 	authors: string;
 	venue?: string;
 	year?: number;
+	month?: number;
 	date?: string;
 	links: PublicationLink[];
 }
@@ -230,11 +231,22 @@ function collectLinks(fields: Record<string, string>): PublicationLink[] {
 	return links;
 }
 
+const bibMonths = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+function parseMonth(value = ''): number | undefined {
+	const clean = latexToText(value).trim().toLowerCase();
+	if (/^(?:0?[1-9]|1[0-2])$/.test(clean)) return Number(clean);
+	const index = bibMonths.findIndex((month) => clean === month || clean.startsWith(month));
+	return index >= 0 ? index + 1 : undefined;
+}
+
 function normalize(entry: RawEntry): Publication {
 	const { fields } = entry;
 	const date = latexToText(fields.date);
 	const yearValue = latexToText(fields.year) || date.slice(0, 4);
 	const year = /^\d{4}$/.test(yearValue) ? Number(yearValue) : undefined;
+	const dateMonth = /^\d{4}-(\d{2})/.exec(date)?.[1];
+	const month = parseMonth(fields.month) ?? parseMonth(dateMonth);
 	if (!fields.title) publicationWarnings.push(`${entry.key}: missing title`);
 	if (!fields.author) publicationWarnings.push(`${entry.key}: missing author`);
 	if (!year) publicationWarnings.push(`${entry.key}: missing or invalid year/date`);
@@ -246,6 +258,7 @@ function normalize(entry: RawEntry): Publication {
 		authors: formatAuthors(fields.author) || '[Author not recorded]',
 		venue: venue ? latexToText(venue) : undefined,
 		year,
+		month,
 		date: date || undefined,
 		links: collectLinks(fields),
 	};
@@ -253,7 +266,10 @@ function normalize(entry: RawEntry): Publication {
 
 export const publications = parseBibTeX(bibliography)
 	.map(normalize)
-	.sort((a, b) => (b.date ?? String(b.year ?? 0)).localeCompare(a.date ?? String(a.year ?? 0)) || a.title.localeCompare(b.title));
+	.sort((a, b) => (b.year ?? 0) - (a.year ?? 0)
+		|| (b.month ?? 0) - (a.month ?? 0)
+		|| (b.date ?? '').localeCompare(a.date ?? '')
+		|| a.title.localeCompare(b.title));
 
 export const publicationTypes: PublicationType[] = ['journal', 'preprint', 'book', 'chapter', 'conference', 'thesis', 'review', 'other'];
 
