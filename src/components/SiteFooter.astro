@@ -1,0 +1,107 @@
+<footer class="site-footer">
+	<div class="site-footer__inner">
+		<div class="site-footer__identity">
+			<a href="/">Martin Schmidt</a>
+			<p>Professor of Nonlinear Optimization<br />Trier University</p>
+		</div>
+
+		<nav class="site-footer__nav" aria-label="Footer navigation">
+			<div>
+				<p>Academic</p>
+				<a href="/research/">Research</a>
+				<a href="/publications/">Publications</a>
+				<a href="/group/">Research Group</a>
+			</div>
+			<div>
+				<p>Information</p>
+				<a href="/about/">Profile &amp; Contact</a>
+				<a href="/teaching/">Teaching</a>
+				<a href="/software-data/">Software &amp; Data</a>
+			</div>
+		</nav>
+
+		<p class="site-footer__meta">© {new Date().getFullYear()} Martin Schmidt</p>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.site-footer__inner {
+		display: grid;
+		gap: 2.5rem;
+		width: min(100%, var(--page-width));
+		margin-inline: auto;
+		padding: 3rem var(--page-gutter) 2rem;
+	}
+
+	.site-footer__identity > a {
+		color: var(--color-text);
+		font-family: var(--font-heading);
+		font-size: 1.35rem;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.site-footer__identity > a:hover {
+		color: var(--color-accent);
+	}
+
+	.site-footer__identity p {
+		margin-top: 0.55rem;
+		color: var(--color-muted);
+		font-size: 0.78rem;
+	}
+
+	.site-footer__nav {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 2rem;
+	}
+
+	.site-footer__nav div {
+		display: flex;
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 0.45rem;
+	}
+
+	.site-footer__nav p {
+		margin-bottom: 0.35rem;
+		color: var(--color-muted);
+		font-size: 0.65rem;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+
+	.site-footer__nav a {
+		color: var(--color-text);
+		font-size: 0.78rem;
+		text-decoration: none;
+	}
+
+	.site-footer__nav a:hover {
+		color: var(--color-accent);
+	}
+
+	.site-footer__meta {
+		padding-top: 1.25rem;
+		border-top: 1px solid var(--color-rule);
+		color: var(--color-muted);
+		font-size: 0.7rem;
+	}
+
+	@media (min-width: 45rem) {
+		.site-footer__inner {
+			grid-template-columns: minmax(14rem, 1fr) minmax(22rem, 1fr);
+			padding-block: 4rem 2rem;
+		}
+
+		.site-footer__meta {
+			grid-column: 1 / -1;
+		}
+	}
+</style>

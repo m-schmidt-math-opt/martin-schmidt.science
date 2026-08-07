@@ -1,0 +1,340 @@
+---
+const groupMembers = [
+	{ name: 'Researcher One', role: 'Postdoctoral Researcher', initials: 'R1' },
+	{ name: 'Researcher Two', role: 'Doctoral Researcher', initials: 'R2' },
+	{ name: 'Researcher Three', role: 'Research Associate', initials: 'R3' },
+];
+
+const resources = [
+	{
+		name: 'BOBILib',
+		description: 'A software library for modeling and solving bilevel optimization problems.',
+	},
+	{
+		name: 'GasLib',
+		description: 'A collection of gas network data sets for optimization and algorithmic research.',
+	},
+	{
+		name: 'Research Data',
+		description: 'Selected data and reproducible resources accompanying current research projects.',
+	},
+];
+
+const activity = [
+	{ date: '2026', category: 'Publication', title: 'Recent work on structured bilevel optimization' },
+	{ date: '2026', category: 'Talk', title: 'Research seminar on optimization under uncertainty' },
+	{ date: '2025', category: 'Project', title: 'Collaborative project on networked systems' },
+	{ date: '2025', category: 'Software', title: 'Development update for bilevel optimization tools' },
+];
+---
+
+<section class="group-preview home-section" aria-labelledby="group-preview-title">
+	<div class="home-section__inner group-preview__layout">
+		<header class="home-section__heading">
+			<p class="eyebrow">Research environment</p>
+			<h2 id="group-preview-title">Research Group</h2>
+			<p>Researchers working together on mathematical optimization and its applications.</p>
+			<a class="section-link" href="/group/">Meet the group<span aria-hidden="true"> →</span></a>
+		</header>
+
+		<ul class="member-list" aria-label="Selected current group members">
+			{groupMembers.map((member) => (
+				<li class="member">
+					<div class="member__portrait" aria-hidden="true">{member.initials}</div>
+					<div>
+						<h3>{member.name}</h3>
+						<p>{member.role}</p>
+					</div>
+				</li>
+			))}
+		</ul>
+	</div>
+</section>
+
+<section class="resources-preview home-section" aria-labelledby="resources-preview-title">
+	<div class="home-section__inner">
+		<header class="home-section__heading home-section__heading--row">
+			<div>
+				<p class="eyebrow">Open resources</p>
+				<h2 id="resources-preview-title">Software &amp; Data</h2>
+			</div>
+			<a class="section-link" href="/software-data/">Explore all resources<span aria-hidden="true"> →</span></a>
+		</header>
+
+		<div class="resource-list">
+			{resources.map((resource, index) => (
+				<article class="resource">
+					<p class="resource__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</p>
+					<h3>{resource.name}</h3>
+					<p>{resource.description}</p>
+				</article>
+			))}
+		</div>
+	</div>
+</section>
+
+<section class="activity-preview home-section" aria-labelledby="activity-preview-title">
+	<div class="home-section__inner activity-preview__layout">
+		<header class="home-section__heading">
+			<p class="eyebrow">Updates</p>
+			<h2 id="activity-preview-title">Recent Activity</h2>
+			<p>A brief view of current publications, talks, projects, and software work.</p>
+		</header>
+
+		<ol class="activity-list">
+			{activity.map((item) => (
+				<li>
+					<p class="activity__meta"><time datetime={item.date}>{item.date}</time><span>{item.category}</span></p>
+					<p class="activity__title">{item.title}</p>
+				</li>
+			))}
+		</ol>
+	</div>
+</section>
+
+<section class="profile-preview home-section" aria-labelledby="profile-preview-title">
+	<div class="home-section__inner profile-preview__layout">
+		<div class="profile-placeholder" role="img" aria-label="Portrait placeholder for Martin Schmidt">
+			<span aria-hidden="true">MS</span>
+		</div>
+
+		<div class="profile-preview__content">
+			<p class="eyebrow">Academic profile</p>
+			<h2 id="profile-preview-title">About Martin Schmidt</h2>
+			<p class="profile-preview__position">
+				Professor of Nonlinear Optimization at Trier University.
+			</p>
+			<p>
+				The full profile includes academic appointments, editorial and professional service,
+				and a curriculum vitae.
+			</p>
+			<a class="section-link" href="/about/">View academic profile<span aria-hidden="true"> →</span></a>
+		</div>
+	</div>
+</section>
+
+<style>
+	.home-section {
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.home-section__inner {
+		width: min(100%, var(--page-width));
+		margin-inline: auto;
+		padding: clamp(4rem, 9vw, 7rem) var(--page-gutter);
+	}
+
+	.home-section__heading {
+		max-width: 38rem;
+	}
+
+	.home-section__heading h2,
+	.profile-preview h2 {
+		font-size: clamp(2.35rem, 6vw, 4rem);
+		letter-spacing: -0.025em;
+	}
+
+	.home-section__heading > p:last-of-type,
+	.profile-preview__content > p {
+		margin-top: 1.25rem;
+		color: var(--color-muted);
+	}
+
+	.section-link {
+		display: inline-block;
+		margin-top: 1.5rem;
+		font-size: 0.82rem;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.group-preview__layout,
+	.activity-preview__layout,
+	.profile-preview__layout {
+		display: grid;
+		gap: 3rem;
+	}
+
+	.member-list {
+		border-bottom: 1px solid var(--color-rule);
+	}
+
+	.member {
+		display: grid;
+		align-items: center;
+		grid-template-columns: 3.25rem minmax(0, 1fr);
+		gap: 1rem;
+		padding-block: 1.2rem;
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.member__portrait {
+		display: grid;
+		width: 3.25rem;
+		aspect-ratio: 4 / 5;
+		place-items: center;
+		background: #e7e3da;
+		color: var(--color-accent);
+		font-family: var(--font-heading);
+		font-size: 0.8rem;
+	}
+
+	.member h3 {
+		font-size: 1.2rem;
+	}
+
+	.member p {
+		margin-top: 0.15rem;
+		color: var(--color-muted);
+		font-size: 0.78rem;
+	}
+
+	.home-section__heading--row {
+		max-width: none;
+		margin-bottom: clamp(2.5rem, 6vw, 4rem);
+	}
+
+	.resource-list {
+		border-bottom: 1px solid var(--color-rule);
+	}
+
+	.resource {
+		display: grid;
+		grid-template-columns: 2rem minmax(0, 1fr);
+		gap: 0.6rem 0.8rem;
+		padding-block: 1.6rem;
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.resource__number {
+		padding-top: 0.2rem;
+		color: var(--color-accent);
+		font-size: 0.68rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+	}
+
+	.resource h3 {
+		font-size: clamp(1.4rem, 5vw, 1.8rem);
+	}
+
+	.resource > p:last-child {
+		grid-column: 2;
+		color: var(--color-muted);
+		font-size: 0.9rem;
+	}
+
+	.activity-list {
+		margin: 0;
+		padding: 0;
+		border-bottom: 1px solid var(--color-rule);
+		list-style: none;
+	}
+
+	.activity-list li {
+		padding-block: 1.3rem;
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.activity__meta {
+		display: flex;
+		gap: 0.75rem;
+		color: var(--color-accent);
+		font-size: 0.68rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.activity__meta span {
+		padding-left: 0.75rem;
+		border-left: 1px solid var(--color-rule);
+	}
+
+	.activity__title {
+		margin-top: 0.35rem;
+		font-family: var(--font-heading);
+		font-size: clamp(1.12rem, 4vw, 1.4rem);
+		line-height: 1.3;
+	}
+
+	.profile-preview__layout {
+		align-items: center;
+	}
+
+	.profile-placeholder {
+		display: grid;
+		width: min(42vw, 9rem);
+		aspect-ratio: 4 / 5;
+		place-items: center;
+		background: #e7e3da;
+		color: var(--color-accent);
+		font-family: var(--font-heading);
+		font-size: 1.5rem;
+	}
+
+	.profile-preview__content {
+		max-width: 40rem;
+	}
+
+	.profile-preview__position {
+		color: var(--color-text) !important;
+		font-family: var(--font-heading);
+		font-size: 1.25rem;
+	}
+
+	@media (min-width: 45rem) {
+		.group-preview__layout,
+		.activity-preview__layout {
+			grid-template-columns: minmax(17rem, 0.75fr) minmax(24rem, 1.25fr);
+			gap: clamp(3rem, 8vw, 8rem);
+		}
+
+		.home-section__heading--row {
+			display: flex;
+			align-items: end;
+			justify-content: space-between;
+			gap: 2rem;
+		}
+
+		.home-section__heading--row .section-link {
+			margin-bottom: 0.45rem;
+		}
+
+		.resource-list {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+
+		.resource {
+			display: flex;
+			align-items: flex-start;
+			flex-direction: column;
+			min-height: 14rem;
+			padding: 1.8rem clamp(1.25rem, 2.5vw, 2.5rem);
+			border-left: 1px solid var(--color-rule);
+		}
+
+		.resource:first-child {
+			padding-left: 0;
+			border-left: 0;
+		}
+
+		.resource__number {
+			padding-top: 0;
+		}
+
+		.resource > p:last-child {
+			margin-top: 0.8rem;
+		}
+
+		.profile-preview__layout {
+			grid-template-columns: minmax(7rem, 9rem) minmax(0, 1fr);
+			gap: clamp(2.5rem, 7vw, 6rem);
+		}
+
+		.profile-placeholder {
+			width: 100%;
+		}
+	}
+</style>
