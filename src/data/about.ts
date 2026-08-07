@@ -14,10 +14,11 @@ export interface ProfileLink {
 
 export const aboutProfile = {
 	name: 'Martin Schmidt',
+	siteSubtitle: 'Mathematical Optimization',
 	position: 'Professor of Nonlinear Optimization',
 	institution: 'Trier University',
 	biography:
-		'Martin Schmidt is Professor of Nonlinear Optimization at Trier University. His research develops theory and algorithms for bilevel, mixed-integer, nonlinear, robust, equilibrium, and network optimization, with applications including energy systems.',
+		'I am Professor of Nonlinear Optimization at Trier University. My research develops theory and algorithms for bilevel, mixed-integer, nonlinear, robust, equilibrium, and network optimization, with applications including energy systems.',
 	contact: {
 		email: 'martin.schmidt@uni-trier.de',
 		addressLines: ['Martin Schmidt', 'Trier University', 'Department of Mathematics', 'Universitätsring 15', '54296 Trier', 'Germany'],
@@ -133,7 +134,7 @@ export const editorialService: DatedItem[] = [
 ];
 
 export const reviewingActivity = {
-	summary: 'Martin Schmidt has reviewed for more than 40 journals in mathematical optimization, operations research, applied mathematics, and energy systems.',
+	summary: 'I have reviewed for more than 40 journals in mathematical optimization, operations research, applied mathematics, and energy systems.',
 	selectedJournals: [
 		'Mathematical Programming A',
 		'Mathematical Programming B',

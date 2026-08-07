@@ -11,7 +11,6 @@ const sections = [
 
 <BaseLayout title="Supervised Theses" description="Archive of Master’s and Bachelor’s theses supervised by Martin Schmidt.">
 	<header class="theses-intro page-shell" aria-labelledby="page-title">
-		<p class="eyebrow">Academic supervision</p>
 		<h1 id="page-title">Supervised Theses</h1>
 		<p class="intro__lead">An archive of supervised Master’s and Bachelor’s theses in mathematical optimization and related areas.</p>
 	</header>
@@ -43,9 +42,7 @@ const sections = [
 <style>
 	.theses-intro { padding-bottom: clamp(3.5rem, 8vw, 6rem); }
 	.theses-intro h1 { font-size: clamp(2.75rem, 9vw, 5.5rem); letter-spacing: -.035em; }
-	.theses-sections { border-top: 1px solid var(--color-rule); }
 	.theses-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: clamp(3.5rem, 8vw, 6.5rem) var(--page-gutter); }
-	.theses-section + .theses-section { border-top: 1px solid var(--color-rule); }
 	.theses-section__heading { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .75rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
 	.theses-section__heading > p { padding-top: .4rem; color: var(--color-accent); font-size: .7rem; font-weight: 600; letter-spacing: .08em; }
 	.theses-section h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; }

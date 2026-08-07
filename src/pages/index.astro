@@ -15,7 +15,6 @@ const homepageDescription = `${aboutProfile.name} is ${aboutProfile.position} at
 >
 	<section class="hero page-shell" aria-labelledby="page-title">
 		<div class="hero__content">
-			<p class="eyebrow">{aboutProfile.position}</p>
 			<h1 id="page-title">{aboutProfile.name}</h1>
 			<p class="hero__affiliation">{aboutProfile.institution}</p>
 			<p class="hero__statement">
@@ -42,14 +41,12 @@ const homepageDescription = `${aboutProfile.name} is ${aboutProfile.position} at
 	<section class="research-themes" aria-labelledby="research-themes-title">
 		<div class="research-themes__inner">
 			<header class="section-heading">
-				<p class="eyebrow">Areas of inquiry</p>
 				<h2 id="research-themes-title">Core Research Themes</h2>
 			</header>
 
 			<div class="theme-list">
-				{researchThemes.map((theme, index) => (
+				{researchThemes.map((theme) => (
 					<article class="theme">
-						<p class="theme__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</p>
 						<h3>{theme.title}</h3>
 						<p>{theme.description}</p>
 					</article>

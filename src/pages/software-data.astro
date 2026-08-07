@@ -12,7 +12,6 @@ const sections = [
 
 <BaseLayout title="Software & Data" description="Research software, benchmark libraries, and data resources from Martin Schmidt and collaborators.">
 	<header class="editorial-intro page-shell" aria-labelledby="page-title">
-		<p class="eyebrow">Open research</p>
 		<h1 id="page-title">Software &amp; Data</h1>
 		<p class="intro__lead">Software and benchmark resources accompanying work in mathematical optimization.</p>
 	</header>
@@ -29,9 +28,7 @@ const sections = [
 <style>
 	.editorial-intro { padding-bottom: clamp(3.5rem, 8vw, 6rem); }
 	.editorial-intro h1 { font-size: clamp(2.75rem, 9vw, 5.5rem); letter-spacing: -.035em; }
-	.editorial-sections { border-top: 1px solid var(--color-rule); }
 	.editorial-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: clamp(3.5rem, 8vw, 6.5rem) var(--page-gutter); }
-	.editorial-section + .editorial-section { border-top: 1px solid var(--color-rule); }
 	.editorial-section__heading { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .75rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
 	.editorial-section__heading > p { padding-top: .4rem; color: var(--color-accent); font-size: .7rem; font-weight: 600; letter-spacing: .08em; }
 	.editorial-section h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; }

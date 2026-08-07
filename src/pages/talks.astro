@@ -10,15 +10,13 @@ const sections = [
 ];
 ---
 <BaseLayout title="Talks" description="Plenary, keynote, invited, and other talks by Martin Schmidt on mathematical optimization.">
-	<header class="talks-intro page-shell" aria-labelledby="page-title"><p class="eyebrow">Lectures &amp; presentations</p><h1 id="page-title">Talks</h1><p class="intro__lead">Selected invited presentations and a chronological archive of lectures, seminars, and conference talks.</p></header>
+	<header class="talks-intro page-shell" aria-labelledby="page-title"><h1 id="page-title">Talks</h1><p class="intro__lead">Selected invited presentations and a chronological archive of lectures, seminars, and conference talks.</p></header>
 	<div class="archive-sections">{sections.map((section) => <section class="archive-section" aria-labelledby={`${section.id}-title`}><header class="archive-heading"><p aria-hidden="true">{section.number}</p><h2 id={`${section.id}-title`}>{section.title}</h2></header><TalkList talks={section.items} /></section>)}</div>
 </BaseLayout>
 <style>
 	.talks-intro { padding-bottom: clamp(3.5rem, 8vw, 6rem); }
 	.talks-intro h1 { font-size: clamp(2.75rem, 9vw, 5.5rem); letter-spacing: -.035em; }
-	.archive-sections { border-top: 1px solid var(--color-rule); }
 	.archive-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: clamp(3.5rem, 8vw, 6.5rem) var(--page-gutter); }
-	.archive-section + .archive-section { border-top: 1px solid var(--color-rule); }
 	.archive-heading { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .75rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
 	.archive-heading > p { padding-top: .4rem; color: var(--color-accent); font-size: .7rem; font-weight: 600; }
 	.archive-heading h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; overflow-wrap: anywhere; }

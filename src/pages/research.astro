@@ -10,11 +10,10 @@ import { researchApplications, researchThemes } from '../data/research';
 	description="Research by Martin Schmidt at Trier University in nonlinear, bilevel, mixed-integer, robust, equilibrium, and network optimization."
 >
 	<header class="research-intro page-shell" aria-labelledby="page-title">
-		<p class="eyebrow">Mathematical optimization</p>
 		<h1 id="page-title">Research</h1>
 		<p class="intro__lead">
-			Martin Schmidt works in mathematical optimization at Trier University, where he is
-			Professor of Nonlinear Optimization. Bilevel optimization is a central focus, alongside
+			I work in mathematical optimization at Trier University, where I am Professor of
+			Nonlinear Optimization. Bilevel optimization is a central focus of my research, alongside
 			mixed-integer and nonlinear methods, optimization under uncertainty, equilibrium and
 			game-theoretic problems, and network optimization.
 		</p>
@@ -23,14 +22,12 @@ import { researchApplications, researchThemes } from '../data/research';
 	<section class="research-section" aria-labelledby="core-themes-title">
 		<div class="research-section__inner">
 			<header class="research-section__heading">
-				<p class="eyebrow">Methods and theory</p>
 				<h2 id="core-themes-title">Core Research Themes</h2>
 			</header>
 
 			<div class="theme-list">
-				{researchThemes.map((theme, index) => (
+				{researchThemes.map((theme) => (
 					<article class="theme" id={theme.id}>
-						<p class="theme__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</p>
 						<h3>{theme.title}</h3>
 						<p>{theme.description}</p>
 					</article>
@@ -45,7 +42,6 @@ import { researchApplications, researchThemes } from '../data/research';
 		<div class="research-section__inner">
 			<header class="research-section__heading research-section__heading--row">
 				<div>
-					<p class="eyebrow">Collaborative work</p>
 					<h2 id="current-projects-title">Current Projects</h2>
 				</div>
 				<a class="section-link" href="/projects/">All research projects<span aria-hidden="true"> →</span></a>
@@ -73,14 +69,12 @@ import { researchApplications, researchThemes } from '../data/research';
 	<section class="research-section" aria-labelledby="applications-title">
 		<div class="research-section__inner">
 			<header class="research-section__heading">
-				<p class="eyebrow">Areas of application</p>
 				<h2 id="applications-title">Applications</h2>
 			</header>
 
 			<div class="application-list">
-				{researchApplications.map((application, index) => (
+				{researchApplications.map((application) => (
 					<article class="application" id={application.id}>
-						<p class="application__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</p>
 						<h3>{application.title}</h3>
 						<p>{application.description}</p>
 					</article>
@@ -98,10 +92,6 @@ import { researchApplications, researchThemes } from '../data/research';
 	.research-intro h1 {
 		font-size: clamp(2.75rem, 9vw, 5.5rem);
 		letter-spacing: -0.035em;
-	}
-
-	.research-section {
-		border-top: 1px solid var(--color-rule);
 	}
 
 	.research-section__inner {
@@ -139,8 +129,7 @@ import { researchApplications, researchThemes } from '../data/research';
 		border-top: 1px solid var(--color-rule);
 	}
 
-	.current-project__label,
-	.application__number {
+	.current-project__label {
 		margin-bottom: 0.75rem;
 		color: var(--color-accent);
 		font-size: 0.7rem;
@@ -217,19 +206,14 @@ import { researchApplications, researchThemes } from '../data/research';
 		.current-project:nth-child(even) {
 			padding-right: 0;
 			padding-left: clamp(1.5rem, 3vw, 3rem);
-			border-left: 1px solid var(--color-rule);
 		}
 
 		.application {
 			display: grid;
-			grid-template-columns: 2.5rem minmax(15rem, 0.85fr) minmax(18rem, 1.15fr);
+			grid-template-columns: minmax(15rem, 0.85fr) minmax(18rem, 1.15fr);
 			align-items: start;
 			gap: 2rem;
 			padding-block: 2rem;
-		}
-
-		.application__number {
-			padding-top: 0.25rem;
 		}
 
 		.application > p:last-child {

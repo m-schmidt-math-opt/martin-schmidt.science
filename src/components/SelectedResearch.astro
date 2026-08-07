@@ -38,7 +38,6 @@ const sectionDescription = variant === 'research'
 	<div class="selected-research__inner">
 		<header class="selected-research__heading">
 			<div>
-				<p class="eyebrow">A research cross-section</p>
 				<h2 id="selected-research-title">Selected Research</h2>
 			</div>
 			<p>{sectionDescription}</p>
@@ -58,10 +57,6 @@ const sectionDescription = variant === 'research'
 </section>
 
 <style>
-	.selected-research {
-		border-top: 1px solid var(--color-rule);
-	}
-
 	.selected-research__inner {
 		width: min(100%, var(--page-width));
 		margin-inline: auto;
@@ -144,7 +139,6 @@ const sectionDescription = variant === 'research'
 		.research-output:nth-child(even) {
 			padding-right: 0;
 			padding-left: clamp(1.5rem, 3vw, 3rem);
-			border-left: 1px solid var(--color-rule);
 		}
 
 		.research-output a {

@@ -12,7 +12,6 @@ const orderedPastCourses = [...pastCourses].sort((a, b) => b.sortDate.localeComp
 
 <BaseLayout title="Teaching" description="Current teaching, recurring subjects, lecture resources, and past courses of Martin Schmidt at Trier University.">
 	<header class="teaching-intro page-shell" aria-labelledby="page-title">
-		<p class="eyebrow">Courses &amp; materials</p>
 		<h1 id="page-title">Teaching</h1>
 		<p class="intro__lead">An overview of current courses, recurring teaching subjects, and selected materials.</p>
 	</header>
@@ -44,9 +43,7 @@ const orderedPastCourses = [...pastCourses].sort((a, b) => b.sortDate.localeComp
 <style>
 	.teaching-intro { padding-bottom: clamp(3.5rem, 8vw, 6rem); }
 	.teaching-intro h1 { font-size: clamp(2.75rem, 9vw, 5.5rem); letter-spacing: -.035em; }
-	.teaching-sections { border-top: 1px solid var(--color-rule); }
 	.teaching-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: clamp(3.5rem, 8vw, 6.5rem) var(--page-gutter); }
-	.teaching-section + .teaching-section { border-top: 1px solid var(--color-rule); }
 	.teaching-section__heading { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .75rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
 	.teaching-section__heading > p { padding-top: .4rem; color: var(--color-accent); font-size: .7rem; font-weight: 600; letter-spacing: .08em; }
 	.teaching-section h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; overflow-wrap: anywhere; }
