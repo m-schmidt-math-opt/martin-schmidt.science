@@ -68,9 +68,7 @@ const formatActivityDate = (date: string) => new Intl.DateTimeFormat('en-GB', { 
 
 <section class="profile-preview home-section" aria-labelledby="profile-preview-title">
 	<div class="home-section__inner profile-preview__layout">
-		<div class="profile-placeholder" role="img" aria-label="Portrait placeholder for Martin Schmidt">
-			<span aria-hidden="true">MS</span>
-		</div>
+		<img class="profile-portrait" src={aboutProfile.portrait.src} alt={aboutProfile.portrait.alt} width="960" height="640" loading="lazy" />
 
 		<div class="profile-preview__content">
 			<p class="eyebrow">Academic profile</p>
@@ -210,16 +208,7 @@ const formatActivityDate = (date: string) => new Intl.DateTimeFormat('en-GB', { 
 		align-items: center;
 	}
 
-	.profile-placeholder {
-		display: grid;
-		width: min(42vw, 9rem);
-		aspect-ratio: 4 / 5;
-		place-items: center;
-		background: #e7e3da;
-		color: var(--color-accent);
-		font-family: var(--font-heading);
-		font-size: 1.5rem;
-	}
+	.profile-portrait { width:min(55vw,12rem);height:auto; }
 
 	.profile-preview__content {
 		max-width: 40rem;
@@ -254,7 +243,7 @@ const formatActivityDate = (date: string) => new Intl.DateTimeFormat('en-GB', { 
 			gap: clamp(2.5rem, 7vw, 6rem);
 		}
 
-		.profile-placeholder {
+		.profile-portrait {
 			width: 100%;
 		}
 	}

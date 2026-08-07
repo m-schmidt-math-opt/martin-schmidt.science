@@ -1,33 +1,17 @@
 ---
+import { projects } from '../data/projects';
+import { resources } from '../data/resources';
+import { publicationsByKeys } from '../lib/publications';
+
+const bobilib = resources.find((resource) => resource.id === 'bobilib')!;
+const a3g = projects.find((project) => project.id === 'a3g')!;
+const symbi = projects.find((project) => project.id === 'symbi')!;
+const [bilevelBook] = publicationsByKeys(['Beck_Ljubic_Schmidt:2026']);
 const selectedItems = [
-	{
-		type: 'Paper',
-		title: 'Bilevel Optimization: Models and Methods',
-		description: 'A representative study of hierarchical decision-making and its computational structure.',
-		href: '/publications/',
-		linkLabel: 'View publication',
-	},
-	{
-		type: 'Book',
-		title: 'Optimization Under Uncertainty',
-		description: 'A concise treatment of optimization models designed for uncertain parameters and data.',
-		href: '/publications/',
-		linkLabel: 'View book',
-	},
-	{
-		type: 'Software & Data',
-		title: 'Tools for Structured Optimization',
-		description: 'Computational resources for modeling and solving structured nonlinear problems.',
-		href: '/software-data/',
-		linkLabel: 'View software and data',
-	},
-	{
-		type: 'Project',
-		title: 'Equilibria in Networked Systems',
-		description: 'A research project connecting network optimization with equilibrium models and games.',
-		href: '/research/',
-		linkLabel: 'View project',
-	},
+	{ type: 'Benchmark Library', title: bobilib.name, description: bobilib.description, href: bobilib.links[0].href, linkLabel: bobilib.links[0].label },
+	{ type: 'Book', title: bilevelBook.title, description: bilevelBook.authors, href: `/publications/#publication-${bilevelBook.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`, linkLabel: 'View publication' },
+	{ type: 'Current Project', title: a3g.title, description: a3g.description, href: '/projects/', linkLabel: 'View project' },
+	{ type: 'Current Project', title: symbi.title, description: symbi.description, href: '/projects/', linkLabel: 'View project' },
 ];
 ---
 

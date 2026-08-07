@@ -1,5 +1,6 @@
 ---
 import type { ResearchResource } from '../data/resources';
+import { publications } from '../lib/publications';
 
 interface Props {
 	resources: ResearchResource[];
@@ -7,6 +8,7 @@ interface Props {
 }
 
 const { resources, compact = false } = Astro.props;
+const publicationByKey = new Map(publications.map((publication) => [publication.id, publication]));
 ---
 
 <div class:list={['research-resource-list', { 'research-resource-list--compact': compact }]}>
@@ -19,9 +21,10 @@ const { resources, compact = false } = Astro.props;
 					{resource.status === 'archived' && <span>Archived</span>}
 				</div>
 				<p class:list={{ 'pending-copy': resource.descriptionPending }}>{resource.description}</p>
-				{resource.links.length > 0 && (
+				{(resource.links.length > 0 || resource.relatedPublicationKeys?.length) && (
 					<ul class="research-resource__links" aria-label={`Links for ${resource.name}`}>
 						{resource.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+						{resource.relatedPublicationKeys?.map((key) => { const publication = publicationByKey.get(key); return publication && <li><a href={`/publications/#publication-${publication.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`}>Related publication: {publication.title}</a></li>; })}
 					</ul>
 				)}
 			</div>

@@ -5,6 +5,7 @@ export type TalkType =
 	| 'lightning'
 	| 'seminar'
 	| 'lecture'
+	| 'course'
 	| 'mini-course'
 	| 'contributed'
 	| 'unspecified';
@@ -21,6 +22,7 @@ export type EventKind =
 	| 'other';
 
 export type DeliveryMode = 'in-person' | 'online' | 'hybrid' | 'unspecified';
+export type CuratedTalkGroup = 'plenary-keynote' | 'introductory-course';
 
 export interface TalkLink {
 	kind: 'video' | 'slides' | 'event' | 'external';
@@ -49,7 +51,8 @@ export interface Talk {
 	types: TalkType[];
 	links: TalkLink[];
 	notes: string[];
-	source: { recordNumber: number; sourceLine: number };
+	curatedGroups?: CuratedTalkGroup[];
+	source?: { recordNumber: number; sourceLine: number };
 }
 
 export const talks = [
@@ -85,6 +88,7 @@ export const talks = [
     "types": [
       "plenary"
     ],
+    "curatedGroups": ["plenary-keynote"],
     "links": [],
     "notes": [],
     "source": {
@@ -107,8 +111,10 @@ export const talks = [
     "deliveryMode": "unspecified",
     "types": [
       "invited",
-      "lecture"
+      "lecture",
+      "course"
     ],
+    "curatedGroups": ["introductory-course"],
     "links": [],
     "notes": [],
     "source": {
@@ -171,8 +177,10 @@ export const talks = [
     "deliveryMode": "unspecified",
     "types": [
       "invited",
-      "lecture"
+      "lecture",
+      "course"
     ],
+    "curatedGroups": ["introductory-course"],
     "links": [],
     "notes": [],
     "source": {
@@ -194,6 +202,7 @@ export const talks = [
     "types": [
       "plenary"
     ],
+    "curatedGroups": ["plenary-keynote"],
     "links": [],
     "notes": [],
     "source": {
@@ -215,6 +224,7 @@ export const talks = [
     "types": [
       "plenary"
     ],
+    "curatedGroups": ["plenary-keynote"],
     "links": [],
     "notes": [],
     "source": {
@@ -317,7 +327,8 @@ export const talks = [
     "city": "Estoril",
     "country": "Portugal",
     "deliveryMode": "unspecified",
-    "types": [],
+    "types": ["lecture", "course"],
+    "curatedGroups": ["introductory-course"],
     "links": [],
     "notes": [],
     "source": {
@@ -375,6 +386,7 @@ export const talks = [
     "types": [
       "plenary"
     ],
+    "curatedGroups": ["plenary-keynote"],
     "links": [],
     "notes": [],
     "source": {
@@ -418,8 +430,10 @@ export const talks = [
     "types": [
       "invited",
       "mini-course",
-      "lecture"
+      "lecture",
+      "course"
     ],
+    "curatedGroups": ["introductory-course"],
     "links": [],
     "notes": [],
     "source": {
@@ -543,7 +557,8 @@ export const talks = [
     "city": "Southampton",
     "country": "UK",
     "deliveryMode": "unspecified",
-    "types": [],
+    "types": ["plenary"],
+    "curatedGroups": ["plenary-keynote"],
     "links": [],
     "notes": [],
     "source": {
@@ -603,6 +618,8 @@ export const talks = [
     "types": [
       "plenary"
     ],
+    "curatedGroups": ["plenary-keynote"],
+    "curatedGroups": ["plenary-keynote"],
     "links": [],
     "notes": [],
     "source": {
@@ -729,6 +746,7 @@ export const talks = [
     "types": [
       "plenary"
     ],
+    "curatedGroups": ["plenary-keynote"],
     "links": [],
     "notes": [],
     "source": {
@@ -796,6 +814,7 @@ export const talks = [
     "types": [
       "keynote"
     ],
+    "curatedGroups": ["plenary-keynote"],
     "links": [],
     "notes": [],
     "source": {
@@ -838,6 +857,7 @@ export const talks = [
     "types": [
       "plenary"
     ],
+    "curatedGroups": ["plenary-keynote"],
     "links": [],
     "notes": [],
     "source": {
@@ -992,6 +1012,23 @@ export const talks = [
     }
   },
   {
+    "id": "talk-univers-winter-school-2021",
+    "title": "A Gentle and Incomplete Introduction to Bilevel Optimization",
+    "date": {
+      "start": "2021-11-14",
+      "end": "2021-11-17",
+      "display": "14–17 November 2021"
+    },
+    "eventName": "UNIVERS Winter School on Optimization, Games and Markets",
+    "eventKind": "school",
+    "hostInstitution": "TU Chemnitz",
+    "deliveryMode": "unspecified",
+    "types": ["lecture", "course"],
+    "curatedGroups": ["introductory-course"],
+    "links": [],
+    "notes": []
+  },
+  {
     "id": "talk-0047",
     "title": "Outer Approximation for Global Optimization of Mixed-Integer Quadratic Bilevel Problems",
     "date": {
@@ -1015,9 +1052,11 @@ export const talks = [
       "start": "2021-06-23"
     },
     "eventName": "JPOC Spring School on MINLP and Bilevel Problems",
+	"eventKind": "school",
     "venue": "Paris (lecture series via Zoom)",
     "deliveryMode": "online",
-    "types": [],
+    "types": ["lecture", "course"],
+    "curatedGroups": ["introductory-course"],
     "links": [],
     "notes": [],
     "source": {
@@ -1032,9 +1071,11 @@ export const talks = [
       "start": "2021-06-22"
     },
     "eventName": "JPOC Spring School on MINLP and Bilevel Problems",
+	"eventKind": "school",
     "venue": "Paris (lecture series via Zoom)",
     "deliveryMode": "online",
-    "types": [],
+    "types": ["lecture", "course"],
+    "curatedGroups": ["introductory-course"],
     "links": [],
     "notes": [],
     "source": {
@@ -1947,3 +1988,11 @@ export const plenaryAndKeynoteTalks = talks.filter((talk) =>
 );
 
 export const invitedTalks = talks.filter((talk) => talk.types.includes('invited'));
+
+export const selectedPlenaryAndKeynoteTalks = talks.filter((talk) =>
+	talk.curatedGroups?.includes('plenary-keynote'),
+);
+
+export const introductoryCourseTalks = talks.filter((talk) =>
+	talk.curatedGroups?.includes('introductory-course'),
+);

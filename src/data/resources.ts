@@ -17,6 +17,7 @@ export interface ResearchResource {
 	description: string;
 	descriptionPending?: boolean;
 	links: ResourceLink[];
+	relatedPublicationKeys?: string[];
 }
 
 // Canonical resource metadata. Add verified links here rather than in page components.
@@ -44,16 +45,8 @@ export const resources: ResearchResource[] = [
 		name: 'LaMaTTO++',
 		kind: 'software',
 		status: 'archived',
-		description: 'A framework developed in the ForNe project for modeling and solving mixed-integer nonlinear optimization problems on networks.',
+		description: 'A framework developed in the ForNe project for modeling and solving mixed-integer nonlinear optimization problems on networks; it is no longer maintained.',
 		links: [],
-	},
-	{
-		id: 'robust-electricity-market-equilibria',
-		name: 'Robust Electricity Market Equilibrium Models',
-		kind: 'benchmark-data',
-		status: 'active',
-		description: 'QP and QCQP model instances accompanying research on strictly and Γ-robust electricity market equilibria.',
-		links: [{ kind: 'repository', label: 'GitHub repository', href: 'https://github.com/m-schmidt-math-opt/robust-electricity-market-equilibria' }],
 	},
 	{
 		id: 'diophantine-bit-commitment',
@@ -61,7 +54,8 @@ export const resources: ResearchResource[] = [
 		kind: 'software',
 		status: 'archived',
 		description: 'A C++ implementation of a bit commitment scheme based on inhomogeneous simultaneous Diophantine approximation.',
-		links: [{ kind: 'publication', label: 'Related publication', href: 'https://doi.org/10.1007/978-3-642-21969-6_15' }],
+		links: [],
+		relatedPublicationKeys: ['Armknecht_et_al:2011'],
 	},
 ];
 

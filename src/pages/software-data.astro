@@ -1,13 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ResourceList from '../components/ResourceList.astro';
-import { archivedResources, dataResources, featuredResources, softwareResources } from '../data/resources';
+import { archivedResources, dataResources, featuredResources } from '../data/resources';
 
 const sections = [
 	{ id: 'featured', number: '01', title: 'Featured Resources', resources: featuredResources },
-	{ id: 'software', number: '02', title: 'Software', resources: softwareResources, empty: 'No active software resource has been verified; historical software is listed under Archived Resources.' },
-	{ id: 'data', number: '03', title: 'Benchmark Libraries & Data', resources: dataResources },
-	{ id: 'archived', number: '04', title: 'Archived Resources', resources: archivedResources, empty: 'No archived resources have been documented yet.' },
+	{ id: 'data', number: '02', title: 'Benchmark Libraries & Data', resources: dataResources },
+	{ id: 'archive', number: '03', title: 'Archive', resources: archivedResources },
 ];
 ---
 
@@ -21,7 +20,7 @@ const sections = [
 		{sections.map((section) => (
 			<section class="editorial-section" aria-labelledby={`${section.id}-title`}>
 				<header class="editorial-section__heading"><p aria-hidden="true">{section.number}</p><h2 id={`${section.id}-title`}>{section.title}</h2></header>
-				{section.resources.length ? <ResourceList resources={section.resources} /> : <p class="empty-note">{section.empty ?? 'No resources have been documented in this category yet.'}</p>}
+				<ResourceList resources={section.resources} />
 			</section>
 		))}
 	</div>

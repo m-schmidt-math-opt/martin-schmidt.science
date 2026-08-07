@@ -32,8 +32,12 @@ export interface PastCourse {
 	links: TeachingLink[];
 }
 
-// No offering is marked current without a current official course listing.
-export const currentTeaching: CurrentCourse[] = [];
+export const currentTeaching: CurrentCourse[] = [
+	{ id: 'linear-algebra-winter-2026', title: 'Linear Algebra', term: 'Winter Term 2026/2027', links: [] },
+	{ id: 'linear-optimization-winter-2026', title: 'Linear Optimization', term: 'Winter Term 2026/2027', links: [] },
+	{ id: 'nonlinear-optimization-summer-2026', title: 'Nonlinear Optimization', term: 'Summer Term 2026', links: [] },
+	{ id: 'bilevel-optimization-2-summer-2026', title: 'Bilevel Optimization 2', term: 'Summer Term 2026', links: [] },
+];
 export const teachingPortfolio: PortfolioSubject[] = [
 	{ id: 'linear-optimization', title: 'Linear Optimization (Lineare Optimierung)', description: 'Lecture' },
 	{ id: 'linear-combinatorial-optimization', title: 'Linear and Combinatorial Optimization (Lineare und kombinatorische Optimierung)', description: 'Lecture' },

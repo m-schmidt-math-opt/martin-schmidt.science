@@ -5,7 +5,7 @@ interface Props { talks: Talk[] }
 const { talks } = Astro.props;
 const typeLabels: Partial<Record<TalkType, string>> = {
 	plenary: 'Plenary', keynote: 'Keynote', invited: 'Invited', lightning: 'Lightning',
-	seminar: 'Seminar', lecture: 'Lecture', 'mini-course': 'Mini-course', contributed: 'Contributed',
+	seminar: 'Seminar', lecture: 'Lecture', course: 'Course', 'mini-course': 'Mini-course', contributed: 'Contributed',
 };
 const formatDate = (talk: Talk) => {
 	if (talk.date.display) return talk.date.display;

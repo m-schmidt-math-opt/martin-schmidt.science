@@ -1,10 +1,21 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { invitedTalks, plenaryAndKeynoteTalks, talks } from '../src/data/talks.ts';
+import { introductoryCourseTalks, invitedTalks, plenaryAndKeynoteTalks, selectedPlenaryAndKeynoteTalks, talks } from '../src/data/talks.ts';
 
-test('all 101 talks remain represented with unique IDs', () => {
-	assert.equal(talks.length, 101);
-	assert.equal(new Set(talks.map((talk) => talk.id)).size, 101);
+test('all 102 talks remain represented with unique IDs after adding the verified UNIVERS course', () => {
+	assert.equal(talks.length, 102);
+	assert.equal(new Set(talks.map((talk) => talk.id)).size, 102);
+	const univers = talks.find((talk) => talk.id === 'talk-univers-winter-school-2021');
+	assert.ok(univers);
+	assert.equal(univers.eventKind, 'school');
+	assert.ok(univers.types.includes('course'));
+});
+
+test('About talk groups are explicit derivatives of the canonical talks', () => {
+	assert.ok(selectedPlenaryAndKeynoteTalks.length > 0);
+	assert.ok(selectedPlenaryAndKeynoteTalks.every((talk) => talk.curatedGroups?.includes('plenary-keynote')));
+	assert.ok(introductoryCourseTalks.length > 0);
+	assert.ok(introductoryCourseTalks.every((talk) => talk.curatedGroups?.includes('introductory-course') && talk.types.includes('course')));
 });
 
 test('featured talk collections use only matching explicit types', () => {

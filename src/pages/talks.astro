@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TalkList from '../components/TalkList.astro';
 import { invitedTalks, plenaryAndKeynoteTalks, talks } from '../data/talks';
-const archive = [...talks].sort((a, b) => b.date.start.localeCompare(a.date.start) || a.source.recordNumber - b.source.recordNumber);
+const archive = [...talks].sort((a, b) => b.date.start.localeCompare(a.date.start) || (a.source?.recordNumber ?? Number.MAX_SAFE_INTEGER) - (b.source?.recordNumber ?? Number.MAX_SAFE_INTEGER));
 const sections = [
 	{ number: '01', id: 'plenary-keynote', title: 'Plenary & Keynote Talks', items: plenaryAndKeynoteTalks },
 	{ number: '02', id: 'invited', title: 'Invited Talks', items: invitedTalks },

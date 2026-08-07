@@ -9,6 +9,11 @@ test('projects have unique IDs, valid statuses, and required fields', () => {
 		assert.ok(['current', 'completed'].includes(project.status));
 		assert.ok(project.id && project.title && project.description);
 	}
+	assert.deepEqual(projects.filter((project) => project.status === 'current').map((project) => project.id), ['symbi', 'a3g']);
+	assert.equal(projects.filter((project) => project.status === 'completed').length, 12);
+	assert.equal(projects.find((project) => project.id === 'a3g')?.title, 'A3G: Aggregative gemischt-ganzzahlige Gleichgewichtsprobleme: Existenz, Approximation und Algorithmen');
+	assert.equal(projects.find((project) => project.id === 'symbi')?.endDate, undefined);
+	for (const id of ['energiemarktdesign', 'metis', 'forne']) assert.equal(projects.find((project) => project.id === id)?.endDate, undefined);
 });
 
 test('news has unique IDs and valid controlled values', () => {
