@@ -33,6 +33,11 @@ const orderedPastCourses = [...pastCourses].sort((a, b) => b.sortDate.localeComp
 			<header class="teaching-section__heading"><p aria-hidden="true">04</p><h2 id="past-title">Past Courses</h2></header>
 			{orderedPastCourses.length ? <ol class="teaching-list">{orderedPastCourses.map((course) => <li><article><p class="teaching-meta">{course.term}</p><h3>{course.title}</h3>{course.links.length > 0 && <ul class="item-links" aria-label={`Links for ${course.title}`}>{course.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}</ul>}</article></li>)}</ol> : <p class="pending-note">Past course records are pending verification.</p>}
 		</section>
+		<section class="teaching-section thesis-archive-link" aria-labelledby="theses-title">
+			<header class="teaching-section__heading"><p aria-hidden="true">05</p><h2 id="theses-title">Supervised Theses</h2></header>
+			<p>Browse the complete archive of supervised Master’s and Bachelor’s theses.</p>
+			<a class="archive-link" href="/theses/">View supervised theses<span aria-hidden="true"> →</span></a>
+		</section>
 	</div>
 </BaseLayout>
 
@@ -53,5 +58,7 @@ const orderedPastCourses = [...pastCourses].sort((a, b) => b.sortDate.localeComp
 	.teaching-meta { color: var(--color-accent) !important; font-size: .7rem !important; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
 	.item-links { display: flex; flex-wrap: wrap; gap: .35rem 1rem; margin-top: .65rem; }
 	.item-links a { font-size: .74rem; font-weight: 600; overflow-wrap: anywhere; text-decoration: none; }
+	.thesis-archive-link > p { max-width: 38rem; color: var(--color-muted); }
+	.archive-link { display: inline-block; margin-top: 1rem; font-size: .8rem; font-weight: 600; text-decoration: none; }
 	@media (min-width: 45rem) { .teaching-section__heading { grid-template-columns: 3rem minmax(0, 1fr); } }
 </style>

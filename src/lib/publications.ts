@@ -197,6 +197,9 @@ function normalizeUrl(value: string, field: string): string | undefined {
 
 function linkLabel(field: string, href: string): string {
 	const target = `${field} ${href}`.toLowerCase();
+	if (field.includes('code') || field.includes('github')) return 'Code';
+	if (field.includes('data')) return 'Data';
+	if (field.includes('source')) return 'Source files';
 	if (target.includes('arxiv')) return 'arXiv';
 	if (target.includes('optimization-online')) return 'Optimization Online';
 	if (target.includes('opus')) return 'OPUS';

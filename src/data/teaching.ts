@@ -85,6 +85,12 @@ export const teachingResources: TeachingResource[] = [
 			{ label: 'Source repository', href: 'https://github.com/m-schmidt-math-opt/Optimierung-von-Versorgungsnetzwerken/', kind: 'materials' },
 		],
 	},
+	{
+		id: 'how-to-give-a-talk',
+		title: '(My personal opinions on) how to give a talk',
+		description: 'Personal notes on how to give a talk, last updated in July 2022.',
+		links: [{ label: 'Read the PDF', href: 'https://martinschmidt.squarespace.com/s/how-to-give-a-talk-kny9.pdf', kind: 'materials' }],
+	},
 ];
 
 export const pastCourses: PastCourse[] = [

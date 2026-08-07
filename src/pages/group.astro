@@ -38,7 +38,10 @@ const formerPostdocs = getAlumni('former-postdoc');
 								<div class="person-card__content">
 									<h3>{person.name}</h3>
 									<p class="person-card__role">{person.current?.role}</p>
+									{person.current?.startDate && <p class="person-card__meta">Since {person.current.startDate}</p>}
+									{person.current?.affiliation && <p class="person-card__meta">{person.current.affiliation}</p>}
 									{focusLine(person) && <p class="person-card__focus">{focusLine(person)}</p>}
+									{person.current?.biography && <p class="person-card__bio">{person.current.biography}</p>}
 									{(person.email || person.homepage) && (
 										<ul class="person-card__links" aria-label={`Contact links for ${person.name}`}>
 											{person.email && <li><a href={`mailto:${person.email}`}>Email</a></li>}
@@ -62,7 +65,20 @@ const formerPostdocs = getAlumni('former-postdoc');
 				<section aria-labelledby="former-phd-title">
 					<h3 id="former-phd-title">Former PhD Students</h3>
 					<ul class="alumni-list">
-						{formerPhds.map((person) => <li><span>{person.name}</span></li>)}
+						{formerPhds.map((person) => (
+							<li>
+								<strong>{person.name}</strong>
+								{person.alumniRecord.dissertation && (
+									<>
+										<cite>{person.alumniRecord.dissertation.title}</cite>
+										<small>{person.alumniRecord.dissertation.institution}</small>
+										{person.alumniRecord.dissertation.coSupervisor && <small>Co-supervision with {person.alumniRecord.dissertation.coSupervisor}</small>}
+										{person.alumniRecord.dissertation.awards?.map((award) => <small class="alumni-award">{award}</small>)}
+									</>
+								)}
+								{person.alumniRecord.currentPosition && <small>{person.alumniRecord.currentPosition}</small>}
+							</li>
+						))}
 					</ul>
 				</section>
 				<section aria-labelledby="former-postdoc-title">
@@ -102,6 +118,8 @@ const formerPostdocs = getAlumni('former-postdoc');
 	.person-card h3 { font-size: clamp(1.35rem, 5vw, 1.7rem); overflow-wrap: anywhere; }
 	.person-card__role { margin-top: .25rem; color: var(--color-accent); font-size: .72rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
 	.person-card__focus { margin-top: .75rem; color: var(--color-muted); font-size: .84rem; line-height: 1.6; overflow-wrap: anywhere; }
+	.person-card__meta { margin-top: .45rem; color: var(--color-muted); font-size: .76rem; line-height: 1.5; }
+	.person-card__bio { margin-top: .65rem; color: var(--color-muted); font-size: .8rem; line-height: 1.6; overflow-wrap: anywhere; }
 	.person-card__links { display: flex; flex-wrap: wrap; gap: .4rem 1rem; margin-top: .75rem; }
 	.person-card__links a { font-size: .76rem; font-weight: 600; text-decoration: none; }
 	.alumni-columns { display: grid; gap: 3rem; }
@@ -109,6 +127,8 @@ const formerPostdocs = getAlumni('former-postdoc');
 	.alumni-list { border-bottom: 1px solid var(--color-rule); }
 	.alumni-list li { display: grid; gap: .15rem; padding-block: .75rem; border-top: 1px solid var(--color-rule); font-size: .9rem; }
 	.alumni-list small { color: var(--color-muted); font-size: .75rem; line-height: 1.5; overflow-wrap: anywhere; }
+	.alumni-list cite { color: var(--color-text); font-family: var(--font-heading); font-size: .86rem; line-height: 1.45; overflow-wrap: anywhere; }
+	.alumni-list .alumni-award { color: var(--color-accent); }
 	.positions-section > p { max-width: 35rem; color: var(--color-muted); }
 	@media (min-width: 36rem) {
 		.people-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

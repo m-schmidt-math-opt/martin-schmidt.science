@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { bachelorTheses, masterTheses, type Thesis } from '../data/theses';
+
+const order = (items: Thesis[]) => [...items].sort((a, b) => b.year - a.year || a.title.localeCompare(b.title));
+const sections = [
+	{ id: 'master', number: '01', title: 'Master’s Theses', items: order(masterTheses) },
+	{ id: 'bachelor', number: '02', title: 'Bachelor’s Theses', items: order(bachelorTheses) },
+];
+---
+
+<BaseLayout title="Supervised Theses" description="Archive of Master’s and Bachelor’s theses supervised by Martin Schmidt.">
+	<header class="theses-intro page-shell" aria-labelledby="page-title">
+		<p class="eyebrow">Academic supervision</p>
+		<h1 id="page-title">Supervised Theses</h1>
+		<p class="intro__lead">An archive of supervised Master’s and Bachelor’s theses in mathematical optimization and related areas.</p>
+	</header>
+	<div class="theses-sections">
+		{sections.map((section) => (
+			<section class="theses-section" aria-labelledby={`${section.id}-title`}>
+				<header class="theses-section__heading"><p aria-hidden="true">{section.number}</p><h2 id={`${section.id}-title`}>{section.title}</h2></header>
+				<ol class="thesis-list">
+					{section.items.map((thesis) => (
+						<li>
+							<article>
+								<time datetime={String(thesis.year)}>{thesis.year}</time>
+								<div>
+									<h3>{thesis.title}</h3>
+									<p>{thesis.student}{thesis.institution && <> · {thesis.institution}</>}</p>
+									{thesis.coSupervisor && <p>Co-supervision with {thesis.coSupervisor}</p>}
+									{thesis.award && <p class="thesis-award">{thesis.award}</p>}
+									{thesis.note && <p>{thesis.note}</p>}
+								</div>
+							</article>
+						</li>
+					))}
+				</ol>
+			</section>
+		))}
+	</div>
+</BaseLayout>
+
+<style>
+	.theses-intro { padding-bottom: clamp(3.5rem, 8vw, 6rem); }
+	.theses-intro h1 { font-size: clamp(2.75rem, 9vw, 5.5rem); letter-spacing: -.035em; }
+	.theses-sections { border-top: 1px solid var(--color-rule); }
+	.theses-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: clamp(3.5rem, 8vw, 6.5rem) var(--page-gutter); }
+	.theses-section + .theses-section { border-top: 1px solid var(--color-rule); }
+	.theses-section__heading { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .75rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+	.theses-section__heading > p { padding-top: .4rem; color: var(--color-accent); font-size: .7rem; font-weight: 600; letter-spacing: .08em; }
+	.theses-section h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; }
+	.thesis-list { border-bottom: 1px solid var(--color-rule); }
+	.thesis-list > li { padding-block: 1rem; border-top: 1px solid var(--color-rule); }
+	.thesis-list article { display: grid; grid-template-columns: 3.25rem minmax(0, 1fr); gap: .85rem; min-width: 0; }
+	.thesis-list time { padding-top: .2rem; color: var(--color-accent); font-size: .7rem; font-weight: 600; }
+	.thesis-list h3 { font-size: clamp(1rem, 3.7vw, 1.2rem); line-height: 1.4; overflow-wrap: anywhere; }
+	.thesis-list p { margin-top: .3rem; color: var(--color-muted); font-size: .76rem; line-height: 1.5; overflow-wrap: anywhere; }
+	.thesis-list .thesis-award { color: var(--color-accent); }
+	@media (min-width: 45rem) {
+		.theses-section__heading { grid-template-columns: 3rem minmax(0, 1fr); }
+		.thesis-list article { grid-template-columns: 4.5rem minmax(0, 1fr); gap: 1.25rem; }
+	}
+</style>

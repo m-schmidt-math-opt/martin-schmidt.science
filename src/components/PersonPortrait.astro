@@ -20,7 +20,6 @@ const { person, class: className = '' } = Astro.props;
 </div>
 
 <style>
-	.person-portrait,
 	.person-portrait :global(img),
 	.person-portrait__placeholder {
 		width: 100%;
@@ -28,6 +27,7 @@ const { person, class: className = '' } = Astro.props;
 	}
 
 	.person-portrait {
+		width: 100%;
 		aspect-ratio: 4 / 5;
 		overflow: hidden;
 		background: #e7e3da;

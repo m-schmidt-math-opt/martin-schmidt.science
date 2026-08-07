@@ -15,3 +15,14 @@ test('selected publications contain keys only, not duplicate bibliography fields
 	const selected = readFileSync(new URL('../src/data/selected-publications.ts', import.meta.url), 'utf8');
 	assert.doesNotMatch(selected, /\b(title|author|journal|publisher|year)\s*:/i);
 });
+
+test('the two verified legacy works and working publication artifact are canonical BibTeX records', () => {
+	assert.match(bib, /@book\{Kleinert_Schmidt:2022,[\s\S]*Bessere Fotos: Bilder diskutieren, verstehen und verbessern/);
+	assert.match(bib, /@thesis\{Schmidt:Studienarbeit,[\s\S]*Approximation der medialen Achse polygonal berandeter Gebiete/);
+	assert.match(bib, /The Cost of Not Knowing Enough:[\s\S]*url-code\s*=\s*\{https:\/\/github\.com\/m-schmidt-math-opt\/cost-of-not-knowing-enough\}/);
+	assert.doesNotMatch(bib, /chao-peck\.zip|portfolio-data\.zip|www\.ifam\.uni-hannover\.de\/~mcs\/papers\/data/);
+	const parser = readFileSync(new URL('../src/lib/publications.ts', import.meta.url), 'utf8');
+	assert.match(parser, /return 'Code'/);
+	assert.match(parser, /return 'Data'/);
+	assert.match(parser, /return 'Source files'/);
+});

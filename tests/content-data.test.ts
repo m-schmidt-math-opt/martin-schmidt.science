@@ -3,7 +3,7 @@ import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import { aboutProfile, academicPositions } from '../src/data/about.ts';
 import { resources } from '../src/data/resources.ts';
-import { currentTeaching, pastCourses } from '../src/data/teaching.ts';
+import { currentTeaching, pastCourses, teachingResources } from '../src/data/teaching.ts';
 
 test('resources have unique IDs and stable one-sentence descriptions', () => {
 	assert.equal(new Set(resources.map((resource) => resource.id)).size, resources.length);
@@ -40,5 +40,16 @@ test('resource editorial statuses are explicit', () => {
 	assert.equal(resources.find((resource) => resource.id === 'gaslib')?.status, 'active');
 	assert.equal(resources.find((resource) => resource.id === 'lamatto')?.status, 'archived');
 	assert.equal(resources.find((resource) => resource.id === 'diophantine-bit-commitment')?.status, 'archived');
+	assert.equal(resources.find((resource) => resource.id === 'cryptool-diophantine-bit-commitment')?.status, 'archived');
 	assert.equal(resources.some((resource) => resource.id === 'robust-electricity-market-equilibria'), false);
+});
+
+test('the retained teaching resource and intentional PDF exclusions are explicit', () => {
+	assert.equal(teachingResources.find((resource) => resource.id === 'how-to-give-a-talk')?.links[0]?.href, 'https://martinschmidt.squarespace.com/s/how-to-give-a-talk-kny9.pdf');
+	const serialized = JSON.stringify(teachingResources);
+	assert.doesNotMatch(serialized, /Brief overview of potential topics|Detailed description of potential topics/);
+	assert.doesNotMatch(serialized, /Nonlinear Optimization.*\.pdf|Lineare Algebra.*\.pdf|Numerical Optimization.*\.pdf/i);
+	const teachingPage = readFileSync(new URL('../src/pages/teaching.astro', import.meta.url), 'utf8');
+	assert.match(teachingPage, /href="\/theses\/"/);
+	assert.doesNotMatch(teachingPage, /from ['"]\.\.\/data\/theses/);
 });

@@ -57,6 +57,15 @@ export const resources: ResearchResource[] = [
 		links: [],
 		relatedPublicationKeys: ['Armknecht_et_al:2011'],
 	},
+	{
+		id: 'cryptool-diophantine-bit-commitment',
+		name: 'Diophantine Bit Commitment – CrypTool 2 Integration',
+		kind: 'software',
+		status: 'archived',
+		description: 'The Diophantine-approximation bit commitment scheme was integrated into the open-source e-learning application CrypTool 2 beginning with its beta 5 release.',
+		links: [],
+		relatedPublicationKeys: ['Armknecht_et_al:2011'],
+	},
 ];
 
 export const featuredResources = resources.filter((resource) => resource.featured && resource.status === 'active');
