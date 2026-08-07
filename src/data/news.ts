@@ -79,7 +79,7 @@ export function selectHomepageNews(items: NewsItem[], limit = 4): NewsItem[] {
 		if (selected.length >= limit) break;
 		if (!selected.includes(item)) selected.push(item);
 	}
-	return selected;
+	return selected.sort((a, b) => b.date.localeCompare(a.date));
 }
 
 export const homepageNews = selectHomepageNews(news);

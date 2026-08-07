@@ -24,23 +24,26 @@ test('news has unique IDs and valid controlled values', () => {
 	}
 });
 
-test('homepage selection includes pins, excludes excluded items, and returns four', () => {
+test('homepage selection includes pins, excludes excluded items, caps at four, and returns newest first', () => {
 	const selected = selectHomepageNews(news);
 	assert.equal(selected.length, 4);
 	assert.ok(news.filter((item) => item.homepage === 'pinned').every((item) => selected.includes(item)));
 	assert.ok(selected.every((item) => item.homepage !== 'excluded'));
+	assert.deepEqual(selected.map((item) => item.date), [...selected.map((item) => item.date)].sort().reverse());
 });
 
-test('diversity never overrides pinned items', () => {
+test('pinned inclusion and category diversity do not override visible chronology', () => {
 	const fixture: NewsItem[] = [
+		{ id: 'excluded', date: '2026-06-01', category: 'Award', title: 'Excluded', text: 'Excluded.', homepage: 'excluded' },
 		{ id: 'p1', date: '2026-04-01', category: 'Talk', title: 'P1', text: 'Pinned.', homepage: 'pinned' },
-		{ id: 'p2', date: '2026-03-01', category: 'Talk', title: 'P2', text: 'Pinned.', homepage: 'pinned' },
 		{ id: 'n1', date: '2026-05-01', category: 'Talk', title: 'N1', text: 'Recent.', homepage: 'automatic' },
 		{ id: 'n2', date: '2026-02-01', category: 'Book', title: 'N2', text: 'Book.', homepage: 'automatic' },
 		{ id: 'n3', date: '2026-01-01', category: 'Software', title: 'N3', text: 'Software.', homepage: 'automatic' },
 	];
 	const selected = selectHomepageNews(fixture, 4);
 	assert.ok(selected.some((item) => item.id === 'p1'));
-	assert.ok(selected.some((item) => item.id === 'p2'));
+	assert.ok(!selected.some((item) => item.id === 'excluded'));
+	assert.ok(selected.findIndex((item) => item.id === 'n1') < selected.findIndex((item) => item.id === 'p1'));
+	assert.deepEqual(selected.map((item) => item.date), ['2026-05-01', '2026-04-01', '2026-02-01', '2026-01-01']);
 	assert.equal(new Set(selected.map((item) => item.category)).size, 3);
 });
