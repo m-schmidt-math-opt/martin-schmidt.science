@@ -2,7 +2,7 @@
 import PersonPortrait from './PersonPortrait.astro';
 import ResourceList from './ResourceList.astro';
 import { aboutProfile, academicLeadership, academicPositions, editorialService } from '../data/about';
-import { currentPeople, focusLine } from '../data/people';
+import { focusLine, getCurrentPeople } from '../data/people';
 import { featuredResources } from '../data/resources';
 import { homepageNews } from '../data/news';
 const formatActivityDate = (date: string) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`));
@@ -14,6 +14,8 @@ const formatList = (items: string[]) => {
 const careerOrganizations = [...new Set(academicPositions.flatMap((position) => position.organization ? [position.organization] : []))];
 const serviceDimensions = [editorialService.length && 'editorial work', academicLeadership.length && 'leadership roles'].filter((item): item is string => Boolean(item));
 const profileTeaser = `His academic career includes positions at ${formatList(careerOrganizations)}. His academic service includes ${formatList(serviceDimensions)}.`;
+const researchStaff = [...getCurrentPeople('postdoc'), ...getCurrentPeople('phd')];
+const supportStaff = getCurrentPeople('secretary');
 ---
 
 <section class="group-preview home-section" aria-labelledby="group-preview-title">
@@ -21,22 +23,42 @@ const profileTeaser = `His academic career includes positions at ${formatList(ca
 		<header class="home-section__heading">
 			<p class="eyebrow">Research environment</p>
 			<h2 id="group-preview-title">Research Group</h2>
-			<p>Researchers working together on mathematical optimization and its applications.</p>
+			<p>A team of postdoctoral and doctoral researchers in mathematical optimization, supported by the secretary’s office.</p>
 			<a class="section-link" href="/group/">Meet the group<span aria-hidden="true"> →</span></a>
 		</header>
 
-		<ul class="member-list" aria-label="Current group members">
-			{currentPeople.map((person) => (
-				<li class="member">
-					<PersonPortrait person={person} class="member__portrait" />
-					<div>
-						<h3>{person.name}</h3>
-						<p>{person.current?.role}</p>
-						{focusLine(person) && <p class="member__focus">{focusLine(person)}</p>}
-					</div>
-				</li>
-			))}
-		</ul>
+		<div class="member-groups">
+			<section class="member-group" aria-labelledby="research-staff-title">
+				<h3 class="member-group__title" id="research-staff-title">Research staff</h3>
+				<ul class="member-list">
+					{researchStaff.map((person) => (
+						<li class="member">
+							<PersonPortrait person={person} class="member__portrait" />
+							<div>
+								<h4>{person.name}</h4>
+								<p>{person.current?.role}</p>
+								{focusLine(person) && <p class="member__focus">{focusLine(person)}</p>}
+							</div>
+						</li>
+					))}
+				</ul>
+			</section>
+
+			<section class="member-group member-group--support" aria-labelledby="support-staff-title">
+				<h3 class="member-group__title" id="support-staff-title">Support</h3>
+				<ul class="member-list member-list--support">
+					{supportStaff.map((person) => (
+						<li class="member member--support">
+							<PersonPortrait person={person} class="member__portrait" />
+							<div>
+								<h4>{person.name}</h4>
+								<p>{person.current?.role}</p>
+							</div>
+						</li>
+					))}
+				</ul>
+			</section>
+		</div>
 	</div>
 </section>
 
@@ -131,7 +153,24 @@ const profileTeaser = `His academic career includes positions at ${formatList(ca
 	}
 
 	.member-list {
+		margin: 0;
+		padding: 0;
 		border-bottom: 1px solid var(--color-rule);
+		list-style: none;
+	}
+
+	.member-group + .member-group {
+		margin-top: 2.25rem;
+	}
+
+	.member-group__title {
+		margin-bottom: 0.65rem;
+		color: var(--color-accent);
+		font-family: var(--font-body);
+		font-size: 0.7rem;
+		font-weight: 600;
+		letter-spacing: 0.11em;
+		text-transform: uppercase;
 	}
 
 	.member {
@@ -147,7 +186,7 @@ const profileTeaser = `His academic career includes positions at ${formatList(ca
 		width: 3.25rem;
 	}
 
-	.member h3 {
+	.member h4 {
 		font-size: 1.2rem;
 	}
 
@@ -159,9 +198,18 @@ const profileTeaser = `His academic career includes positions at ${formatList(ca
 
 	.member .member__focus {
 		margin-top: 0.35rem;
-		font-size: 0.72rem;
-		line-height: 1.5;
+		font-size: 0.875rem;
+		line-height: 1.55;
 		overflow-wrap: anywhere;
+	}
+
+	.member--support {
+		grid-template-columns: 2.75rem minmax(0, 1fr);
+		padding-block: 0.9rem;
+	}
+
+	.member--support :global(.member__portrait) {
+		width: 2.75rem;
 	}
 
 	.home-section__heading--row {

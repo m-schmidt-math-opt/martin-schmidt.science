@@ -31,3 +31,26 @@ test('current and alumni groups are derived from the canonical people records', 
 	assert.equal(getAlumni('former-postdoc').length, 4);
 	assert.equal(people.filter((person) => person.name === 'Andreas Horländer').length, 1);
 });
+
+test('homepage groups every canonical current member with research staff first', () => {
+	const homepageSections = readFileSync(new URL('../src/components/HomepageSections.astro', import.meta.url), 'utf8');
+	const researchStaff = [...getCurrentPeople('postdoc'), ...getCurrentPeople('phd')];
+	const supportStaff = getCurrentPeople('secretary');
+
+	assert.deepEqual(researchStaff.map((person) => person.name), [
+		'Aloïs Duguet',
+		'Andreas Horländer',
+		'Simon Stevens',
+		'Ioana Molan',
+	]);
+	assert.deepEqual(supportStaff.map((person) => person.name), [
+		'Monika Thieme-Trapp',
+		'Laura Sokolowski',
+	]);
+	assert.equal(researchStaff.length + supportStaff.length, people.filter((person) => person.current).length);
+	assert.match(homepageSections, /getCurrentPeople\('postdoc'\).*getCurrentPeople\('phd'\)/s);
+	assert.match(homepageSections, /getCurrentPeople\('secretary'\)/);
+	assert.match(homepageSections, /researchStaff\.map/);
+	assert.match(homepageSections, /supportStaff\.map/);
+	assert.doesNotMatch(homepageSections, /name:\s*['\"](?:Aloïs Duguet|Monika Thieme-Trapp)/);
+});
