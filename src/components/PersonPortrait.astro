@@ -1,0 +1,48 @@
+---
+import { initialsFor, type Person } from '../data/people';
+
+interface Props {
+	person: Person;
+	class?: string;
+}
+
+const { person, class: className = '' } = Astro.props;
+---
+
+<div class:list={['person-portrait', className]}>
+	{person.portrait ? (
+		<img src={person.portrait.src} alt={person.portrait.alt} loading="lazy" decoding="async" />
+	) : (
+		<div class="person-portrait__placeholder" role="img" aria-label={`Portrait placeholder for ${person.name}`}>
+			<span aria-hidden="true">{initialsFor(person)}</span>
+		</div>
+	)}
+</div>
+
+<style>
+	.person-portrait,
+	.person-portrait :global(img),
+	.person-portrait__placeholder {
+		width: 100%;
+		height: 100%;
+	}
+
+	.person-portrait {
+		aspect-ratio: 4 / 5;
+		overflow: hidden;
+		background: #e7e3da;
+	}
+
+	.person-portrait :global(img) {
+		display: block;
+		object-fit: cover;
+	}
+
+	.person-portrait__placeholder {
+		display: grid;
+		place-items: center;
+		color: var(--color-accent);
+		font-family: var(--font-heading);
+		font-size: clamp(1rem, 4vw, 1.5rem);
+	}
+</style>

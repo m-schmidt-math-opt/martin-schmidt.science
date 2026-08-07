@@ -1,9 +1,6 @@
 ---
-const groupMembers = [
-	{ name: 'Researcher One', role: 'Postdoctoral Researcher', initials: 'R1' },
-	{ name: 'Researcher Two', role: 'Doctoral Researcher', initials: 'R2' },
-	{ name: 'Researcher Three', role: 'Research Associate', initials: 'R3' },
-];
+import PersonPortrait from './PersonPortrait.astro';
+import { currentPeople, focusLine } from '../data/people';
 
 const resources = [
 	{
@@ -37,13 +34,14 @@ const activity = [
 			<a class="section-link" href="/group/">Meet the group<span aria-hidden="true"> →</span></a>
 		</header>
 
-		<ul class="member-list" aria-label="Selected current group members">
-			{groupMembers.map((member) => (
+		<ul class="member-list" aria-label="Current group members">
+			{currentPeople.map((person) => (
 				<li class="member">
-					<div class="member__portrait" aria-hidden="true">{member.initials}</div>
+					<PersonPortrait person={person} class="member__portrait" />
 					<div>
-						<h3>{member.name}</h3>
-						<p>{member.role}</p>
+						<h3>{person.name}</h3>
+						<p>{person.current?.role}</p>
+						{focusLine(person) && <p class="member__focus">{focusLine(person)}</p>}
 					</div>
 				</li>
 			))}
@@ -168,15 +166,8 @@ const activity = [
 		border-top: 1px solid var(--color-rule);
 	}
 
-	.member__portrait {
-		display: grid;
+	.member :global(.member__portrait) {
 		width: 3.25rem;
-		aspect-ratio: 4 / 5;
-		place-items: center;
-		background: #e7e3da;
-		color: var(--color-accent);
-		font-family: var(--font-heading);
-		font-size: 0.8rem;
 	}
 
 	.member h3 {
@@ -187,6 +178,13 @@ const activity = [
 		margin-top: 0.15rem;
 		color: var(--color-muted);
 		font-size: 0.78rem;
+	}
+
+	.member .member__focus {
+		margin-top: 0.35rem;
+		font-size: 0.72rem;
+		line-height: 1.5;
+		overflow-wrap: anywhere;
 	}
 
 	.home-section__heading--row {

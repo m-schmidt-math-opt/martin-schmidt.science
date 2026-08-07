@@ -1,13 +1,122 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PersonPortrait from '../components/PersonPortrait.astro';
+import { focusLine, getAlumni, getCurrentPeople, type CurrentGroup } from '../data/people';
+
+const currentSections: Array<{ group: CurrentGroup; title: string }> = [
+	{ group: 'secretary', title: "Secretary's Office" },
+	{ group: 'postdoc', title: 'Postdocs' },
+	{ group: 'phd', title: 'PhD Students' },
+];
+
+const formerPhds = getAlumni('former-phd');
+const formerPostdocs = getAlumni('former-postdoc');
 ---
 
 <BaseLayout
-	title="Group"
-	description="The nonlinear optimization research group of Martin Schmidt at Trier University."
+	title="Research Group"
+	description="Current members and alumni of Martin Schmidt’s nonlinear optimization research group at Trier University."
 >
-	<section class="page-shell intro" aria-labelledby="page-title">
-		<h1 id="page-title">Group</h1>
-		<p class="intro__lead">Information about the research group will follow.</p>
-	</section>
+	<header class="group-intro page-shell" aria-labelledby="page-title">
+		<p class="eyebrow">People</p>
+		<h1 id="page-title">Research Group</h1>
+		<p class="intro__lead">The team works on mathematical optimization, with an emphasis on hierarchical decisions, uncertainty, discrete structures, and nonlinear models.</p>
+	</header>
+
+	<div class="group-sections">
+		{currentSections.map((section, index) => (
+			<section class="people-section" aria-labelledby={`${section.group}-title`}>
+				<header class="people-section__heading">
+					<p aria-hidden="true">{String(index + 1).padStart(2, '0')}</p>
+					<h2 id={`${section.group}-title`}>{section.title}</h2>
+				</header>
+				<ul class="people-grid">
+					{getCurrentPeople(section.group).map((person) => (
+						<li>
+							<article class="person-card">
+								<PersonPortrait person={person} />
+								<div class="person-card__content">
+									<h3>{person.name}</h3>
+									<p class="person-card__role">{person.current?.role}</p>
+									{focusLine(person) && <p class="person-card__focus">{focusLine(person)}</p>}
+									{(person.email || person.homepage) && (
+										<ul class="person-card__links" aria-label={`Contact links for ${person.name}`}>
+											{person.email && <li><a href={`mailto:${person.email}`}>Email</a></li>}
+											{person.homepage && <li><a href={person.homepage}>Homepage</a></li>}
+										</ul>
+									)}
+								</div>
+							</article>
+						</li>
+					))}
+				</ul>
+			</section>
+		))}
+
+		<section class="people-section alumni-section" aria-labelledby="alumni-title">
+			<header class="people-section__heading">
+				<p aria-hidden="true">04</p>
+				<h2 id="alumni-title">Alumni</h2>
+			</header>
+			<div class="alumni-columns">
+				<section aria-labelledby="former-phd-title">
+					<h3 id="former-phd-title">Former PhD Students</h3>
+					<ul class="alumni-list">
+						{formerPhds.map((person) => <li><span>{person.name}</span></li>)}
+					</ul>
+				</section>
+				<section aria-labelledby="former-postdoc-title">
+					<h3 id="former-postdoc-title">Former Postdocs</h3>
+					<ul class="alumni-list">
+						{formerPostdocs.map((person) => (
+							<li><span>{person.name}</span>{person.alumniRecord.currentPosition && <small>{person.alumniRecord.currentPosition}</small>}</li>
+						))}
+					</ul>
+				</section>
+			</div>
+		</section>
+
+		<section class="people-section positions-section" aria-labelledby="positions-title">
+			<header class="people-section__heading">
+				<p aria-hidden="true">05</p>
+				<h2 id="positions-title">Open Positions</h2>
+			</header>
+			<p>There are currently no advertised positions.</p>
+		</section>
+	</div>
 </BaseLayout>
+
+<style>
+	.group-intro { padding-bottom: clamp(3.5rem, 8vw, 6rem); }
+	.group-intro h1 { font-size: clamp(2.75rem, 9vw, 5.5rem); letter-spacing: -0.035em; }
+	.group-sections { border-top: 1px solid var(--color-rule); }
+	.people-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: clamp(3.5rem, 8vw, 6.5rem) var(--page-gutter); }
+	.people-section + .people-section { border-top: 1px solid var(--color-rule); }
+	.people-section__heading { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .75rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+	.people-section__heading > p { padding-top: .4rem; color: var(--color-accent); font-size: .7rem; font-weight: 600; letter-spacing: .08em; }
+	.people-section h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; }
+	.people-grid { display: grid; gap: 2.25rem 1.5rem; }
+	.person-card { display: grid; grid-template-columns: 5.25rem minmax(0, 1fr); gap: 1.15rem; min-width: 0; }
+	.person-card :global(.person-portrait) { width: 5.25rem; }
+	.person-card__content { min-width: 0; padding-top: .15rem; }
+	.person-card h3 { font-size: clamp(1.35rem, 5vw, 1.7rem); overflow-wrap: anywhere; }
+	.person-card__role { margin-top: .25rem; color: var(--color-accent); font-size: .72rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
+	.person-card__focus { margin-top: .75rem; color: var(--color-muted); font-size: .84rem; line-height: 1.6; overflow-wrap: anywhere; }
+	.person-card__links { display: flex; flex-wrap: wrap; gap: .4rem 1rem; margin-top: .75rem; }
+	.person-card__links a { font-size: .76rem; font-weight: 600; text-decoration: none; }
+	.alumni-columns { display: grid; gap: 3rem; }
+	.alumni-columns h3 { margin-bottom: 1rem; font-size: clamp(1.3rem, 4vw, 1.6rem); }
+	.alumni-list { border-bottom: 1px solid var(--color-rule); }
+	.alumni-list li { display: grid; gap: .15rem; padding-block: .75rem; border-top: 1px solid var(--color-rule); font-size: .9rem; }
+	.alumni-list small { color: var(--color-muted); font-size: .75rem; line-height: 1.5; overflow-wrap: anywhere; }
+	.positions-section > p { max-width: 35rem; color: var(--color-muted); }
+	@media (min-width: 36rem) {
+		.people-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+		.person-card { grid-template-columns: 6rem minmax(0, 1fr); }
+		.person-card :global(.person-portrait) { width: 6rem; }
+	}
+	@media (min-width: 45rem) {
+		.people-section__heading { grid-template-columns: 3rem minmax(0, 1fr); }
+		.alumni-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(3rem, 8vw, 7rem); }
+	}
+</style>
