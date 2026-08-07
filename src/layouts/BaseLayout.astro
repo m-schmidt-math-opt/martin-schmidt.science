@@ -1,0 +1,67 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = 'Martin Schmidt',
+	description = 'Academic website of Martin Schmidt, Professor of Nonlinear Optimization at Trier University.',
+} = Astro.props;
+
+const pageTitle = title === 'Martin Schmidt' ? title : `${title} | Martin Schmidt`;
+
+const navigation = [
+	{ label: 'Research', href: '/research/' },
+	{ label: 'Publications', href: '/publications/' },
+	{ label: 'Group', href: '/group/' },
+	{ label: 'Software & Data', href: '/software-data/' },
+	{ label: 'Teaching', href: '/teaching/' },
+	{ label: 'About', href: '/about/' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content={description} />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="theme-color" content="#f6f2e9" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" sizes="any" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap"
+			rel="stylesheet"
+		/>
+		<title>{pageTitle}</title>
+	</head>
+	<body>
+		<a class="skip-link" href="#main-content">Skip to content</a>
+		<header class="site-header">
+			<div class="site-header__inner">
+				<a class="site-name" href="/" aria-label="Martin Schmidt — Home">
+					<span>Martin Schmidt</span>
+					<small>Nonlinear Optimization</small>
+				</a>
+
+				<nav class="site-nav" aria-label="Primary navigation">
+					<ul>
+						{navigation.map((item) => (
+							<li><a href={item.href}>{item.label}</a></li>
+						))}
+					</ul>
+				</nav>
+			</div>
+		</header>
+
+		<main id="main-content">
+			<slot />
+		</main>
+	</body>
+</html>
