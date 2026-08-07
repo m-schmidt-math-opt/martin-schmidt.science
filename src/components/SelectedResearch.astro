@@ -1,0 +1,154 @@
+---
+const selectedItems = [
+	{
+		type: 'Paper',
+		title: 'Bilevel Optimization: Models and Methods',
+		description: 'A representative study of hierarchical decision-making and its computational structure.',
+		href: '/publications/',
+		linkLabel: 'View publication',
+	},
+	{
+		type: 'Book',
+		title: 'Optimization Under Uncertainty',
+		description: 'A concise treatment of optimization models designed for uncertain parameters and data.',
+		href: '/publications/',
+		linkLabel: 'View book',
+	},
+	{
+		type: 'Software & Data',
+		title: 'Tools for Structured Optimization',
+		description: 'Computational resources for modeling and solving structured nonlinear problems.',
+		href: '/software-data/',
+		linkLabel: 'View software and data',
+	},
+	{
+		type: 'Project',
+		title: 'Equilibria in Networked Systems',
+		description: 'A research project connecting network optimization with equilibrium models and games.',
+		href: '/research/',
+		linkLabel: 'View project',
+	},
+];
+---
+
+<section class="selected-research" aria-labelledby="selected-research-title">
+	<div class="selected-research__inner">
+		<header class="selected-research__heading">
+			<div>
+				<p class="eyebrow">A research cross-section</p>
+				<h2 id="selected-research-title">Selected Research</h2>
+			</div>
+			<p>
+				Representative work across publications, research tools, and collaborative projects.
+			</p>
+		</header>
+
+		<div class="selected-research__list">
+			{selectedItems.map((item) => (
+				<article class="research-output">
+					<p class="research-output__type">{item.type}</p>
+					<h3>{item.title}</h3>
+					<p class="research-output__description">{item.description}</p>
+					<a href={item.href}>{item.linkLabel}<span aria-hidden="true"> →</span></a>
+				</article>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.selected-research {
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.selected-research__inner {
+		width: min(100%, var(--page-width));
+		margin-inline: auto;
+		padding: clamp(4rem, 9vw, 7rem) var(--page-gutter) clamp(5rem, 11vw, 9rem);
+	}
+
+	.selected-research__heading {
+		display: grid;
+		gap: 1.25rem;
+		margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+	}
+
+	.selected-research__heading h2 {
+		font-size: clamp(2.35rem, 6vw, 4rem);
+		letter-spacing: -0.025em;
+	}
+
+	.selected-research__heading > p {
+		max-width: 32rem;
+		color: var(--color-muted);
+		font-size: 0.95rem;
+	}
+
+	.selected-research__list {
+		border-bottom: 1px solid var(--color-rule);
+	}
+
+	.research-output {
+		display: flex;
+		align-items: flex-start;
+		flex-direction: column;
+		padding-block: 1.75rem;
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.research-output__type {
+		margin-bottom: 0.8rem;
+		color: var(--color-accent);
+		font-size: 0.7rem;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+
+	.research-output h3 {
+		font-size: clamp(1.45rem, 5vw, 2rem);
+	}
+
+	.research-output__description {
+		margin-top: 0.8rem;
+		color: var(--color-muted);
+		font-size: 0.93rem;
+		line-height: 1.65;
+	}
+
+	.research-output a {
+		margin-top: 1.35rem;
+		font-size: 0.82rem;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	@media (min-width: 45rem) {
+		.selected-research__heading {
+			align-items: end;
+			grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.65fr);
+			gap: 3rem;
+		}
+
+		.selected-research__list {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.research-output {
+			min-height: 18rem;
+			padding: 2rem clamp(1.5rem, 3vw, 3rem) 2.25rem 0;
+		}
+
+		.research-output:nth-child(even) {
+			padding-right: 0;
+			padding-left: clamp(1.5rem, 3vw, 3rem);
+			border-left: 1px solid var(--color-rule);
+		}
+
+		.research-output a {
+			margin-top: auto;
+			padding-top: 1.5rem;
+		}
+	}
+</style>
