@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { news } from '../data/news';
+const archive = [...news].sort((a, b) => b.date.localeCompare(a.date));
+const formatDate = (date: string) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`));
+---
+<BaseLayout title="News" description="Research news, talks, publications, projects, and software updates from Martin Schmidt.">
+	<header class="news-intro page-shell" aria-labelledby="page-title"><p class="eyebrow">Updates</p><h1 id="page-title">News</h1><p class="intro__lead">Brief notes on talks, publications, projects, and other research activity.</p></header>
+	<section class="news-archive" aria-labelledby="news-archive-title"><h2 id="news-archive-title" class="sr-only">News archive</h2><ol>{archive.map((item) => <li><article><div class="news-meta"><time datetime={item.date}>{formatDate(item.date)}</time><span>{item.category}</span></div><div><h3>{item.title}</h3><p>{item.text}</p>{item.link && <a href={item.link.href}>{item.link.label}<span aria-hidden="true"> →</span></a>}</div></article></li>)}</ol></section>
+</BaseLayout>
+<style>
+	.news-intro { padding-bottom:clamp(3.5rem,8vw,6rem); } .news-intro h1{font-size:clamp(2.75rem,9vw,5.5rem);letter-spacing:-.035em}.news-archive{width:min(100%,var(--page-width));margin-inline:auto;padding:clamp(3.5rem,8vw,6.5rem) var(--page-gutter);border-top:1px solid var(--color-rule)}.news-archive ol{border-bottom:1px solid var(--color-rule)}.news-archive li{border-top:1px solid var(--color-rule)}.news-archive article{display:grid;gap:.65rem;padding-block:1.35rem}.news-meta{display:flex;flex-wrap:wrap;gap:.4rem .75rem;color:var(--color-accent);font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}.news-meta span{padding-left:.75rem;border-left:1px solid var(--color-rule)}.news-archive h3{font-size:clamp(1.3rem,4vw,1.65rem);overflow-wrap:anywhere}.news-archive article>div:last-child>p{margin-top:.45rem;color:var(--color-muted);font-size:.86rem;overflow-wrap:anywhere}.news-archive a{display:inline-block;margin-top:.6rem;font-size:.75rem;font-weight:600;text-decoration:none}@media(min-width:45rem){.news-archive article{grid-template-columns:10rem minmax(0,1fr);gap:2rem;padding-block:1.6rem}.news-meta{align-content:start;display:grid}.news-meta span{padding-left:0;border-left:0}}
+</style>

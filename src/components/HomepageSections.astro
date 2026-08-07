@@ -4,13 +4,8 @@ import ResourceList from './ResourceList.astro';
 import { aboutProfile } from '../data/about';
 import { currentPeople, focusLine } from '../data/people';
 import { featuredResources } from '../data/resources';
-
-const activity = [
-	{ date: '2026', category: 'Publication', title: 'Recent work on structured bilevel optimization' },
-	{ date: '2026', category: 'Talk', title: 'Research seminar on optimization under uncertainty' },
-	{ date: '2025', category: 'Project', title: 'Collaborative project on networked systems' },
-	{ date: '2025', category: 'Software', title: 'Development update for bilevel optimization tools' },
-];
+import { homepageNews } from '../data/news';
+const formatActivityDate = (date: string) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`));
 ---
 
 <section class="group-preview home-section" aria-labelledby="group-preview-title">
@@ -57,13 +52,14 @@ const activity = [
 			<p class="eyebrow">Updates</p>
 			<h2 id="activity-preview-title">Recent Activity</h2>
 			<p>A brief view of current publications, talks, projects, and software work.</p>
+			<a class="section-link" href="/news/">All news<span aria-hidden="true"> →</span></a>
 		</header>
 
 		<ol class="activity-list">
-			{activity.map((item) => (
+			{homepageNews.map((item) => (
 				<li>
-					<p class="activity__meta"><time datetime={item.date}>{item.date}</time><span>{item.category}</span></p>
-					<p class="activity__title">{item.title}</p>
+					<p class="activity__meta"><time datetime={item.date}>{formatActivityDate(item.date)}</time><span>{item.category}</span></p>
+					<p class="activity__title">{item.link ? <a href={item.link.href}>{item.title}</a> : item.title}</p>
 				</li>
 			))}
 		</ol>
@@ -206,6 +202,9 @@ const activity = [
 		font-size: clamp(1.12rem, 4vw, 1.4rem);
 		line-height: 1.3;
 	}
+
+	.activity__title a { color: var(--color-text); text-decoration: none; }
+	.activity__title a:hover { color: var(--color-accent); }
 
 	.profile-preview__layout {
 		align-items: center;

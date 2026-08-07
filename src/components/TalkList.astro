@@ -1,0 +1,52 @@
+---
+import type { Talk, TalkType } from '../data/talks';
+
+interface Props { talks: Talk[] }
+const { talks } = Astro.props;
+const typeLabels: Partial<Record<TalkType, string>> = {
+	plenary: 'Plenary', keynote: 'Keynote', invited: 'Invited', lightning: 'Lightning',
+	seminar: 'Seminar', lecture: 'Lecture', 'mini-course': 'Mini-course', contributed: 'Contributed',
+};
+const formatDate = (talk: Talk) => {
+	if (talk.date.display) return talk.date.display;
+	const value = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${talk.date.start}T00:00:00Z`));
+	return value;
+};
+const location = (talk: Talk) => [talk.venue, talk.city, talk.region, talk.country].filter(Boolean).join(', ');
+---
+
+<ol class="talk-list">
+	{talks.map((talk) => (
+		<li class="talk-entry">
+			<article>
+				<time datetime={talk.date.start}>{formatDate(talk)}</time>
+				<div class="talk-entry__body">
+					<h3>{talk.title}</h3>
+					<p class="talk-entry__event">{talk.eventName}{talk.hostInstitution && talk.hostInstitution !== talk.eventName && <span> · {talk.hostInstitution}</span>}</p>
+					{location(talk) && <p class="talk-entry__location">{location(talk)}{talk.deliveryMode === 'online' && ' · Online'}</p>}
+					{!location(talk) && talk.deliveryMode === 'online' && <p class="talk-entry__location">Online</p>}
+					{(talk.types.length > 0 || talk.links.length > 0) && <div class="talk-entry__footer">
+						{talk.types.length > 0 && <ul class="talk-types" aria-label="Talk types">{talk.types.map((type) => typeLabels[type] && <li>{typeLabels[type]}</li>)}</ul>}
+						{talk.links.length > 0 && <ul class="talk-links" aria-label={`Links for ${talk.title}`}>{talk.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}</ul>}
+					</div>}
+				</div>
+			</article>
+		</li>
+	))}
+</ol>
+
+<style>
+	.talk-list { border-bottom: 1px solid var(--color-rule); }
+	.talk-entry { border-top: 1px solid var(--color-rule); }
+	.talk-entry article { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: .9rem; padding-block: 1.25rem; }
+	.talk-entry time { padding-top: .15rem; color: var(--color-accent); font-size: .7rem; font-weight: 600; line-height: 1.4; }
+	.talk-entry__body { min-width: 0; }
+	.talk-entry h3 { font-family: var(--font-body); font-size: clamp(.96rem, 2vw, 1.08rem); font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
+	.talk-entry__event, .talk-entry__location { margin-top: .32rem; color: var(--color-muted); font-size: .8rem; line-height: 1.5; overflow-wrap: anywhere; }
+	.talk-entry__location { margin-top: .05rem; font-style: italic; }
+	.talk-entry__footer, .talk-types, .talk-links { display: flex; align-items: baseline; flex-wrap: wrap; gap: .3rem .8rem; }
+	.talk-entry__footer { margin-top: .55rem; }
+	.talk-types li { color: var(--color-accent); font-size: .65rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+	.talk-links a { font-size: .7rem; font-weight: 600; text-decoration: none; }
+	@media (min-width: 45rem) { .talk-entry article { grid-template-columns: 6.5rem minmax(0, 1fr); gap: 1.5rem; padding-block: 1.45rem; } }
+</style>
