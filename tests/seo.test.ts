@@ -65,6 +65,26 @@ test('decorative eyebrow labels and research-theme numbering are absent', () => 
 test('homepage typography keeps the name restrained and group portraits readable', () => {
 	assert.match(globalCss, /\.hero h1\s*\{[^}]*font-size:\s*clamp\(2\.75rem, 8vw, 4\.75rem\)/s);
 	assert.doesNotMatch(homepage, /<p[^>]*>\{aboutProfile\.position\}<\/p>/);
-	assert.match(homepageSections, /grid-template-columns:\s*5rem minmax\(0, 1fr\)/);
-	assert.match(homepageSections, /grid-template-columns:\s*4rem minmax\(0, 1fr\)/);
+	assert.equal([...homepageSections.matchAll(/grid-template-columns:\s*7rem minmax\(0, 1fr\)/g)].length, 2);
+	assert.equal([...homepageSections.matchAll(/width:\s*7rem/g)].length, 2);
+});
+
+test('major page headings have no decorative section numbers', () => {
+	for (const page of ['about', 'group', 'projects', 'publications', 'software-data', 'talks', 'teaching', 'theses']) {
+		const source = readFileSync(new URL(`../src/pages/${page}.astro`, import.meta.url), 'utf8');
+		assert.doesNotMatch(source, /number:\s*['"]0|section\.number|padStart|aria-hidden=["']true["']>0\d/);
+	}
+	const resourceList = readFileSync(new URL('../src/components/ResourceList.astro', import.meta.url), 'utf8');
+	assert.doesNotMatch(resourceList, /research-resource__number|padStart/);
+});
+
+test('footer profile links stay canonical and the shared shell provides one back-to-top control', () => {
+	assert.match(footer, /aboutProfile\.profileLinks\.map/);
+	for (const label of ['Google Scholar', 'ORCID', 'Bluesky', 'Instagram']) {
+		assert.ok(aboutProfile.profileLinks.some((link) => link.label === label));
+	}
+	assert.doesNotMatch(footer, /https?:\/\/(?:scholar\.google|orcid\.org|bsky\.app|www\.instagram)/);
+	assert.equal((layout.match(/id="top"/g) ?? []).length, 1);
+	assert.equal((layout.match(/class="back-to-top"/g) ?? []).length, 1);
+	assert.match(layout, /href="#top" aria-label="Back to top"/);
 });

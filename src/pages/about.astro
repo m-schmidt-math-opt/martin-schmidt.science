@@ -6,10 +6,10 @@ import { introductoryCourseTalks, selectedPlenaryAndKeynoteTalks } from '../data
 import { publicationsByKeys } from '../lib/publications';
 
 const factSections = [
-	{ number: '03', id: 'positions', title: 'Academic Positions', items: academicPositions },
-	{ number: '04', id: 'education', title: 'Education', items: education },
-	{ number: '05', id: 'leadership', title: 'Academic Leadership & Service', items: academicLeadership },
-	{ number: '06', id: 'affiliations', title: 'Affiliations & Fellowships', items: affiliationsAndFellowships },
+	{ id: 'positions', title: 'Academic Positions', items: academicPositions },
+	{ id: 'education', title: 'Education', items: education },
+	{ id: 'leadership', title: 'Academic Leadership & Service', items: academicLeadership },
+	{ id: 'affiliations', title: 'Affiliations & Fellowships', items: affiliationsAndFellowships },
 ];
 const awardPublicationKeys = awards.flatMap((award) => award.relatedPublicationKey ? [award.relatedPublicationKey] : []);
 const awardPublications = new Map(publicationsByKeys(awardPublicationKeys).map((publication) => [publication.id, publication]));
@@ -23,42 +23,41 @@ const publicationAnchor = (key: string) => `publication-${key.replace(/[^a-zA-Z0
 	</header>
 	<div class="about-sections">
 		<section class="about-section about-bio" aria-labelledby="bio-title">
-			<header class="about-section__heading"><p aria-hidden="true">01</p><h2 id="bio-title">Short Academic Biography</h2></header>
+			<header class="about-section__heading"><h2 id="bio-title">Short Academic Biography</h2></header>
 			<div class="about-bio__layout"><img src={aboutProfile.portrait.src} alt={aboutProfile.portrait.alt} width="960" height="640" loading="eager" /><p>{aboutProfile.biography}</p></div>
 		</section>
 		<section class="about-section" aria-labelledby="contact-title">
-			<header class="about-section__heading"><p aria-hidden="true">02</p><h2 id="contact-title">Contact</h2></header>
+			<header class="about-section__heading"><h2 id="contact-title">Contact</h2></header>
 			<address>{aboutProfile.contact.addressLines.map((line) => <span>{line}</span>)}<a href={`mailto:${aboutProfile.contact.email}`}>{aboutProfile.contact.email}</a><a href={aboutProfile.contact.institutionUrl}>University profile</a></address>
 			<ul class="profile-links" aria-label="Academic profiles and social media">{aboutProfile.profileLinks.map((link) => <li><a href={link.href}>{link.label}</a></li>)}</ul>
 		</section>
-		{factSections.map((section) => <section class="about-section" aria-labelledby={`${section.id}-title`}><header class="about-section__heading"><p aria-hidden="true">{section.number}</p><h2 id={`${section.id}-title`}>{section.title}</h2></header><ul class="fact-list">{section.items.map((item) => <li>{item.period && <time>{item.period}</time>}<div><h3>{item.title}</h3>{item.organization && <p>{item.organization}</p>}{item.detail && <p>{item.detail}</p>}</div></li>)}</ul></section>)}
+		{factSections.map((section) => <section class="about-section" aria-labelledby={`${section.id}-title`}><header class="about-section__heading"><h2 id={`${section.id}-title`}>{section.title}</h2></header><ul class="fact-list">{section.items.map((item) => <li>{item.period && <time>{item.period}</time>}<div><h3>{item.title}</h3>{item.organization && <p>{item.organization}</p>}{item.detail && <p>{item.detail}</p>}</div></li>)}</ul></section>)}
 		<section class="about-section" aria-labelledby="awards-title">
-			<header class="about-section__heading"><p aria-hidden="true">07</p><h2 id="awards-title">Awards &amp; Honors</h2></header>
+			<header class="about-section__heading"><h2 id="awards-title">Awards &amp; Honors</h2></header>
 			<ul class="fact-list">{awards.map((item) => { const publication = item.relatedPublicationKey ? awardPublications.get(item.relatedPublicationKey) : undefined; return <li>{item.period && <time>{item.period}</time>}<div><h3>{item.title}</h3>{item.organization && <p>{item.organization}</p>}{item.detail && <p>{item.detail}</p>}{publication && <p>For <a href={`/publications/#${publicationAnchor(publication.id)}`}><cite>{publication.title}</cite></a> · {publication.authors}</p>}</div></li>; })}</ul>
 		</section>
 		<section class="about-section" aria-labelledby="editorial-title">
-			<header class="about-section__heading"><p aria-hidden="true">08</p><h2 id="editorial-title">Editorial Service</h2></header>
+			<header class="about-section__heading"><h2 id="editorial-title">Editorial Service</h2></header>
 			<ul class="fact-list">{editorialService.map((item) => <li>{item.period && <time>{item.period}</time>}<div><h3>{item.title}</h3>{item.organization && <p>{item.organization}</p>}</div></li>)}</ul>
 		</section>
 		<section class="about-section" aria-labelledby="reviewing-title">
-			<header class="about-section__heading"><p aria-hidden="true">09</p><h2 id="reviewing-title">Reviewing Activity</h2></header>
+			<header class="about-section__heading"><h2 id="reviewing-title">Reviewing Activity</h2></header>
 			<p class="reviewing-summary">{reviewingActivity.summary}</p><p class="reviewing-selection">Selected journals: {reviewingActivity.selectedJournals.join(' · ')}</p>
 		</section>
 		<section class="about-section" aria-labelledby="plenary-title">
-			<header class="about-section__heading"><p aria-hidden="true">10</p><h2 id="plenary-title">Selected (Semi-)Plenary &amp; Keynote Talks</h2></header><TalkList talks={selectedPlenaryAndKeynoteTalks} /><a class="section-link" href="/talks/">View all talks <span aria-hidden="true">→</span></a>
+			<header class="about-section__heading"><h2 id="plenary-title">Selected (Semi-)Plenary &amp; Keynote Talks</h2></header><TalkList talks={selectedPlenaryAndKeynoteTalks} /><a class="section-link" href="/talks/">View all talks <span aria-hidden="true">→</span></a>
 		</section>
 		<section class="about-section" aria-labelledby="courses-title">
-			<header class="about-section__heading"><p aria-hidden="true">11</p><h2 id="courses-title">Introductory Courses &amp; Schools</h2></header><TalkList talks={introductoryCourseTalks} /><a class="section-link" href="/talks/">View all talks <span aria-hidden="true">→</span></a>
+			<header class="about-section__heading"><h2 id="courses-title">Introductory Courses &amp; Schools</h2></header><TalkList talks={introductoryCourseTalks} /><a class="section-link" href="/talks/">View all talks <span aria-hidden="true">→</span></a>
 		</section>
 	</div>
 </BaseLayout>
 
 <style>
-	.about-intro { padding-bottom: clamp(3.5rem, 8vw, 6rem); }
+	.about-intro { padding-bottom: var(--space-section-y); }
 	.about-intro h1 { max-width: 60rem; font-size: clamp(2.75rem, 9vw, 5.5rem); letter-spacing: -.035em; }
-	.about-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: clamp(3.5rem, 8vw, 6.5rem) var(--page-gutter); }
-	.about-section__heading { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .75rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
-	.about-section__heading > p { padding-top: .4rem; color: var(--color-accent); font-size: .7rem; font-weight: 600; letter-spacing: .08em; }
+	.about-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: var(--space-section-y) var(--page-gutter); }
+	.about-section__heading { margin-bottom: var(--space-section-heading); }
 	.about-section h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; overflow-wrap: anywhere; }
 	.about-bio__layout { display:grid;gap:1.5rem;align-items:start; }
 	.about-bio__layout img { width:min(100%,22rem);height:auto; }
@@ -76,7 +75,6 @@ const publicationAnchor = (key: string) => `publication-${key.replace(/[^a-zA-Z0
 	.fact-list p { margin-top: .2rem; color: var(--color-muted); font-size: .82rem; overflow-wrap: anywhere; }
 	@media (min-width: 45rem) {
 		.about-bio__layout { grid-template-columns:minmax(15rem,22rem) minmax(0,1fr);gap:clamp(2rem,6vw,5rem); }
-		.about-section__heading { grid-template-columns: 3rem minmax(0, 1fr); }
 		.fact-list li { grid-template-columns: 8rem minmax(0, 1fr); }
 		.fact-list li > div:only-child { grid-column: 2; }
 	}

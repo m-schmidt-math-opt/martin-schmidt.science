@@ -4,9 +4,9 @@ import ResourceList from '../components/ResourceList.astro';
 import { archivedResources, dataResources, featuredResources } from '../data/resources';
 
 const sections = [
-	{ id: 'featured', number: '01', title: 'Featured Resources', resources: featuredResources },
-	{ id: 'data', number: '02', title: 'Benchmark Libraries & Data', resources: dataResources },
-	{ id: 'archive', number: '03', title: 'Archive', resources: archivedResources },
+	{ id: 'featured', title: 'Featured Resources', resources: featuredResources },
+	{ id: 'data', title: 'Benchmark Libraries & Data', resources: dataResources },
+	{ id: 'archive', title: 'Archive', resources: archivedResources },
 ];
 ---
 
@@ -18,7 +18,7 @@ const sections = [
 	<div class="editorial-sections">
 		{sections.map((section) => (
 			<section class="editorial-section" aria-labelledby={`${section.id}-title`}>
-				<header class="editorial-section__heading"><p aria-hidden="true">{section.number}</p><h2 id={`${section.id}-title`}>{section.title}</h2></header>
+				<header class="editorial-section__heading"><h2 id={`${section.id}-title`}>{section.title}</h2></header>
 				<ResourceList resources={section.resources} />
 			</section>
 		))}
@@ -26,12 +26,10 @@ const sections = [
 </BaseLayout>
 
 <style>
-	.editorial-intro { padding-bottom: clamp(3.5rem, 8vw, 6rem); }
+	.editorial-intro { padding-bottom: var(--space-section-y); }
 	.editorial-intro h1 { font-size: clamp(2.75rem, 9vw, 5.5rem); letter-spacing: -.035em; }
-	.editorial-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: clamp(3.5rem, 8vw, 6.5rem) var(--page-gutter); }
-	.editorial-section__heading { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .75rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
-	.editorial-section__heading > p { padding-top: .4rem; color: var(--color-accent); font-size: .7rem; font-weight: 600; letter-spacing: .08em; }
+	.editorial-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: var(--space-section-y) var(--page-gutter); }
+	.editorial-section__heading { margin-bottom: var(--space-section-heading); }
 	.editorial-section h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; }
 	.empty-note { padding-block: 1.25rem; border-block: 1px solid var(--color-rule); color: var(--color-muted); font-size: .88rem; }
-	@media (min-width: 45rem) { .editorial-section__heading { grid-template-columns: 3rem minmax(0, 1fr); } }
 </style>

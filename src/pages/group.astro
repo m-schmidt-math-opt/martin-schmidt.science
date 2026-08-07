@@ -23,10 +23,9 @@ const formerPostdocs = getAlumni('former-postdoc');
 	</header>
 
 	<div class="group-sections">
-		{currentSections.map((section, index) => (
+		{currentSections.map((section) => (
 			<section class="people-section" aria-labelledby={`${section.group}-title`}>
 				<header class="people-section__heading">
-					<p aria-hidden="true">{String(index + 1).padStart(2, '0')}</p>
 					<h2 id={`${section.group}-title`}>{section.title}</h2>
 				</header>
 				<ul class="people-grid">
@@ -57,7 +56,6 @@ const formerPostdocs = getAlumni('former-postdoc');
 
 		<section class="people-section alumni-section" aria-labelledby="alumni-title">
 			<header class="people-section__heading">
-				<p aria-hidden="true">04</p>
 				<h2 id="alumni-title">Alumni</h2>
 			</header>
 			<div class="alumni-columns">
@@ -93,7 +91,6 @@ const formerPostdocs = getAlumni('former-postdoc');
 
 		<section class="people-section positions-section" aria-labelledby="positions-title">
 			<header class="people-section__heading">
-				<p aria-hidden="true">05</p>
 				<h2 id="positions-title">Open Positions</h2>
 			</header>
 			<p>There are currently no advertised positions.</p>
@@ -102,11 +99,10 @@ const formerPostdocs = getAlumni('former-postdoc');
 </BaseLayout>
 
 <style>
-	.group-intro { padding-bottom: clamp(3.5rem, 8vw, 6rem); }
+	.group-intro { padding-bottom: var(--space-section-y); }
 	.group-intro h1 { font-size: clamp(2.75rem, 9vw, 5.5rem); letter-spacing: -0.035em; }
-	.people-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: clamp(3.5rem, 8vw, 6.5rem) var(--page-gutter); }
-	.people-section__heading { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .75rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
-	.people-section__heading > p { padding-top: .4rem; color: var(--color-accent); font-size: .7rem; font-weight: 600; letter-spacing: .08em; }
+	.people-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: var(--space-section-y) var(--page-gutter); }
+	.people-section__heading { margin-bottom: var(--space-section-heading); }
 	.people-section h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; }
 	.people-grid { display: grid; gap: 2.25rem 1.5rem; }
 	.person-card { display: grid; grid-template-columns: 5.25rem minmax(0, 1fr); gap: 1.15rem; min-width: 0; }
@@ -133,7 +129,6 @@ const formerPostdocs = getAlumni('former-postdoc');
 		.person-card :global(.person-portrait) { width: 6rem; }
 	}
 	@media (min-width: 45rem) {
-		.people-section__heading { grid-template-columns: 3rem minmax(0, 1fr); }
 		.alumni-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(3rem, 8vw, 7rem); }
 	}
 </style>

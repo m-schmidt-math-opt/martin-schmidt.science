@@ -4,8 +4,8 @@ import { bachelorTheses, masterTheses, type Thesis } from '../data/theses';
 
 const order = (items: Thesis[]) => [...items].sort((a, b) => b.year - a.year || a.title.localeCompare(b.title));
 const sections = [
-	{ id: 'master', number: '01', title: 'Master’s Theses', items: order(masterTheses) },
-	{ id: 'bachelor', number: '02', title: 'Bachelor’s Theses', items: order(bachelorTheses) },
+	{ id: 'master', title: 'Master’s Theses', items: order(masterTheses) },
+	{ id: 'bachelor', title: 'Bachelor’s Theses', items: order(bachelorTheses) },
 ];
 ---
 
@@ -17,7 +17,7 @@ const sections = [
 	<div class="theses-sections">
 		{sections.map((section) => (
 			<section class="theses-section" aria-labelledby={`${section.id}-title`}>
-				<header class="theses-section__heading"><p aria-hidden="true">{section.number}</p><h2 id={`${section.id}-title`}>{section.title}</h2></header>
+				<header class="theses-section__heading"><h2 id={`${section.id}-title`}>{section.title}</h2></header>
 				<ol class="thesis-list">
 					{section.items.map((thesis) => (
 						<li>
@@ -40,11 +40,10 @@ const sections = [
 </BaseLayout>
 
 <style>
-	.theses-intro { padding-bottom: clamp(3.5rem, 8vw, 6rem); }
+	.theses-intro { padding-bottom: var(--space-section-y); }
 	.theses-intro h1 { font-size: clamp(2.75rem, 9vw, 5.5rem); letter-spacing: -.035em; }
-	.theses-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: clamp(3.5rem, 8vw, 6.5rem) var(--page-gutter); }
-	.theses-section__heading { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .75rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
-	.theses-section__heading > p { padding-top: .4rem; color: var(--color-accent); font-size: .7rem; font-weight: 600; letter-spacing: .08em; }
+	.theses-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: var(--space-section-y) var(--page-gutter); }
+	.theses-section__heading { margin-bottom: var(--space-section-heading); }
 	.theses-section h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; }
 	.thesis-list { border-bottom: 1px solid var(--color-rule); }
 	.thesis-list > li { padding-block: 1rem; border-top: 1px solid var(--color-rule); }
@@ -54,7 +53,6 @@ const sections = [
 	.thesis-list p { margin-top: .3rem; color: var(--color-muted); font-size: .76rem; line-height: 1.5; overflow-wrap: anywhere; }
 	.thesis-list .thesis-award { color: var(--color-accent); }
 	@media (min-width: 45rem) {
-		.theses-section__heading { grid-template-columns: 3rem minmax(0, 1fr); }
 		.thesis-list article { grid-template-columns: 4.5rem minmax(0, 1fr); gap: 1.25rem; }
 	}
 </style>

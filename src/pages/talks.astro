@@ -4,21 +4,19 @@ import TalkList from '../components/TalkList.astro';
 import { invitedTalks, plenaryAndKeynoteTalks, talks } from '../data/talks';
 const archive = [...talks].sort((a, b) => b.date.start.localeCompare(a.date.start) || (a.source?.recordNumber ?? Number.MAX_SAFE_INTEGER) - (b.source?.recordNumber ?? Number.MAX_SAFE_INTEGER));
 const sections = [
-	{ number: '01', id: 'plenary-keynote', title: 'Plenary & Keynote Talks', items: plenaryAndKeynoteTalks },
-	{ number: '02', id: 'invited', title: 'Invited Talks', items: invitedTalks },
-	{ number: '03', id: 'archive', title: 'Full Archive', items: archive },
+	{ id: 'plenary-keynote', title: 'Plenary & Keynote Talks', items: plenaryAndKeynoteTalks },
+	{ id: 'invited', title: 'Invited Talks', items: invitedTalks },
+	{ id: 'archive', title: 'Full Archive', items: archive },
 ];
 ---
 <BaseLayout title="Talks" description="Plenary, keynote, invited, and other talks by Martin Schmidt on mathematical optimization.">
 	<header class="talks-intro page-shell" aria-labelledby="page-title"><h1 id="page-title">Talks</h1><p class="intro__lead">Selected invited presentations and a chronological archive of lectures, seminars, and conference talks.</p></header>
-	<div class="archive-sections">{sections.map((section) => <section class="archive-section" aria-labelledby={`${section.id}-title`}><header class="archive-heading"><p aria-hidden="true">{section.number}</p><h2 id={`${section.id}-title`}>{section.title}</h2></header><TalkList talks={section.items} /></section>)}</div>
+	<div class="archive-sections">{sections.map((section) => <section class="archive-section" aria-labelledby={`${section.id}-title`}><header class="archive-heading"><h2 id={`${section.id}-title`}>{section.title}</h2></header><TalkList talks={section.items} /></section>)}</div>
 </BaseLayout>
 <style>
-	.talks-intro { padding-bottom: clamp(3.5rem, 8vw, 6rem); }
+	.talks-intro { padding-bottom: var(--space-section-y); }
 	.talks-intro h1 { font-size: clamp(2.75rem, 9vw, 5.5rem); letter-spacing: -.035em; }
-	.archive-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: clamp(3.5rem, 8vw, 6.5rem) var(--page-gutter); }
-	.archive-heading { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .75rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
-	.archive-heading > p { padding-top: .4rem; color: var(--color-accent); font-size: .7rem; font-weight: 600; }
+	.archive-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: var(--space-section-y) var(--page-gutter); }
+	.archive-heading { margin-bottom: var(--space-section-heading); }
 	.archive-heading h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; overflow-wrap: anywhere; }
-	@media (min-width: 45rem) { .archive-heading { grid-template-columns: 3rem minmax(0, 1fr); } }
 </style>

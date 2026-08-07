@@ -41,12 +41,15 @@
 		--font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 		--page-width: 78rem;
 		--page-gutter: clamp(1.25rem, 4vw, 3.5rem);
+		--space-page-y: clamp(3rem, 8vw, 6rem);
+		--space-section-y: clamp(2.75rem, 6vw, 4.75rem);
+		--space-section-heading: clamp(1.75rem, 4vw, 3rem);
 	}
 
 	html {
 		min-width: 20rem;
 		background: var(--color-background);
-		scroll-behavior: smooth;
+		scroll-behavior: auto;
 	}
 
 	body {
@@ -169,7 +172,7 @@
 	.page-shell {
 		width: min(100%, var(--page-width));
 		margin-inline: auto;
-		padding: clamp(4rem, 12vw, 8.5rem) var(--page-gutter);
+		padding: var(--space-page-y) var(--page-gutter);
 	}
 
 	.intro {
@@ -189,7 +192,7 @@
 	}
 
 	.publications-intro {
-		padding-bottom: clamp(3.5rem, 8vw, 6rem);
+		padding-bottom: var(--space-section-y);
 	}
 
 	.publications-intro h1 {
@@ -213,22 +216,11 @@
 	.publication-section {
 		width: min(100%, var(--page-width));
 		margin-inline: auto;
-		padding: clamp(3.5rem, 8vw, 6.5rem) var(--page-gutter);
+		padding: var(--space-section-y) var(--page-gutter);
 	}
 
 	.publication-section__heading {
-		display: grid;
-		grid-template-columns: 2rem minmax(0, 1fr);
-		gap: 0.75rem;
-		margin-bottom: clamp(2rem, 5vw, 3.5rem);
-	}
-
-	.publication-section__heading > p {
-		padding-top: 0.4rem;
-		color: var(--color-accent);
-		font-size: 0.7rem;
-		font-weight: 600;
-		letter-spacing: 0.08em;
+		margin-bottom: var(--space-section-heading);
 	}
 
 	.publication-section h2 {
@@ -396,8 +388,8 @@
 	.hero {
 		display: grid;
 		gap: 3rem;
-		min-height: min(45rem, calc(100vh - 8rem));
-		padding-block: clamp(4.5rem, 10vw, 8rem);
+		min-height: min(38rem, calc(100vh - 8rem));
+		padding-block: clamp(3.5rem, 8vw, 6rem);
 	}
 
 	.hero__content {
@@ -500,12 +492,12 @@
 	.research-themes__inner {
 		width: min(100%, var(--page-width));
 		margin-inline: auto;
-		padding: clamp(4rem, 9vw, 7rem) var(--page-gutter) clamp(5rem, 11vw, 9rem);
+		padding: var(--space-section-y) var(--page-gutter);
 	}
 
 	.section-heading {
 		max-width: 42rem;
-		margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+		margin-bottom: var(--space-section-heading);
 	}
 
 	.section-heading h2 {
@@ -536,10 +528,6 @@
 	}
 
 	@media (min-width: 45rem) {
-		.publication-section__heading {
-			grid-template-columns: 3rem minmax(0, 1fr);
-		}
-
 		.publication article {
 			grid-template-columns: 4rem minmax(0, 1fr);
 			gap: 1.25rem;
@@ -562,14 +550,14 @@
 		}
 
 		.theme {
-			grid-template-columns: 2.5rem minmax(15rem, 0.85fr) minmax(18rem, 1.15fr);
+			grid-template-columns: minmax(22rem, 0.9fr) minmax(22rem, 1.1fr);
 			align-items: start;
 			gap: 2rem;
 			padding-block: 2rem;
 		}
 
 		.theme > p:last-child {
-			grid-column: 3;
+			grid-column: 2;
 		}
 	}
 
@@ -587,9 +575,25 @@
 		}
 	}
 
-	@media (prefers-reduced-motion: reduce) {
-		html {
-			scroll-behavior: auto;
-		}
+	.back-to-top {
+		position: fixed;
+		right: max(1rem, env(safe-area-inset-right));
+		bottom: max(1rem, env(safe-area-inset-bottom));
+		z-index: 5;
+		display: grid;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		border: 1px solid var(--color-rule);
+		background: color-mix(in srgb, var(--color-background) 92%, transparent);
+		color: var(--color-accent);
+		font-size: 1.15rem;
+		line-height: 1;
+		text-decoration: none;
+	}
+
+	.back-to-top:hover {
+		border-color: var(--color-accent);
+		background: var(--color-background);
 	}
 }

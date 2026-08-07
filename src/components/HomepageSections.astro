@@ -110,7 +110,7 @@ const supportStaff = getCurrentPeople('secretary');
 	.home-section__inner {
 		width: min(100%, var(--page-width));
 		margin-inline: auto;
-		padding: clamp(4rem, 9vw, 7rem) var(--page-gutter);
+		padding: var(--space-section-y) var(--page-gutter);
 	}
 
 	.home-section__heading {
@@ -168,14 +168,14 @@ const supportStaff = getCurrentPeople('secretary');
 	.member {
 		display: grid;
 		align-items: center;
-		grid-template-columns: 5rem minmax(0, 1fr);
+		grid-template-columns: 7rem minmax(0, 1fr);
 		gap: 1rem;
 		padding-block: 1.2rem;
 		border-top: 1px solid var(--color-rule);
 	}
 
 	.member :global(.member__portrait) {
-		width: 5rem;
+		width: 7rem;
 	}
 
 	.member h4 {
@@ -196,17 +196,17 @@ const supportStaff = getCurrentPeople('secretary');
 	}
 
 	.member--support {
-		grid-template-columns: 4rem minmax(0, 1fr);
+		grid-template-columns: 7rem minmax(0, 1fr);
 		padding-block: 0.9rem;
 	}
 
 	.member--support :global(.member__portrait) {
-		width: 4rem;
+		width: 7rem;
 	}
 
 	.home-section__heading--row {
 		max-width: none;
-		margin-bottom: clamp(2.5rem, 6vw, 4rem);
+		margin-bottom: var(--space-section-heading);
 	}
 
 

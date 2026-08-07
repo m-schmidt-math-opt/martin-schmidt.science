@@ -86,7 +86,7 @@ import { researchApplications, researchThemes } from '../data/research';
 
 <style>
 	.research-intro {
-		padding-bottom: clamp(3.5rem, 8vw, 6rem);
+		padding-bottom: var(--space-section-y);
 	}
 
 	.research-intro h1 {
@@ -97,12 +97,12 @@ import { researchApplications, researchThemes } from '../data/research';
 	.research-section__inner {
 		width: min(100%, var(--page-width));
 		margin-inline: auto;
-		padding: clamp(4rem, 9vw, 7rem) var(--page-gutter) clamp(5rem, 11vw, 8rem);
+		padding: var(--space-section-y) var(--page-gutter);
 	}
 
 	.research-section__heading {
 		max-width: 42rem;
-		margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+		margin-bottom: var(--space-section-heading);
 	}
 
 	.research-section__heading h2 {
