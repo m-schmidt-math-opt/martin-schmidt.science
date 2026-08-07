@@ -1,0 +1,50 @@
+---
+import type { ResearchResource } from '../data/resources';
+
+interface Props {
+	resources: ResearchResource[];
+	compact?: boolean;
+}
+
+const { resources, compact = false } = Astro.props;
+---
+
+<div class:list={['research-resource-list', { 'research-resource-list--compact': compact }]}>
+	{resources.map((resource, index) => (
+		<article class="research-resource">
+			<p class="research-resource__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</p>
+			<div class="research-resource__body">
+				<div class="research-resource__title-line">
+					<h3>{resource.name}</h3>
+					{resource.status === 'archived' && <span>Archived</span>}
+				</div>
+				<p class:list={{ 'pending-copy': resource.descriptionPending }}>{resource.description}</p>
+				{resource.links.length > 0 && (
+					<ul class="research-resource__links" aria-label={`Links for ${resource.name}`}>
+						{resource.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+					</ul>
+				)}
+			</div>
+		</article>
+	))}
+</div>
+
+<style>
+	.research-resource-list { border-bottom: 1px solid var(--color-rule); }
+	.research-resource { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .8rem; padding-block: 1.5rem; border-top: 1px solid var(--color-rule); }
+	.research-resource__number { padding-top: .2rem; color: var(--color-accent); font-size: .68rem; font-weight: 600; letter-spacing: .08em; }
+	.research-resource__body { min-width: 0; }
+	.research-resource__title-line { display: flex; align-items: baseline; flex-wrap: wrap; gap: .4rem .8rem; }
+	.research-resource h3 { font-size: clamp(1.35rem, 5vw, 1.8rem); overflow-wrap: anywhere; }
+	.research-resource__title-line span { color: var(--color-muted); font-size: .66rem; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; }
+	.research-resource__body > p { max-width: 45rem; margin-top: .55rem; color: var(--color-muted); font-size: .88rem; line-height: 1.6; overflow-wrap: anywhere; }
+	.research-resource__body > .pending-copy { font-style: italic; }
+	.research-resource__links { display: flex; flex-wrap: wrap; gap: .35rem 1rem; margin-top: .75rem; }
+	.research-resource__links a { font-size: .74rem; font-weight: 600; overflow-wrap: anywhere; text-decoration: none; }
+	@media (min-width: 45rem) {
+		.research-resource { grid-template-columns: 3rem minmax(0, 1fr); padding-block: 1.75rem; }
+		.research-resource-list--compact { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+		.research-resource-list--compact .research-resource { display: flex; align-items: flex-start; flex-direction: column; min-height: 13rem; padding: 1.8rem clamp(1.25rem, 2.5vw, 2.5rem); border-left: 1px solid var(--color-rule); }
+		.research-resource-list--compact .research-resource:first-child { padding-left: 0; border-left: 0; }
+	}
+</style>

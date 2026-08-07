@@ -1,13 +1,57 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { currentTeaching, pastCourses, teachingPortfolio, teachingResources } from '../data/teaching';
+
+const sections = [
+	{ id: 'current', number: '01', title: 'Current Teaching', items: currentTeaching, pending: 'Current course information will be added after offerings and official links are verified.' },
+	{ id: 'portfolio', number: '02', title: 'Teaching Portfolio', items: teachingPortfolio, pending: 'Recurring teaching subjects are pending verification.' },
+	{ id: 'resources', number: '03', title: 'Lecture Notes & Resources', items: teachingResources, pending: 'Verified lecture notes and teaching resources will be added here.' },
+];
+const orderedPastCourses = [...pastCourses].sort((a, b) => b.sortDate.localeCompare(a.sortDate));
 ---
 
-<BaseLayout
-	title="Teaching"
-	description="Teaching and course information from Martin Schmidt at Trier University."
->
-	<section class="page-shell intro" aria-labelledby="page-title">
+<BaseLayout title="Teaching" description="Current teaching, recurring subjects, lecture resources, and past courses of Martin Schmidt at Trier University.">
+	<header class="teaching-intro page-shell" aria-labelledby="page-title">
+		<p class="eyebrow">Courses &amp; materials</p>
 		<h1 id="page-title">Teaching</h1>
-		<p class="intro__lead">Current and past teaching information will be provided here.</p>
-	</section>
+		<p class="intro__lead">An overview of current courses, recurring teaching subjects, and selected materials.</p>
+	</header>
+	<div class="teaching-sections">
+		{sections.map((section) => (
+			<section class="teaching-section" aria-labelledby={`${section.id}-title`}>
+				<header class="teaching-section__heading"><p aria-hidden="true">{section.number}</p><h2 id={`${section.id}-title`}>{section.title}</h2></header>
+				{section.items.length ? (
+					<ul class="teaching-list">
+						{section.items.map((item) => (
+							<li><article><h3>{item.title}</h3>{'term' in item && <p class="teaching-meta">{item.term}</p>}{'description' in item && item.description && <p>{item.description}</p>}{'links' in item && item.links.length > 0 && <ul class="item-links" aria-label={`Links for ${item.title}`}>{item.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}</ul>}</article></li>
+						))}
+					</ul>
+				) : <p class="pending-note">{section.pending}</p>}
+			</section>
+		))}
+		<section class="teaching-section" aria-labelledby="past-title">
+			<header class="teaching-section__heading"><p aria-hidden="true">04</p><h2 id="past-title">Past Courses</h2></header>
+			{orderedPastCourses.length ? <ol class="teaching-list">{orderedPastCourses.map((course) => <li><article><p class="teaching-meta">{course.term}</p><h3>{course.title}</h3>{course.links.length > 0 && <ul class="item-links" aria-label={`Links for ${course.title}`}>{course.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}</ul>}</article></li>)}</ol> : <p class="pending-note">Past course records are pending verification.</p>}
+		</section>
+	</div>
 </BaseLayout>
+
+<style>
+	.teaching-intro { padding-bottom: clamp(3.5rem, 8vw, 6rem); }
+	.teaching-intro h1 { font-size: clamp(2.75rem, 9vw, 5.5rem); letter-spacing: -.035em; }
+	.teaching-sections { border-top: 1px solid var(--color-rule); }
+	.teaching-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: clamp(3.5rem, 8vw, 6.5rem) var(--page-gutter); }
+	.teaching-section + .teaching-section { border-top: 1px solid var(--color-rule); }
+	.teaching-section__heading { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .75rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+	.teaching-section__heading > p { padding-top: .4rem; color: var(--color-accent); font-size: .7rem; font-weight: 600; letter-spacing: .08em; }
+	.teaching-section h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; overflow-wrap: anywhere; }
+	.pending-note { padding-block: 1.25rem; border-block: 1px solid var(--color-rule); color: var(--color-muted); font-size: .88rem; font-style: italic; overflow-wrap: anywhere; }
+	.teaching-list { border-bottom: 1px solid var(--color-rule); }
+	.teaching-list > li { padding-block: 1.25rem; border-top: 1px solid var(--color-rule); }
+	.teaching-list h3 { font-size: 1.25rem; overflow-wrap: anywhere; }
+	.teaching-list article > p { margin-top: .4rem; color: var(--color-muted); font-size: .84rem; }
+	.teaching-meta { color: var(--color-accent) !important; font-size: .7rem !important; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
+	.item-links { display: flex; flex-wrap: wrap; gap: .35rem 1rem; margin-top: .65rem; }
+	.item-links a { font-size: .74rem; font-weight: 600; overflow-wrap: anywhere; text-decoration: none; }
+	@media (min-width: 45rem) { .teaching-section__heading { grid-template-columns: 3rem minmax(0, 1fr); } }
+</style>

@@ -1,13 +1,41 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ResourceList from '../components/ResourceList.astro';
+import { archivedResources, dataResources, featuredResources, softwareResources } from '../data/resources';
+
+const sections = [
+	{ id: 'featured', number: '01', title: 'Featured Resources', resources: featuredResources },
+	{ id: 'software', number: '02', title: 'Software', resources: softwareResources },
+	{ id: 'data', number: '03', title: 'Benchmark Libraries & Data', resources: dataResources },
+	{ id: 'archived', number: '04', title: 'Archived Resources', resources: archivedResources },
+];
 ---
 
-<BaseLayout
-	title="Software & Data"
-	description="Research software and data from Martin Schmidt and his collaborators."
->
-	<section class="page-shell intro" aria-labelledby="page-title">
+<BaseLayout title="Software & Data" description="Research software, benchmark libraries, and data resources from Martin Schmidt and collaborators.">
+	<header class="editorial-intro page-shell" aria-labelledby="page-title">
+		<p class="eyebrow">Open research</p>
 		<h1 id="page-title">Software &amp; Data</h1>
-		<p class="intro__lead">Research software and data resources will be collected here.</p>
-	</section>
+		<p class="intro__lead">Software and benchmark resources accompanying work in mathematical optimization.</p>
+	</header>
+	<div class="editorial-sections">
+		{sections.map((section) => (
+			<section class="editorial-section" aria-labelledby={`${section.id}-title`}>
+				<header class="editorial-section__heading"><p aria-hidden="true">{section.number}</p><h2 id={`${section.id}-title`}>{section.title}</h2></header>
+				{section.resources.length ? <ResourceList resources={section.resources} /> : <p class="empty-note">No archived resources have been documented yet.</p>}
+			</section>
+		))}
+	</div>
 </BaseLayout>
+
+<style>
+	.editorial-intro { padding-bottom: clamp(3.5rem, 8vw, 6rem); }
+	.editorial-intro h1 { font-size: clamp(2.75rem, 9vw, 5.5rem); letter-spacing: -.035em; }
+	.editorial-sections { border-top: 1px solid var(--color-rule); }
+	.editorial-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: clamp(3.5rem, 8vw, 6.5rem) var(--page-gutter); }
+	.editorial-section + .editorial-section { border-top: 1px solid var(--color-rule); }
+	.editorial-section__heading { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .75rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+	.editorial-section__heading > p { padding-top: .4rem; color: var(--color-accent); font-size: .7rem; font-weight: 600; letter-spacing: .08em; }
+	.editorial-section h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; }
+	.empty-note { padding-block: 1.25rem; border-block: 1px solid var(--color-rule); color: var(--color-muted); font-size: .88rem; }
+	@media (min-width: 45rem) { .editorial-section__heading { grid-template-columns: 3rem minmax(0, 1fr); } }
+</style>

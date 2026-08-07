@@ -1,21 +1,9 @@
 ---
 import PersonPortrait from './PersonPortrait.astro';
+import ResourceList from './ResourceList.astro';
+import { aboutProfile } from '../data/about';
 import { currentPeople, focusLine } from '../data/people';
-
-const resources = [
-	{
-		name: 'BOBILib',
-		description: 'A software library for modeling and solving bilevel optimization problems.',
-	},
-	{
-		name: 'GasLib',
-		description: 'A collection of gas network data sets for optimization and algorithmic research.',
-	},
-	{
-		name: 'Research Data',
-		description: 'Selected data and reproducible resources accompanying current research projects.',
-	},
-];
+import { featuredResources } from '../data/resources';
 
 const activity = [
 	{ date: '2026', category: 'Publication', title: 'Recent work on structured bilevel optimization' },
@@ -59,15 +47,7 @@ const activity = [
 			<a class="section-link" href="/software-data/">Explore all resources<span aria-hidden="true"> →</span></a>
 		</header>
 
-		<div class="resource-list">
-			{resources.map((resource, index) => (
-				<article class="resource">
-					<p class="resource__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</p>
-					<h3>{resource.name}</h3>
-					<p>{resource.description}</p>
-				</article>
-			))}
-		</div>
+		<ResourceList resources={featuredResources} compact />
 	</div>
 </section>
 
@@ -100,7 +80,7 @@ const activity = [
 			<p class="eyebrow">Academic profile</p>
 			<h2 id="profile-preview-title">About Martin Schmidt</h2>
 			<p class="profile-preview__position">
-				Professor of Nonlinear Optimization at Trier University.
+				{aboutProfile.position} at {aboutProfile.institution}.
 			</p>
 			<p>
 				The full profile includes academic appointments, editorial and professional service,
@@ -192,35 +172,6 @@ const activity = [
 		margin-bottom: clamp(2.5rem, 6vw, 4rem);
 	}
 
-	.resource-list {
-		border-bottom: 1px solid var(--color-rule);
-	}
-
-	.resource {
-		display: grid;
-		grid-template-columns: 2rem minmax(0, 1fr);
-		gap: 0.6rem 0.8rem;
-		padding-block: 1.6rem;
-		border-top: 1px solid var(--color-rule);
-	}
-
-	.resource__number {
-		padding-top: 0.2rem;
-		color: var(--color-accent);
-		font-size: 0.68rem;
-		font-weight: 600;
-		letter-spacing: 0.08em;
-	}
-
-	.resource h3 {
-		font-size: clamp(1.4rem, 5vw, 1.8rem);
-	}
-
-	.resource > p:last-child {
-		grid-column: 2;
-		color: var(--color-muted);
-		font-size: 0.9rem;
-	}
 
 	.activity-list {
 		margin: 0;
@@ -297,33 +248,6 @@ const activity = [
 
 		.home-section__heading--row .section-link {
 			margin-bottom: 0.45rem;
-		}
-
-		.resource-list {
-			display: grid;
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-		}
-
-		.resource {
-			display: flex;
-			align-items: flex-start;
-			flex-direction: column;
-			min-height: 14rem;
-			padding: 1.8rem clamp(1.25rem, 2.5vw, 2.5rem);
-			border-left: 1px solid var(--color-rule);
-		}
-
-		.resource:first-child {
-			padding-left: 0;
-			border-left: 0;
-		}
-
-		.resource__number {
-			padding-top: 0;
-		}
-
-		.resource > p:last-child {
-			margin-top: 0.8rem;
 		}
 
 		.profile-preview__layout {
