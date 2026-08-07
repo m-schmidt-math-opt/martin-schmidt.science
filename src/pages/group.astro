@@ -100,13 +100,13 @@ const formerPostdocs = getAlumni('former-postdoc');
 
 <style>
 	.group-intro { padding-bottom: var(--space-section-y); }
-	.group-intro h1 { font-size: clamp(2.75rem, 9vw, 5.5rem); letter-spacing: -0.035em; }
+	.group-intro h1 { font-size: var(--internal-h1-size); letter-spacing: -0.035em; }
 	.people-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: var(--space-section-y) var(--page-gutter); }
 	.people-section__heading { margin-bottom: var(--space-section-heading); }
 	.people-section h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; }
 	.people-grid { display: grid; gap: 2.25rem 1.5rem; }
-	.person-card { display: grid; grid-template-columns: 5.25rem minmax(0, 1fr); gap: 1.15rem; min-width: 0; }
-	.person-card :global(.person-portrait) { width: 5.25rem; }
+	.person-card { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: 1.25rem; min-width: 0; }
+	.person-card :global(.person-portrait) { width: 8rem; }
 	.person-card__content { min-width: 0; padding-top: .15rem; }
 	.person-card h3 { font-size: clamp(1.35rem, 5vw, 1.7rem); overflow-wrap: anywhere; }
 	.person-card__role { margin-top: .25rem; color: var(--color-accent); font-size: .72rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
@@ -125,8 +125,8 @@ const formerPostdocs = getAlumni('former-postdoc');
 	.positions-section > p { max-width: 35rem; color: var(--color-muted); }
 	@media (min-width: 36rem) {
 		.people-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-		.person-card { grid-template-columns: 6rem minmax(0, 1fr); }
-		.person-card :global(.person-portrait) { width: 6rem; }
+		.person-card { grid-template-columns: 10rem minmax(0, 1fr); }
+		.person-card :global(.person-portrait) { width: 10rem; }
 	}
 	@media (min-width: 45rem) {
 		.alumni-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(3rem, 8vw, 7rem); }

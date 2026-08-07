@@ -1,10 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ResourceList from '../components/ResourceList.astro';
-import { archivedResources, dataResources, featuredResources } from '../data/resources';
+import { archivedResources, dataResources } from '../data/resources';
 
 const sections = [
-	{ id: 'featured', title: 'Featured Resources', resources: featuredResources },
 	{ id: 'data', title: 'Benchmark Libraries & Data', resources: dataResources },
 	{ id: 'archive', title: 'Archive', resources: archivedResources },
 ];
@@ -27,7 +26,7 @@ const sections = [
 
 <style>
 	.editorial-intro { padding-bottom: var(--space-section-y); }
-	.editorial-intro h1 { font-size: clamp(2.75rem, 9vw, 5.5rem); letter-spacing: -.035em; }
+	.editorial-intro h1 { font-size: var(--internal-h1-size); letter-spacing: -.035em; }
 	.editorial-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: var(--space-section-y) var(--page-gutter); }
 	.editorial-section__heading { margin-bottom: var(--space-section-heading); }
 	.editorial-section h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; }

@@ -9,6 +9,9 @@ const homepage = readFileSync(new URL('../src/pages/index.astro', import.meta.ur
 const footer = readFileSync(new URL('../src/components/SiteFooter.astro', import.meta.url), 'utf8');
 const globalCss = readFileSync(new URL('../src/styles/global.css', import.meta.url), 'utf8');
 const homepageSections = readFileSync(new URL('../src/components/HomepageSections.astro', import.meta.url), 'utf8');
+const groupPage = readFileSync(new URL('../src/pages/group.astro', import.meta.url), 'utf8');
+const softwareDataPage = readFileSync(new URL('../src/pages/software-data.astro', import.meta.url), 'utf8');
+const aboutPage = readFileSync(new URL('../src/pages/about.astro', import.meta.url), 'utf8');
 
 test('Astro has the verified canonical site origin and BaseLayout emits clean canonical URLs', () => {
 	assert.match(astroConfig, /site:\s*['"]https:\/\/martin-schmidt\.science['"]/);
@@ -67,6 +70,43 @@ test('homepage typography keeps the name restrained and group portraits readable
 	assert.doesNotMatch(homepage, /<p[^>]*>\{aboutProfile\.position\}<\/p>/);
 	assert.equal([...homepageSections.matchAll(/grid-template-columns:\s*7rem minmax\(0, 1fr\)/g)].length, 2);
 	assert.equal([...homepageSections.matchAll(/width:\s*7rem/g)].length, 2);
+});
+
+test('homepage uses the supplied local optimization figure without the obsolete geometry', () => {
+	assert.match(homepage, /src="\/images\/homepage-optimization\.png"/);
+	assert.match(homepage, /alt="Optimization diagram"/);
+	assert.doesNotMatch(homepage, /hero-geometry/);
+	assert.doesNotMatch(globalCss, /hero-geometry/);
+});
+
+test('internal page headings remain smaller than the homepage heading by design', () => {
+	assert.match(globalCss, /--internal-h1-size:\s*clamp\(2\.25rem, 6vw, 4rem\)/);
+	assert.match(globalCss, /main > header:not\(\.hero\) > h1#page-title\s*\{[^}]*font-size:\s*var\(--internal-h1-size\)/s);
+	assert.match(globalCss, /\.hero h1\s*\{[^}]*font-size:\s*clamp\(2\.75rem, 8vw, 4\.75rem\)/s);
+	for (const page of ['research', 'group', 'software-data', 'teaching', 'about', 'talks', 'projects', 'news', 'theses']) {
+		const source = readFileSync(new URL(`../src/pages/${page}.astro`, import.meta.url), 'utf8');
+		assert.match(source, /h1\s*\{[^}]*font-size:\s*var\(--internal-h1-size\)/s);
+	}
+});
+
+test('full group portraits are larger than the homepage portraits and alumni stay text-only', () => {
+	assert.match(groupPage, /grid-template-columns:\s*10rem minmax\(0, 1fr\)/);
+	assert.match(groupPage, /\.person-portrait\)\s*\{\s*width:\s*10rem/);
+	assert.doesNotMatch(groupPage, /alumni[^\n]*<PersonPortrait|<PersonPortrait[^\n]*alumni/s);
+});
+
+test('Software and Data renders active resources once and retains the Archive', () => {
+	assert.doesNotMatch(softwareDataPage, /Featured Resources|featuredResources/);
+	assert.match(softwareDataPage, /Benchmark Libraries & Data/);
+	assert.match(softwareDataPage, /title: 'Archive'/);
+});
+
+test('About contact columns derive address, email, and profile links from canonical profile data', () => {
+	assert.match(aboutPage, /aboutProfile\.contact\.addressLines\.map/);
+	assert.match(aboutPage, /mailto:\$\{aboutProfile\.contact\.email\}/);
+	assert.match(aboutPage, /href=\{aboutProfile\.contact\.institutionUrl\}/);
+	assert.match(aboutPage, /aboutProfile\.profileLinks\.map/);
+	assert.doesNotMatch(aboutPage, /martin\.schmidt@uni-trier\.de|scholar\.google\.com|orcid\.org|bsky\.app|instagram\.com/);
 });
 
 test('major page headings have no decorative section numbers', () => {
