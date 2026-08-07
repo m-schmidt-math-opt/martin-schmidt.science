@@ -1,13 +1,80 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const researchThemes = [
+	{
+		title: 'Bilevel Optimization',
+		description:
+			'Mathematical models in which one optimization problem is constrained by the solution of another.',
+	},
+	{
+		title: 'Mixed-Integer & Nonlinear Optimization',
+		description:
+			'Theory and algorithms for problems that combine discrete decisions with nonlinear structures.',
+	},
+	{
+		title: 'Robust Optimization & Uncertainty',
+		description:
+			'Optimization methods for reliable decisions when model parameters are uncertain.',
+	},
+	{
+		title: 'Equilibrium Problems & Games',
+		description:
+			'Modeling and computation for interacting decision-makers and equilibrium-constrained systems.',
+	},
+	{
+		title: 'Network Optimization',
+		description:
+			'Mathematical optimization for complex networked systems, flows, and infrastructure.',
+	},
+];
 ---
 
-<BaseLayout>
-	<section class="page-shell intro" aria-labelledby="page-title">
-		<p class="eyebrow">Professor of Nonlinear Optimization</p>
-		<h1 id="page-title">Martin Schmidt</h1>
-		<p class="intro__lead">
-			Research in mathematical optimization at Trier University.
-		</p>
+<BaseLayout
+	description="Martin Schmidt is Professor of Nonlinear Optimization at Trier University, working on bilevel, mixed-integer, robust, equilibrium, and network optimization."
+>
+	<section class="hero page-shell" aria-labelledby="page-title">
+		<div class="hero__content">
+			<p class="eyebrow">Professor of Nonlinear Optimization</p>
+			<h1 id="page-title">Martin Schmidt</h1>
+			<p class="hero__affiliation">Trier University</p>
+			<p class="hero__statement">
+				My research develops mathematical models and algorithms for structured optimization
+				problems, with a particular interest in hierarchical decisions and complex systems.
+			</p>
+
+			<nav class="hero__links" aria-label="Explore research">
+				<a href="/research/">Research</a>
+				<a href="/publications/">Publications</a>
+				<a href="/group/">Group</a>
+			</nav>
+		</div>
+
+		<div class="hero-geometry" aria-hidden="true">
+			<span class="hero-geometry__orbit"></span>
+			<span class="hero-geometry__path"></span>
+			<span class="hero-geometry__node hero-geometry__node--one"></span>
+			<span class="hero-geometry__node hero-geometry__node--two"></span>
+			<span class="hero-geometry__node hero-geometry__node--three"></span>
+		</div>
+	</section>
+
+	<section class="research-themes" aria-labelledby="research-themes-title">
+		<div class="research-themes__inner">
+			<header class="section-heading">
+				<p class="eyebrow">Areas of inquiry</p>
+				<h2 id="research-themes-title">Core Research Themes</h2>
+			</header>
+
+			<div class="theme-list">
+				{researchThemes.map((theme, index) => (
+					<article class="theme">
+						<p class="theme__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</p>
+						<h3>{theme.title}</h3>
+						<p>{theme.description}</p>
+					</article>
+				))}
+			</div>
+		</div>
 	</section>
 </BaseLayout>
