@@ -5,9 +5,9 @@ import { archivedResources, dataResources, featuredResources, softwareResources 
 
 const sections = [
 	{ id: 'featured', number: '01', title: 'Featured Resources', resources: featuredResources },
-	{ id: 'software', number: '02', title: 'Software', resources: softwareResources },
+	{ id: 'software', number: '02', title: 'Software', resources: softwareResources, empty: 'No active software resource has been verified; historical software is listed under Archived Resources.' },
 	{ id: 'data', number: '03', title: 'Benchmark Libraries & Data', resources: dataResources },
-	{ id: 'archived', number: '04', title: 'Archived Resources', resources: archivedResources },
+	{ id: 'archived', number: '04', title: 'Archived Resources', resources: archivedResources, empty: 'No archived resources have been documented yet.' },
 ];
 ---
 
@@ -21,7 +21,7 @@ const sections = [
 		{sections.map((section) => (
 			<section class="editorial-section" aria-labelledby={`${section.id}-title`}>
 				<header class="editorial-section__heading"><p aria-hidden="true">{section.number}</p><h2 id={`${section.id}-title`}>{section.title}</h2></header>
-				{section.resources.length ? <ResourceList resources={section.resources} /> : <p class="empty-note">No archived resources have been documented yet.</p>}
+				{section.resources.length ? <ResourceList resources={section.resources} /> : <p class="empty-note">{section.empty ?? 'No resources have been documented in this category yet.'}</p>}
 			</section>
 		))}
 	</div>

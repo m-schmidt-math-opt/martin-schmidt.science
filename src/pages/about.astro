@@ -29,7 +29,7 @@ const careerItems = [...academicPositions, ...education];
 		</section>
 		<section class="about-section" aria-labelledby="awards-title">
 			<header class="about-section__heading"><p aria-hidden="true">04</p><h2 id="awards-title">Awards &amp; Honors</h2></header>
-			{awards.length ? <ul class="fact-list">{awards.map((item) => <li>{item.period && <time>{item.period}</time>}<div><h3>{item.title}</h3>{item.organization && <p>{item.organization}</p>}</div></li>)}</ul> : <p class="pending-note">Awards and honors are pending verification.</p>}
+			{awards.length ? <ul class="fact-list">{awards.map((item) => <li>{item.period && <time>{item.period}</time>}<div><h3>{item.title}</h3>{item.organization && <p>{item.organization}</p>}{item.detail && <p>{item.detail}</p>}</div></li>)}</ul> : <p class="pending-note">Awards and honors are pending verification.</p>}
 		</section>
 		<section class="about-section" aria-labelledby="service-title">
 			<header class="about-section__heading"><p aria-hidden="true">05</p><h2 id="service-title">Editorial &amp; Professional Service</h2></header>
@@ -37,7 +37,7 @@ const careerItems = [...academicPositions, ...education];
 		</section>
 		<section class="about-section" aria-labelledby="talks-title">
 			<header class="about-section__heading"><p aria-hidden="true">06</p><h2 id="talks-title">Invited, Keynote &amp; Plenary Talks</h2></header>
-			{invitedTalks.length ? <ul class="fact-list">{invitedTalks.slice(0, 4).map((item) => <li>{item.period && <time>{item.period}</time>}<div><h3>{item.title}</h3>{item.organization && <p>{item.organization}</p>}</div></li>)}</ul> : <p class="pending-note">A concise selection of invited, keynote, and plenary talks is pending verification.</p>}
+			{invitedTalks.length ? <><ul class="fact-list">{invitedTalks.map((item) => <li>{item.period && <time>{item.period}</time>}<div><h3>{item.title}</h3>{item.organization && <p>{item.organization}</p>}{item.detail && <p>{item.detail}</p>}</div></li>)}</ul><a class="section-link" href="/talks/">View all talks <span aria-hidden="true">→</span></a></> : <p class="pending-note">A concise selection of invited, keynote, and plenary talks is pending verification.</p>}
 		</section>
 		<section class="about-section cv-section" aria-labelledby="cv-title">
 			<header class="about-section__heading"><p aria-hidden="true">07</p><h2 id="cv-title">Full CV</h2></header>
@@ -57,7 +57,8 @@ const careerItems = [...academicPositions, ...education];
 	.about-section h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; overflow-wrap: anywhere; }
 	.about-bio > p { max-width: 48rem; color: var(--color-muted); font-size: clamp(1rem, 2vw, 1.12rem); line-height: 1.75; }
 	.profile-links, .item-links { display: flex; flex-wrap: wrap; gap: .4rem 1.25rem; margin-top: 1.25rem; }
-	.profile-links a, .cv-link { font-size: .8rem; font-weight: 600; text-decoration: none; overflow-wrap: anywhere; }
+	.profile-links a, .cv-link, .section-link { font-size: .8rem; font-weight: 600; text-decoration: none; overflow-wrap: anywhere; }
+	.section-link { display: inline-block; margin-top: 1.25rem; }
 	address { display: grid; gap: .35rem; max-width: 38rem; font-style: normal; }
 	.pending-note { padding-block: 1.25rem; border-block: 1px solid var(--color-rule); color: var(--color-muted); font-size: .88rem; font-style: italic; overflow-wrap: anywhere; }
 	.subsection-pending { margin-top: 1rem; color: var(--color-muted); font-size: .8rem; font-style: italic; }
