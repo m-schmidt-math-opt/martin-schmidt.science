@@ -1,13 +1,239 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SelectedResearch from '../components/SelectedResearch.astro';
+import { currentProjects } from '../data/projects';
+import { researchApplications, researchThemes } from '../data/research';
 ---
 
 <BaseLayout
 	title="Research"
-	description="Research interests and current projects of Martin Schmidt in nonlinear and mathematical optimization."
+	description="Research by Martin Schmidt at Trier University in nonlinear, bilevel, mixed-integer, robust, equilibrium, and network optimization."
 >
-	<section class="page-shell intro" aria-labelledby="page-title">
+	<header class="research-intro page-shell" aria-labelledby="page-title">
+		<p class="eyebrow">Mathematical optimization</p>
 		<h1 id="page-title">Research</h1>
-		<p class="intro__lead">An overview of research interests and current projects will follow.</p>
+		<p class="intro__lead">
+			Martin Schmidt works in mathematical optimization at Trier University, where he is
+			Professor of Nonlinear Optimization. Bilevel optimization is a central focus, alongside
+			mixed-integer and nonlinear methods, optimization under uncertainty, equilibrium and
+			game-theoretic problems, and network optimization.
+		</p>
+	</header>
+
+	<section class="research-section" aria-labelledby="core-themes-title">
+		<div class="research-section__inner">
+			<header class="research-section__heading">
+				<p class="eyebrow">Methods and theory</p>
+				<h2 id="core-themes-title">Core Research Themes</h2>
+			</header>
+
+			<div class="theme-list">
+				{researchThemes.map((theme, index) => (
+					<article class="theme" id={theme.id}>
+						<p class="theme__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</p>
+						<h3>{theme.title}</h3>
+						<p>{theme.description}</p>
+					</article>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<SelectedResearch variant="research" />
+
+	<section class="research-section" aria-labelledby="current-projects-title">
+		<div class="research-section__inner">
+			<header class="research-section__heading research-section__heading--row">
+				<div>
+					<p class="eyebrow">Collaborative work</p>
+					<h2 id="current-projects-title">Current Projects</h2>
+				</div>
+				<a class="section-link" href="/projects/">All research projects<span aria-hidden="true"> →</span></a>
+			</header>
+
+			<div class="current-projects">
+				{currentProjects.map((project) => (
+					<article class="current-project">
+						<p class="current-project__label">{project.shortName ?? 'Current project'}</p>
+						<h3>{project.title}</h3>
+						<p class="current-project__description">{project.description}</p>
+						{(project.fundingAgency || project.partners?.length) && (
+							<dl>
+								{project.fundingAgency && <div><dt>Funding</dt><dd>{project.fundingAgency}</dd></div>}
+								{project.partners?.length && <div><dt>Partners</dt><dd>{project.partners.join(' · ')}</dd></div>}
+							</dl>
+						)}
+						<a href={`/projects/#${project.id}`}>Full project record<span aria-hidden="true"> →</span></a>
+					</article>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<section class="research-section" aria-labelledby="applications-title">
+		<div class="research-section__inner">
+			<header class="research-section__heading">
+				<p class="eyebrow">Areas of application</p>
+				<h2 id="applications-title">Applications</h2>
+			</header>
+
+			<div class="application-list">
+				{researchApplications.map((application, index) => (
+					<article class="application" id={application.id}>
+						<p class="application__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</p>
+						<h3>{application.title}</h3>
+						<p>{application.description}</p>
+					</article>
+				))}
+			</div>
+		</div>
 	</section>
 </BaseLayout>
+
+<style>
+	.research-intro {
+		padding-bottom: clamp(3.5rem, 8vw, 6rem);
+	}
+
+	.research-intro h1 {
+		font-size: clamp(2.75rem, 9vw, 5.5rem);
+		letter-spacing: -0.035em;
+	}
+
+	.research-section {
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.research-section__inner {
+		width: min(100%, var(--page-width));
+		margin-inline: auto;
+		padding: clamp(4rem, 9vw, 7rem) var(--page-gutter) clamp(5rem, 11vw, 8rem);
+	}
+
+	.research-section__heading {
+		max-width: 42rem;
+		margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+	}
+
+	.research-section__heading h2 {
+		font-size: clamp(2.35rem, 6vw, 4rem);
+		letter-spacing: -0.025em;
+	}
+
+	.section-link {
+		display: inline-block;
+		margin-top: 1.5rem;
+		font-size: 0.82rem;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.current-projects,
+	.application-list {
+		border-bottom: 1px solid var(--color-rule);
+	}
+
+	.current-project,
+	.application {
+		padding-block: 1.75rem;
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.current-project__label,
+	.application__number {
+		margin-bottom: 0.75rem;
+		color: var(--color-accent);
+		font-size: 0.7rem;
+		font-weight: 600;
+		letter-spacing: 0.09em;
+		text-transform: uppercase;
+	}
+
+	.current-project h3,
+	.application h3 {
+		font-size: clamp(1.4rem, 5vw, 1.9rem);
+		overflow-wrap: anywhere;
+	}
+
+	.current-project__description,
+	.application > p:last-child {
+		margin-top: 0.75rem;
+		color: var(--color-muted);
+		font-size: 0.9rem;
+		line-height: 1.65;
+	}
+
+	.current-project dl {
+		margin: 1rem 0 0;
+	}
+
+	.current-project dl div {
+		display: grid;
+		grid-template-columns: 4.5rem minmax(0, 1fr);
+		gap: 0.6rem;
+		font-size: 0.75rem;
+	}
+
+	.current-project dt {
+		font-weight: 600;
+	}
+
+	.current-project dd {
+		margin: 0;
+		color: var(--color-muted);
+		overflow-wrap: anywhere;
+	}
+
+	.current-project > a {
+		display: inline-block;
+		margin-top: 1.25rem;
+		font-size: 0.78rem;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	@media (min-width: 45rem) {
+		.research-section__heading--row {
+			display: flex;
+			align-items: end;
+			justify-content: space-between;
+			gap: 2rem;
+			max-width: none;
+		}
+
+		.research-section__heading--row .section-link {
+			margin-bottom: 0.45rem;
+		}
+
+		.current-projects {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.current-project {
+			padding: 2rem clamp(1.5rem, 3vw, 3rem) 2.25rem 0;
+		}
+
+		.current-project:nth-child(even) {
+			padding-right: 0;
+			padding-left: clamp(1.5rem, 3vw, 3rem);
+			border-left: 1px solid var(--color-rule);
+		}
+
+		.application {
+			display: grid;
+			grid-template-columns: 2.5rem minmax(15rem, 0.85fr) minmax(18rem, 1.15fr);
+			align-items: start;
+			gap: 2rem;
+			padding-block: 2rem;
+		}
+
+		.application__number {
+			padding-top: 0.25rem;
+		}
+
+		.application > p:last-child {
+			margin-top: 0;
+		}
+	}
+</style>

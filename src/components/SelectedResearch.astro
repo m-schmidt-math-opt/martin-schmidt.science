@@ -3,16 +3,35 @@ import { projects } from '../data/projects';
 import { resources } from '../data/resources';
 import { publicationsByKeys } from '../lib/publications';
 
+interface Props {
+	variant?: 'homepage' | 'research';
+}
+
+const { variant = 'homepage' } = Astro.props;
 const bobilib = resources.find((resource) => resource.id === 'bobilib')!;
 const a3g = projects.find((project) => project.id === 'a3g')!;
 const symbi = projects.find((project) => project.id === 'symbi')!;
-const [bilevelBook] = publicationsByKeys(['Beck_Ljubic_Schmidt:2026']);
-const selectedItems = [
+const [bilevelBook, uncertaintySurvey, implicitNonlinearities] = publicationsByKeys([
+	'Beck_Ljubic_Schmidt:2026',
+	'Beck_et_al:2023a',
+	'Schmidt_et_al:2022',
+]);
+const homepageItems = [
 	{ type: 'Benchmark Library', title: bobilib.name, description: bobilib.description, href: bobilib.links[0].href, linkLabel: bobilib.links[0].label },
 	{ type: 'Book', title: bilevelBook.title, description: bilevelBook.authors, href: `/publications/#publication-${bilevelBook.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`, linkLabel: 'View publication' },
-	{ type: 'Current Project', title: a3g.title, description: a3g.description, href: '/projects/', linkLabel: 'View project' },
-	{ type: 'Current Project', title: symbi.title, description: symbi.description, href: '/projects/', linkLabel: 'View project' },
+	{ type: 'Current Project', title: a3g.title, description: a3g.description, href: `/projects/#${a3g.id}`, linkLabel: 'View A3G project' },
+	{ type: 'Current Project', title: symbi.title, description: symbi.description, href: `/projects/#${symbi.id}`, linkLabel: 'View SymBi project' },
 ];
+const researchPageItems = [
+	homepageItems[0],
+	homepageItems[1],
+	{ type: 'Journal Article', title: uncertaintySurvey.title, description: uncertaintySurvey.authors, href: `/publications/#publication-${uncertaintySurvey.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`, linkLabel: 'View publication' },
+	{ type: 'Journal Article', title: implicitNonlinearities.title, description: implicitNonlinearities.authors, href: `/publications/#publication-${implicitNonlinearities.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`, linkLabel: 'View publication' },
+];
+const selectedItems = variant === 'research' ? researchPageItems : homepageItems;
+const sectionDescription = variant === 'research'
+	? 'A curated cross-section of publications and open research resources.'
+	: 'Representative work across publications, research tools, and collaborative projects.';
 ---
 
 <section class="selected-research" aria-labelledby="selected-research-title">
@@ -22,9 +41,7 @@ const selectedItems = [
 				<p class="eyebrow">A research cross-section</p>
 				<h2 id="selected-research-title">Selected Research</h2>
 			</div>
-			<p>
-				Representative work across publications, research tools, and collaborative projects.
-			</p>
+			<p>{sectionDescription}</p>
 		</header>
 
 		<div class="selected-research__list">

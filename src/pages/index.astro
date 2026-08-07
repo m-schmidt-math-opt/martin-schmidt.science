@@ -2,34 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HomepageSections from '../components/HomepageSections.astro';
 import SelectedResearch from '../components/SelectedResearch.astro';
-
-const researchThemes = [
-	{
-		title: 'Bilevel Optimization',
-		description:
-			'Mathematical models in which one optimization problem is constrained by the solution of another.',
-	},
-	{
-		title: 'Mixed-Integer & Nonlinear Optimization',
-		description:
-			'Theory and algorithms for problems that combine discrete decisions with nonlinear structures.',
-	},
-	{
-		title: 'Robust Optimization & Uncertainty',
-		description:
-			'Optimization methods for reliable decisions when model parameters are uncertain.',
-	},
-	{
-		title: 'Equilibrium Problems & Games',
-		description:
-			'Modeling and computation for interacting decision-makers and equilibrium-constrained systems.',
-	},
-	{
-		title: 'Network Optimization',
-		description:
-			'Mathematical optimization for complex networked systems, flows, and infrastructure.',
-	},
-];
+import { researchThemes } from '../data/research';
 ---
 
 <BaseLayout
