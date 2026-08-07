@@ -1,18 +1,23 @@
 ---
 import '../styles/global.css';
 import SiteFooter from '../components/SiteFooter.astro';
+import { aboutProfile } from '../data/about';
 
 interface Props {
 	title?: string;
 	description?: string;
+	canonicalPath?: string;
 }
 
+const defaultTitle = `${aboutProfile.name} — Nonlinear Optimization at ${aboutProfile.institution}`;
 const {
-	title = 'Martin Schmidt',
-	description = 'Academic website of Martin Schmidt, Professor of Nonlinear Optimization at Trier University.',
+	title = defaultTitle,
+	description = `Academic website of ${aboutProfile.name}, ${aboutProfile.position} at ${aboutProfile.institution}.`,
+	canonicalPath = Astro.url.pathname,
 } = Astro.props;
 
-const pageTitle = title === 'Martin Schmidt' ? title : `${title} | Martin Schmidt`;
+const pageTitle = title === defaultTitle ? title : `${title} | ${aboutProfile.name}`;
+const canonicalUrl = Astro.site && new URL(canonicalPath, Astro.site);
 
 const navigation = [
 	{ label: 'Research', href: '/research/' },
@@ -32,6 +37,7 @@ const navigation = [
 		<meta name="description" content={description} />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="theme-color" content="#f6f2e9" />
+		{canonicalUrl && <link rel="canonical" href={canonicalUrl.href} />}
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" sizes="any" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -46,9 +52,9 @@ const navigation = [
 		<a class="skip-link" href="#main-content">Skip to content</a>
 		<header class="site-header">
 			<div class="site-header__inner">
-				<a class="site-name" href="/" aria-label="Martin Schmidt — Home">
-					<span>Martin Schmidt</span>
-					<small>Nonlinear Optimization</small>
+				<a class="site-name" href="/" aria-label={`${aboutProfile.name} — Home`}>
+					<span>{aboutProfile.name}</span>
+					<small>{aboutProfile.position.replace(/^Professor of /, '')}</small>
 				</a>
 
 				<nav class="site-nav" aria-label="Primary navigation">
