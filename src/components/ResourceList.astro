@@ -5,22 +5,24 @@ import { publications } from '../lib/publications';
 interface Props {
 	resources: ResearchResource[];
 	compact?: boolean;
+	gateway?: boolean;
 }
 
-const { resources, compact = false } = Astro.props;
+const { resources, compact = false, gateway = false } = Astro.props;
 const publicationByKey = new Map(publications.map((publication) => [publication.id, publication]));
 ---
 
-<div class:list={['research-resource-list', { 'research-resource-list--compact': compact }]}>
+<div class:list={['research-resource-list', { 'research-resource-list--compact': compact, 'research-resource-list--gateway': gateway }]}>
 	{resources.map((resource, index) => (
 		<article class="research-resource">
 			<p class="research-resource__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</p>
 			<div class="research-resource__body">
 				<div class="research-resource__title-line">
 					<h3>{resource.name}</h3>
+					{gateway && index === 0 && <span>Featured resource</span>}
 					{resource.status === 'archived' && <span>Archived</span>}
 				</div>
-				<p class:list={{ 'pending-copy': resource.descriptionPending }}>{resource.description}</p>
+				{(!gateway || index > 0) && <p class:list={{ 'pending-copy': resource.descriptionPending }}>{resource.description}</p>}
 				{(resource.links.length > 0 || resource.relatedPublicationKeys?.length) && (
 					<ul class="research-resource__links" aria-label={`Links for ${resource.name}`}>
 						{resource.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
@@ -49,5 +51,7 @@ const publicationByKey = new Map(publications.map((publication) => [publication.
 		.research-resource-list--compact { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 		.research-resource-list--compact .research-resource { display: flex; align-items: flex-start; flex-direction: column; min-height: 13rem; padding: 1.8rem clamp(1.25rem, 2.5vw, 2.5rem); border-left: 1px solid var(--color-rule); }
 		.research-resource-list--compact .research-resource:first-child { padding-left: 0; border-left: 0; }
+		.research-resource-list--gateway { grid-template-columns: minmax(12rem, .65fr) minmax(0, 1.35fr); }
+		.research-resource-list--gateway .research-resource { min-height: 9.5rem; }
 	}
 </style>

@@ -44,6 +44,16 @@ test('resource editorial statuses are explicit', () => {
 	assert.equal(resources.some((resource) => resource.id === 'robust-electricity-market-equilibria'), false);
 });
 
+test('homepage resource gateway stays canonical without repeating BOBILib copy', () => {
+	const homepageSections = readFileSync(new URL('../src/components/HomepageSections.astro', import.meta.url), 'utf8');
+	const resourceList = readFileSync(new URL('../src/components/ResourceList.astro', import.meta.url), 'utf8');
+	const bobilibDescription = resources.find((resource) => resource.id === 'bobilib')?.description;
+	assert.match(homepageSections, /<ResourceList resources=\{featuredResources\} compact gateway \/>/);
+	assert.ok(bobilibDescription);
+	assert.doesNotMatch(homepageSections, new RegExp(bobilibDescription.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+	assert.match(resourceList, /!gateway \|\| index > 0/);
+});
+
 test('the retained teaching resource and intentional PDF exclusions are explicit', () => {
 	assert.equal(teachingResources.find((resource) => resource.id === 'how-to-give-a-talk')?.links[0]?.href, 'https://martinschmidt.squarespace.com/s/how-to-give-a-talk-kny9.pdf');
 	const serialized = JSON.stringify(teachingResources);

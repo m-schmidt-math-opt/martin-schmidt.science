@@ -38,11 +38,12 @@ const formatActivityDate = (date: string) => new Intl.DateTimeFormat('en-GB', { 
 			<div>
 				<p class="eyebrow">Open resources</p>
 				<h2 id="resources-preview-title">Software &amp; Data</h2>
+				<p class="resources-preview__intro">A gateway to active benchmark libraries and research resources.</p>
 			</div>
-			<a class="section-link" href="/software-data/">Explore all resources<span aria-hidden="true"> →</span></a>
+			<a class="section-link" href="/software-data/">Explore Software &amp; Data<span aria-hidden="true"> →</span></a>
 		</header>
 
-		<ResourceList resources={featuredResources} compact />
+		<ResourceList resources={featuredResources} compact gateway />
 	</div>
 </section>
 
