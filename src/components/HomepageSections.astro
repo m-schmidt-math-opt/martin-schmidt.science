@@ -1,11 +1,19 @@
 ---
 import PersonPortrait from './PersonPortrait.astro';
 import ResourceList from './ResourceList.astro';
-import { aboutProfile } from '../data/about';
+import { aboutProfile, academicLeadership, academicPositions, editorialService } from '../data/about';
 import { currentPeople, focusLine } from '../data/people';
 import { featuredResources } from '../data/resources';
 import { homepageNews } from '../data/news';
 const formatActivityDate = (date: string) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`));
+const formatList = (items: string[]) => {
+	if (items.length < 2) return items[0] ?? '';
+	if (items.length === 2) return `${items[0]} and ${items[1]}`;
+	return `${items.slice(0, -1).join(', ')}, and ${items.at(-1)}`;
+};
+const careerOrganizations = [...new Set(academicPositions.flatMap((position) => position.organization ? [position.organization] : []))];
+const serviceDimensions = [editorialService.length && 'editorial work', academicLeadership.length && 'leadership roles'].filter((item): item is string => Boolean(item));
+const profileTeaser = `His academic career includes positions at ${formatList(careerOrganizations)}. His academic service includes ${formatList(serviceDimensions)}.`;
 ---
 
 <section class="group-preview home-section" aria-labelledby="group-preview-title">
@@ -74,13 +82,7 @@ const formatActivityDate = (date: string) => new Intl.DateTimeFormat('en-GB', { 
 		<div class="profile-preview__content">
 			<p class="eyebrow">Academic profile</p>
 			<h2 id="profile-preview-title">About Martin Schmidt</h2>
-			<p class="profile-preview__position">
-				{aboutProfile.position} at {aboutProfile.institution}.
-			</p>
-			<p>
-				Research in bilevel, mixed-integer, nonlinear, robust, equilibrium, and network
-				optimization, with applications including energy systems.
-			</p>
+			<p>{profileTeaser}</p>
 			<a class="section-link" href="/about/">View academic profile<span aria-hidden="true"> →</span></a>
 		</div>
 	</div>
@@ -213,12 +215,6 @@ const formatActivityDate = (date: string) => new Intl.DateTimeFormat('en-GB', { 
 
 	.profile-preview__content {
 		max-width: 40rem;
-	}
-
-	.profile-preview__position {
-		color: var(--color-text) !important;
-		font-family: var(--font-heading);
-		font-size: 1.25rem;
 	}
 
 	@media (min-width: 45rem) {

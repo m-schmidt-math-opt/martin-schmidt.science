@@ -34,6 +34,14 @@ test('verified about facts have one canonical source', () => {
 	assert.doesNotMatch(aboutPage, /office hours|phone number|office room|Full CV|pending verification/i);
 });
 
+test('homepage profile teaser derives complementary facts from canonical About data', () => {
+	const homepageSections = readFileSync(new URL('../src/components/HomepageSections.astro', import.meta.url), 'utf8');
+	assert.match(homepageSections, /aboutProfile, academicLeadership, academicPositions, editorialService/);
+	assert.match(homepageSections, /academicPositions\.flatMap/);
+	assert.doesNotMatch(homepageSections, /aboutProfile\.(?:position|institution)/);
+	assert.doesNotMatch(homepageSections, /Research in bilevel, mixed-integer, nonlinear, robust/);
+});
+
 test('resource editorial statuses are explicit', () => {
 	assert.equal(resources.find((resource) => resource.id === 'bobilib')?.featured, true);
 	assert.equal(resources.find((resource) => resource.id === 'bobilib')?.status, 'active');
