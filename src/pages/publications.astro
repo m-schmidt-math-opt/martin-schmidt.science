@@ -1,13 +1,107 @@
 ---
+import PublicationList from '../components/PublicationList.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { selectedPublicationKeys } from '../data/selected-publications';
+import { publications, publicationsByKeys, publicationTypes, publicationWarnings } from '../lib/publications';
+
+const selected = publicationsByKeys(selectedPublicationKeys);
+const recent = publications.slice(0, 8);
+const books = publications.filter((publication) => publication.type === 'book');
+const years = [...new Set(publications.flatMap((publication) => publication.year ? [publication.year] : []))].sort((a, b) => b - a);
+
+if (publicationWarnings.length) {
+	console.warn(`[publications.bib] ${publicationWarnings.length} recoverable warning(s):\n- ${publicationWarnings.join('\n- ')}`);
+}
 ---
 
 <BaseLayout
 	title="Publications"
-	description="Publications by Martin Schmidt in nonlinear optimization and related areas."
+	description="Selected, recent, and complete publication archive of Martin Schmidt in nonlinear and mathematical optimization."
 >
-	<section class="page-shell intro" aria-labelledby="page-title">
+	<header class="page-shell publications-intro" aria-labelledby="page-title">
+		<p class="eyebrow">Research archive</p>
 		<h1 id="page-title">Publications</h1>
-		<p class="intro__lead">A structured list of publications will be available here.</p>
-	</section>
+		<p class="intro__lead">Selected work and a complete bibliographic archive, spanning nonlinear, mixed-integer, and bilevel optimization and their applications.</p>
+		<nav class="section-nav" aria-label="Publication sections">
+			<a href="#selected">Selected</a>
+			<a href="#recent">Recent</a>
+			<a href="#books">Books</a>
+			<a href="#all">All publications</a>
+		</nav>
+	</header>
+
+	<div class="publication-sections">
+		<section id="selected" class="publication-section" aria-labelledby="selected-title">
+			<div class="publication-section__heading"><p>01</p><h2 id="selected-title">Selected Publications</h2></div>
+			<PublicationList publications={selected} />
+		</section>
+
+		<section id="recent" class="publication-section" aria-labelledby="recent-title">
+			<div class="publication-section__heading"><p>02</p><h2 id="recent-title">Recent Publications</h2></div>
+			<PublicationList publications={recent} />
+		</section>
+
+		<section id="books" class="publication-section" aria-labelledby="books-title">
+			<div class="publication-section__heading"><p>03</p><h2 id="books-title">Books</h2></div>
+			<PublicationList publications={books} />
+		</section>
+
+		<section id="all" class="publication-section publication-section--archive" aria-labelledby="all-title">
+			<div class="publication-section__heading"><p>04</p><div><h2 id="all-title">All Publications</h2><p class="archive-intro">Browse the full archive by keyword, publication type, or year.</p></div></div>
+			<form class="publication-filters" data-publication-filters>
+				<div class="filter-field filter-field--search">
+					<label for="publication-search">Search</label>
+					<input id="publication-search" name="search" type="search" placeholder="Title, author, venue…" autocomplete="off" />
+				</div>
+				<div class="filter-field">
+					<label for="publication-type">Type</label>
+					<select id="publication-type" name="type">
+						<option value="">All types</option>
+						{publicationTypes.map((type) => <option value={type}>{type[0].toUpperCase() + type.slice(1)}</option>)}
+					</select>
+				</div>
+				<div class="filter-field">
+					<label for="publication-year">Year</label>
+					<select id="publication-year" name="year">
+						<option value="">All years</option>
+						{years.map((year) => <option value={year}>{year}</option>)}
+					</select>
+				</div>
+				<button type="reset">Reset</button>
+			</form>
+			<p class="filter-status" role="status" aria-live="polite" data-filter-status></p>
+			<PublicationList publications={publications} filterable />
+			<p class="filter-empty" data-filter-empty hidden>No publications match these filters.</p>
+		</section>
+	</div>
+
+	<script>
+		const form = document.querySelector('[data-publication-filters]');
+		const list = document.querySelector('[data-publication-list]');
+		const status = document.querySelector('[data-filter-status]');
+		const empty = document.querySelector('[data-filter-empty]');
+		if (form instanceof HTMLFormElement && list && status && empty) {
+			const entries = [...list.querySelectorAll('[data-publication]')];
+			const update = () => {
+				const data = new FormData(form);
+				const search = String(data.get('search') ?? '').trim().toLocaleLowerCase();
+				const type = String(data.get('type') ?? '');
+				const year = String(data.get('year') ?? '');
+				let visible = 0;
+				for (const entry of entries) {
+					const element = entry as HTMLElement;
+					const matches = (!search || (element.dataset.search ?? '').includes(search))
+						&& (!type || element.dataset.type === type)
+						&& (!year || element.dataset.year === year);
+					element.hidden = !matches;
+					if (matches) visible += 1;
+				}
+				status.textContent = `${visible} ${visible === 1 ? 'publication' : 'publications'} shown`;
+				(empty as HTMLElement).hidden = visible !== 0;
+			};
+			form.addEventListener('input', update);
+			form.addEventListener('reset', () => requestAnimationFrame(update));
+			update();
+		}
+	</script>
 </BaseLayout>

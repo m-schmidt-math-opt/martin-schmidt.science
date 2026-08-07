@@ -1,0 +1,38 @@
+---
+import type { Publication } from '../lib/publications';
+
+interface Props {
+	publications: Publication[];
+	filterable?: boolean;
+}
+
+const { publications, filterable = false } = Astro.props;
+---
+
+<ol class="publication-list" data-publication-list={filterable || undefined}>
+	{publications.map((publication) => (
+		<li
+			class="publication"
+			data-publication
+			data-type={publication.type}
+			data-year={publication.year ?? ''}
+			data-search={`${publication.title} ${publication.authors} ${publication.venue ?? ''} ${publication.year ?? ''}`.toLocaleLowerCase()}
+		>
+			<article aria-labelledby={`publication-${publication.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`}>
+				<div class="publication__year">{publication.year ?? '—'}</div>
+				<div class="publication__body">
+					<h3 id={`publication-${publication.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`}>{publication.title}</h3>
+					<p class="publication__authors">{publication.authors}</p>
+					{publication.venue && <p class="publication__venue"><cite>{publication.venue}</cite></p>}
+					{publication.links.length > 0 && (
+						<ul class="publication__links" aria-label={`Links for ${publication.title}`}>
+							{publication.links.map((link) => (
+								<li><a href={link.href}>{link.label}<span class="sr-only"> for {publication.title}</span></a></li>
+							))}
+						</ul>
+					)}
+				</div>
+			</article>
+		</li>
+	))}
+</ol>
