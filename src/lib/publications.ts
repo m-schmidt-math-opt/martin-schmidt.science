@@ -1,4 +1,5 @@
 import bibliography from '../data/publications.bib?raw';
+import { createPublicationMetadata } from './publication-metadata';
 
 export type PublicationType =
 	| 'journal'
@@ -272,35 +273,16 @@ function normalize(entry: RawEntry): Publication {
 	if (!year) publicationWarnings.push(`${entry.key}: missing or invalid year/date`);
 	const venue = fields.journal ?? fields.journaltitle ?? fields.booktitle ?? fields.publisher ?? fields.institution ?? fields.school;
 	const type = classify(entry);
-	const metadata: PublicationMetadataItem[] = [];
-	const addMetadata = (label: string, value?: string, href?: string) => {
-		if (value?.trim()) metadata.push({ label: `${label}${latexToText(value)}`, href });
-	};
-	if (type === 'journal') {
-		addMetadata('', fields.journal ?? fields.journaltitle);
-		addMetadata('Vol. ', fields.volume);
-		addMetadata('No. ', fields.number);
-		addMetadata('pp. ', fields.pages);
-	} else if (type === 'conference' || type === 'chapter') {
-		addMetadata('', fields.booktitle);
-		addMetadata('pp. ', fields.pages);
-		addMetadata('', fields.publisher);
-	} else if (type === 'book') {
-		addMetadata('', fields.publisher);
-		addMetadata('Series: ', fields.series);
-		addMetadata('Edition: ', fields.edition);
-	} else if (type === 'preprint') {
-		addMetadata('', fields.institution);
-		addMetadata('', fields.type);
-		addMetadata('No. ', fields.number);
-	} else if (type === 'thesis') {
-		addMetadata('', fields.school ?? fields.institution);
-		addMetadata('', fields.type);
-	}
-	if (fields.doi) {
-		const doi = cleanDoi(fields.doi);
-		metadata.push({ label: 'DOI', href: `https://doi.org/${doi}` });
-	}
+	const normalizedVenue = venue ? latexToText(venue) : undefined;
+	const metadata = createPublicationMetadata(type, normalizedVenue, {
+		volume: fields.volume && latexToText(fields.volume),
+		number: fields.number && latexToText(fields.number),
+		pages: fields.pages && latexToText(fields.pages),
+		publisher: fields.publisher && latexToText(fields.publisher),
+		series: fields.series && latexToText(fields.series),
+		edition: fields.edition && latexToText(fields.edition),
+		reportType: fields.type && latexToText(fields.type),
+	});
 	return {
 		id: entry.key,
 		type,
@@ -309,7 +291,7 @@ function normalize(entry: RawEntry): Publication {
 		classificationResolved: entry.key === 'Schmidt:2020' || ['article', 'inproceedings', 'conference', 'incollection', 'inbook', 'book', 'report', 'techreport', 'phdthesis', 'mastersthesis', 'thesis'].includes(entry.type),
 		title: latexToText(fields.title) || '[Untitled publication]',
 		authors: formatAuthors(fields.author) || '[Author not recorded]',
-		venue: venue ? latexToText(venue) : undefined,
+		venue: normalizedVenue,
 		year,
 		month,
 		date: date || undefined,

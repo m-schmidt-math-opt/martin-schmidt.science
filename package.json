@@ -10,9 +10,11 @@
     "build": "astro build",
     "test": "node --experimental-strip-types --test tests/*.test.ts",
     "preview": "astro preview",
+    "smoke:production": "node scripts/smoke-production.mjs",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
     "astro": "^7.2.0"
   }
 }
