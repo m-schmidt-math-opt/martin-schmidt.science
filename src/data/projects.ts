@@ -3,6 +3,7 @@ export type ProjectStatus = 'current' | 'completed';
 export interface Project {
 	id: string;
 	title: string;
+	displayTitle?: string;
 	shortName?: string;
 	status: ProjectStatus;
 	fundingAgency?: string;
@@ -35,6 +36,7 @@ export const projects: Project[] = [
 	{
 		id: 'a3g',
 		title: 'A3G: Aggregative gemischt-ganzzahlige Gleichgewichtsprobleme: Existenz, Approximation und Algorithmen',
+		displayTitle: 'A3G: Aggregative Mixed-Integer Equilibrium Problems: Existence, Approximation, and Algorithms',
 		shortName: 'A3G',
 		status: 'current',
 		fundingAgency: 'German Research Foundation (DFG)',

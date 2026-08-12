@@ -1,24 +1,26 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionNav from '../components/SectionNav.astro';
 import TalkList from '../components/TalkList.astro';
 import { invitedTalks, plenaryAndKeynoteTalks, talks } from '../data/talks';
 const archive = [...talks].sort((a, b) => b.date.start.localeCompare(a.date.start) || (a.source?.recordNumber ?? Number.MAX_SAFE_INTEGER) - (b.source?.recordNumber ?? Number.MAX_SAFE_INTEGER));
 const recentTalks = archive.slice(0, 6);
 const sections = [
-	{ id: 'recent', title: 'Recent Talks', items: recentTalks },
-	{ id: 'plenary-keynote', title: 'Plenary & Keynote Talks', items: plenaryAndKeynoteTalks },
-	{ id: 'invited', title: 'Invited Talks', items: invitedTalks },
-	{ id: 'archive', title: 'Full Archive', items: archive },
+	{ id: 'recent-talks', title: 'Recent Talks', items: recentTalks },
+	{ id: 'plenary-keynote-talks', title: 'Plenary & Keynote Talks', items: plenaryAndKeynoteTalks },
+	{ id: 'invited-talks', title: 'Invited Talks', items: invitedTalks },
+	{ id: 'full-archive', title: 'Full Archive', items: archive },
 ];
 ---
 <BaseLayout title="Talks" description="Plenary, keynote, invited, and other talks by Martin Schmidt on mathematical optimization.">
-	<header class="talks-intro page-shell" aria-labelledby="page-title"><h1 id="page-title">Talks</h1><p class="intro__lead">Selected invited presentations and a chronological archive of lectures, seminars, and conference talks.</p></header>
-	<div class="archive-sections">{sections.map((section) => <section class="archive-section" aria-labelledby={`${section.id}-title`}><header class="archive-heading"><h2 id={`${section.id}-title`}>{section.title}</h2></header><TalkList talks={section.items} /></section>)}</div>
+	<header class="talks-intro page-shell" aria-labelledby="page-title"><h1 id="page-title">Talks</h1><p class="intro__lead">Selected invited presentations and a chronological archive of lectures, seminars, and conference talks.</p><SectionNav sections={sections.map(({ id, title }) => ({ id, label: title }))} label="Talk sections" /></header>
+	<div class="archive-sections">{sections.map((section) => <section id={section.id} class="archive-section" aria-labelledby={`${section.id}-title`}><header class="archive-heading"><h2 id={`${section.id}-title`}>{section.title}</h2></header><TalkList talks={section.items} /></section>)}</div>
 </BaseLayout>
 <style>
-	.talks-intro { padding-bottom: var(--space-section-y); }
+	.talks-intro { padding-bottom: var(--space-intro-to-first); }
 	.talks-intro h1 { font-size: var(--internal-h1-size); letter-spacing: -.035em; }
 	.archive-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: var(--space-section-y) var(--page-gutter); }
+	.archive-sections > .archive-section:first-child { padding-top: var(--space-intro-to-first); }
 	.archive-heading { margin-bottom: var(--space-section-heading); }
-	.archive-heading h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; overflow-wrap: anywhere; }
+	.archive-heading h2 { font-size: var(--section-h2-size); letter-spacing: -.025em; overflow-wrap: anywhere; }
 </style>

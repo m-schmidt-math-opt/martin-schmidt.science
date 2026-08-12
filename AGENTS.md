@@ -211,6 +211,20 @@ Do not display publication-count or talk-count boast metrics.
 Avoid unsupported descriptions such as “world-leading,” “top-notch,” or
 “highly renowned” unless explicitly requested and factually supported.
 
+## Content Preservation
+
+Never delete, drop, hide, or otherwise lose existing content during redesign or
+refactoring unless the user explicitly requests deletion. Content may move
+between sections, but it must remain represented. Ask before removing content
+that appears redundant or obsolete when deletion was not requested.
+
+## Uniform Presentation Patterns
+
+When introducing a recurring presentation or navigation pattern on a major
+page, check analogous pages and implement it consistently through shared
+components or styles where appropriate. Avoid unnecessary page-specific
+variants of the same interface pattern.
+
 ## Intentional Exclusions
 
 Do not casually reintroduce old-site content that was intentionally excluded.

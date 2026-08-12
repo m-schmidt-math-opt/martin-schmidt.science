@@ -15,7 +15,10 @@ test('the supervised-thesis archive contains all 66 verified records', () => {
 	}
 });
 
-test('all explicit Master institutions are retained and absent Bachelor institutions are not inferred', () => {
+test('all source-explicit Master institutions and user-verified Bachelor institutions are retained', () => {
 	assert.ok(masterTheses.every((thesis) => thesis.institution?.trim()));
-	assert.ok(bachelorTheses.every((thesis) => thesis.institution === undefined));
+	assert.equal(bachelorTheses.find((thesis) => thesis.id === 'bachelor-brachtendorf-2022')?.institution, 'Trier University');
+	assert.equal(bachelorTheses.find((thesis) => thesis.id === 'bachelor-jordan-2020')?.institution, 'FAU Erlangen-Nuremberg');
+	assert.ok(bachelorTheses.every((thesis) => thesis.institution.trim()));
+	assert.equal(theses.filter((thesis) => thesis.institution).length, 66);
 });

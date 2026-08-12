@@ -11,23 +11,24 @@ interface Props {
 const { variant = 'homepage' } = Astro.props;
 const bobilib = resources.find((resource) => resource.id === 'bobilib')!;
 const a3g = projects.find((project) => project.id === 'a3g')!;
-const symbi = projects.find((project) => project.id === 'symbi')!;
-const [bilevelBook, uncertaintySurvey, implicitNonlinearities] = publicationsByKeys([
+const [bilevelBook, uncertaintySurvey, adjustableRobustNetworkDesign, noFreeLunch] = publicationsByKeys([
 	'Beck_Ljubic_Schmidt:2026',
 	'Beck_et_al:2023a',
-	'Schmidt_et_al:2022',
+	'Thuerauf_et_al:2025',
+	'Kleinert_et_al:2020',
 ]);
+const noFreeLunchLink = noFreeLunch.links.find((link) => link.label === 'DOI')!;
 const homepageItems = [
 	{ type: 'Benchmark Library', title: bobilib.name, description: bobilib.description, href: bobilib.links[0].href, linkLabel: bobilib.links[0].label },
-	{ type: 'Book', title: bilevelBook.title, description: bilevelBook.authors, href: `/publications/#publication-${bilevelBook.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`, linkLabel: 'View publication' },
-	{ type: 'Current Project', title: a3g.title, description: a3g.description, href: `/projects/#${a3g.id}`, linkLabel: 'View A3G project' },
-	{ type: 'Current Project', title: symbi.title, description: symbi.description, href: `/projects/#${symbi.id}`, linkLabel: 'View SymBi project' },
+	{ type: 'Book', title: bilevelBook.title, description: bilevelBook.authors, href: `/publications/#all-publication-${bilevelBook.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`, linkLabel: 'View publication' },
+	{ type: 'Current Project', title: a3g.displayTitle ?? a3g.title, description: a3g.description, href: `/projects/#${a3g.id}`, linkLabel: 'View A3G project' },
+	{ type: noFreeLunch.typeLabel, title: noFreeLunch.title, description: noFreeLunch.authors, href: noFreeLunchLink.href, linkLabel: 'View publication' },
 ];
 const researchPageItems = [
 	homepageItems[0],
 	homepageItems[1],
-	{ type: 'Journal Article', title: uncertaintySurvey.title, description: uncertaintySurvey.authors, href: `/publications/#publication-${uncertaintySurvey.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`, linkLabel: 'View publication' },
-	{ type: 'Journal Article', title: implicitNonlinearities.title, description: implicitNonlinearities.authors, href: `/publications/#publication-${implicitNonlinearities.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`, linkLabel: 'View publication' },
+	{ type: 'Journal Article', title: uncertaintySurvey.title, description: uncertaintySurvey.authors, href: `/publications/#all-publication-${uncertaintySurvey.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`, linkLabel: 'View publication' },
+	{ type: 'Journal Article', title: adjustableRobustNetworkDesign.title, description: adjustableRobustNetworkDesign.authors, href: `/publications/#all-publication-${adjustableRobustNetworkDesign.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`, linkLabel: 'View publication' },
 ];
 const selectedItems = variant === 'research' ? researchPageItems : homepageItems;
 const sectionDescription = variant === 'research'
@@ -35,7 +36,7 @@ const sectionDescription = variant === 'research'
 	: 'Representative work across publications, research tools, and collaborative projects.';
 ---
 
-<section class="selected-research" aria-labelledby="selected-research-title">
+<section id="selected-research" class="selected-research" aria-labelledby="selected-research-title">
 	<div class="selected-research__inner">
 		<header class="selected-research__heading">
 			<div>
@@ -71,7 +72,7 @@ const sectionDescription = variant === 'research'
 	}
 
 	.selected-research__heading h2 {
-		font-size: clamp(2.35rem, 6vw, 4rem);
+		font-size: var(--featured-h2-size);
 		letter-spacing: -0.025em;
 	}
 

@@ -9,13 +9,13 @@ test('people have unique stable IDs', () => {
 
 test('current portraits and former PhD dissertation metadata remain canonical people facts', () => {
 	const current = people.filter((person) => person.current);
-	assert.equal(current.length, 6);
+	assert.equal(current.length, 5);
 	for (const person of current) {
 		assert.ok(person.portrait?.src);
 		assert.ok(existsSync(new URL(`../public${person.portrait!.src}`, import.meta.url)));
 	}
 	const formerPhds = getAlumni('former-phd');
-	assert.ok(formerPhds.every((person) => person.alumniRecord.dissertation?.title && person.alumniRecord.dissertation.institution));
+	assert.ok(formerPhds.every((person) => person.alumniRecord.dissertation?.title));
 	assert.deepEqual(people.find((person) => person.id === 'thomas-kleinert')?.alumni?.[0]?.dissertation?.awards, ['GOR-Dissertationspreis 2022']);
 	assert.deepEqual(people.find((person) => person.id === 'fraenk-plein')?.alumni?.[0]?.dissertation?.awards, ['Förderpreis 2022 of the Freundeskreis Trierer Universität e.V.']);
 	assert.deepEqual(people.find((person) => person.id === 'yasmine-beck')?.alumni?.[0]?.dissertation?.awards, ['EURO Doctoral Dissertation Award 2025', 'GOR-Dissertationspreis']);
@@ -26,10 +26,22 @@ test('current portraits and former PhD dissertation metadata remain canonical pe
 test('current and alumni groups are derived from the canonical people records', () => {
 	assert.equal(getCurrentPeople('secretary').length, 2);
 	assert.equal(getCurrentPeople('postdoc').length, 2);
-	assert.equal(getCurrentPeople('phd').length, 2);
-	assert.equal(getAlumni('former-phd').length, 11);
+	assert.equal(getCurrentPeople('phd').length, 1);
+	assert.equal(getAlumni('former-phd').length, 12);
 	assert.equal(getAlumni('former-postdoc').length, 4);
 	assert.equal(people.filter((person) => person.name === 'Andreas Horländer').length, 1);
+	const ioana = people.find((person) => person.id === 'ioana-molan');
+	assert.equal(ioana?.current, undefined);
+	assert.equal(ioana?.alumni?.filter((record) => record.group === 'former-phd').length, 1);
+	assert.equal(ioana?.alumni?.[0]?.dissertation?.title, 'Inverse Optimization for Bilevel and Simultaneous Games using Sequential Learning');
+	assert.equal(ioana?.alumni?.[0]?.dissertation?.institution, 'Trier University');
+	assert.equal(ioana?.formerAffiliation, 'Research Training Group Algorithmic Optimization (ALOP)');
+	assert.deepEqual(ioana?.researchFocus, ['bilevel optimization', 'optimization under uncertainty', 'machine-learning approaches for uncertainty']);
+	assert.match(ioana?.biography ?? '', /bachelor’s degree in Business Mathematics/);
+	assert.ok(getAlumni('former-phd').every((person) => person.alumniRecord.dissertation?.institution));
+	const groupPage = readFileSync(new URL('../src/pages/group.astro', import.meta.url), 'utf8');
+	const formerPhdTemplate = groupPage.slice(groupPage.indexOf('formerPhds.map'), groupPage.indexOf('formerPostdocs.map'));
+	assert.doesNotMatch(formerPhdTemplate, /person\.(?:formerAffiliation|researchFocus|biography)/);
 });
 
 test('homepage groups every canonical current member with research staff first', () => {
@@ -41,7 +53,6 @@ test('homepage groups every canonical current member with research staff first',
 		'Aloïs Duguet',
 		'Andreas Horländer',
 		'Simon Stevens',
-		'Ioana Molan',
 	]);
 	assert.deepEqual(supportStaff.map((person) => person.name), [
 		'Monika Thieme-Trapp',

@@ -97,13 +97,13 @@ const supportStaff = getCurrentPeople('secretary');
 
 <section class="profile-preview home-section" aria-labelledby="profile-preview-title">
 	<div class="home-section__inner profile-preview__layout">
-		<img class="profile-portrait" src={aboutProfile.portrait.src} alt={aboutProfile.portrait.alt} width="960" height="640" loading="lazy" />
-
 		<div class="profile-preview__content">
 			<h2 id="profile-preview-title">About Martin Schmidt</h2>
 			<p>{profileTeaser}</p>
 			<a class="section-link" href="/about/">View academic profile<span aria-hidden="true"> →</span></a>
 		</div>
+
+		<img class="profile-portrait" src={aboutProfile.portrait.src} alt={aboutProfile.portrait.alt} width="960" height="640" loading="lazy" />
 	</div>
 </section>
 
@@ -120,7 +120,7 @@ const supportStaff = getCurrentPeople('secretary');
 
 	.home-section__heading h2,
 	.profile-preview h2 {
-		font-size: clamp(2.35rem, 6vw, 4rem);
+		font-size: var(--featured-h2-size);
 		letter-spacing: -0.025em;
 	}
 
@@ -277,7 +277,7 @@ const supportStaff = getCurrentPeople('secretary');
 		}
 
 		.profile-preview__layout {
-			grid-template-columns: minmax(7rem, 9rem) minmax(0, 1fr);
+			grid-template-columns: minmax(0, 1fr) minmax(7rem, 9rem);
 			gap: clamp(2.5rem, 7vw, 6rem);
 		}
 

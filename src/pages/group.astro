@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PersonPortrait from '../components/PersonPortrait.astro';
+import SectionNav from '../components/SectionNav.astro';
 import { focusLine, getAlumni, getCurrentPeople, type CurrentGroup } from '../data/people';
 import { externalLinkAttributes } from '../lib/links';
 
@@ -12,6 +13,11 @@ const currentSections: Array<{ group: CurrentGroup; title: string }> = [
 
 const formerPhds = getAlumni('former-phd');
 const formerPostdocs = getAlumni('former-postdoc');
+const sectionLinks = [
+	...currentSections.map((section) => ({ id: section.group, label: section.title })),
+	{ id: 'alumni', label: 'Alumni' },
+	{ id: 'open-positions', label: 'Open Positions' },
+];
 ---
 
 <BaseLayout
@@ -21,11 +27,12 @@ const formerPostdocs = getAlumni('former-postdoc');
 	<header class="group-intro page-shell" aria-labelledby="page-title">
 		<h1 id="page-title">Research Group</h1>
 		<p class="intro__lead">The team works on mathematical optimization, with an emphasis on hierarchical decisions, uncertainty, discrete structures, and nonlinear models.</p>
+		<SectionNav sections={sectionLinks} label="Research group sections" />
 	</header>
 
 	<div class="group-sections">
 		{currentSections.map((section) => (
-			<section class="people-section" aria-labelledby={`${section.group}-title`}>
+			<section id={section.group} class="people-section" aria-labelledby={`${section.group}-title`}>
 				<header class="people-section__heading">
 					<h2 id={`${section.group}-title`}>{section.title}</h2>
 				</header>
@@ -55,7 +62,7 @@ const formerPostdocs = getAlumni('former-postdoc');
 			</section>
 		))}
 
-		<section class="people-section alumni-section" aria-labelledby="alumni-title">
+		<section id="alumni" class="people-section alumni-section" aria-labelledby="alumni-title">
 			<header class="people-section__heading">
 				<h2 id="alumni-title">Alumni</h2>
 			</header>
@@ -69,7 +76,7 @@ const formerPostdocs = getAlumni('former-postdoc');
 								{person.alumniRecord.dissertation && (
 									<>
 										<cite>{person.alumniRecord.dissertation.title}</cite>
-										<small>{person.alumniRecord.dissertation.institution}</small>
+										{person.alumniRecord.dissertation.institution && <small>{person.alumniRecord.dissertation.institution}</small>}
 										{person.alumniRecord.dissertation.coSupervisor && <small>Co-supervision with {person.alumniRecord.dissertation.coSupervisor}</small>}
 										{person.alumniRecord.dissertation.awards?.map((award) => <small class="alumni-award">{award}</small>)}
 									</>
@@ -90,7 +97,7 @@ const formerPostdocs = getAlumni('former-postdoc');
 			</div>
 		</section>
 
-		<section class="people-section positions-section" aria-labelledby="positions-title">
+		<section id="open-positions" class="people-section positions-section" aria-labelledby="positions-title">
 			<header class="people-section__heading">
 				<h2 id="positions-title">Open Positions</h2>
 			</header>
@@ -100,11 +107,12 @@ const formerPostdocs = getAlumni('former-postdoc');
 </BaseLayout>
 
 <style>
-	.group-intro { padding-bottom: var(--space-section-y); }
+	.group-intro { padding-bottom: var(--space-intro-to-first); }
 	.group-intro h1 { font-size: var(--internal-h1-size); letter-spacing: -0.035em; }
 	.people-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: var(--space-section-y) var(--page-gutter); }
+	.group-sections > .people-section:first-child { padding-top: var(--space-intro-to-first); }
 	.people-section__heading { margin-bottom: var(--space-section-heading); }
-	.people-section h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; }
+	.people-section h2 { font-size: var(--section-h2-size); letter-spacing: -.025em; }
 	.people-grid { display: grid; gap: 2.25rem 1.5rem; }
 	.person-card { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: 1.25rem; min-width: 0; }
 	.person-card :global(.person-portrait) { width: 8rem; }

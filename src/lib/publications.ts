@@ -15,15 +15,24 @@ export interface PublicationLink {
 	href: string;
 }
 
+export interface PublicationMetadataItem {
+	label: string;
+	href?: string;
+}
+
 export interface Publication {
 	id: string;
 	type: PublicationType;
+	bibtexType: string;
+	typeLabel: string;
+	classificationResolved: boolean;
 	title: string;
 	authors: string;
 	venue?: string;
 	year?: number;
 	month?: number;
 	date?: string;
+	metadata: PublicationMetadataItem[];
 	links: PublicationLink[];
 }
 
@@ -171,15 +180,26 @@ function formatAuthors(author = ''): string {
 }
 
 function classify(entry: RawEntry): PublicationType {
-	if (/book review/i.test(entry.fields.title ?? '')) return 'review';
+	if (entry.key === 'Schmidt:2020') return 'review';
 	if (entry.type === 'article') return 'journal';
 	if (entry.type === 'book') return 'book';
 	if (['inbook', 'incollection'].includes(entry.type)) return 'chapter';
-	if (['inproceedings', 'conference', 'proceedings'].includes(entry.type)) return 'conference';
+	if (['inproceedings', 'conference'].includes(entry.type)) return 'conference';
 	if (['phdthesis', 'mastersthesis', 'thesis'].includes(entry.type)) return 'thesis';
-	if (['techreport', 'report', 'unpublished'].includes(entry.type)) return 'preprint';
+	if (['techreport', 'report'].includes(entry.type)) return 'preprint';
 	return 'other';
 }
+
+export const publicationTypeLabels: Record<PublicationType, string> = {
+	journal: 'Journal Article',
+	conference: 'Conference Proceedings Paper',
+	chapter: 'Book Chapter',
+	book: 'Book',
+	preprint: 'Preprint',
+	thesis: 'Thesis',
+	review: 'Review',
+	other: 'Other',
+};
 
 function cleanDoi(value: string): string {
 	return value.trim().replace(/^https?:\/\/(?:dx\.)?doi\.org\//i, '').replace(/^doi:\s*/i, '');
@@ -251,15 +271,49 @@ function normalize(entry: RawEntry): Publication {
 	if (!fields.author) publicationWarnings.push(`${entry.key}: missing author`);
 	if (!year) publicationWarnings.push(`${entry.key}: missing or invalid year/date`);
 	const venue = fields.journal ?? fields.journaltitle ?? fields.booktitle ?? fields.publisher ?? fields.institution ?? fields.school;
+	const type = classify(entry);
+	const metadata: PublicationMetadataItem[] = [];
+	const addMetadata = (label: string, value?: string, href?: string) => {
+		if (value?.trim()) metadata.push({ label: `${label}${latexToText(value)}`, href });
+	};
+	if (type === 'journal') {
+		addMetadata('', fields.journal ?? fields.journaltitle);
+		addMetadata('Vol. ', fields.volume);
+		addMetadata('No. ', fields.number);
+		addMetadata('pp. ', fields.pages);
+	} else if (type === 'conference' || type === 'chapter') {
+		addMetadata('', fields.booktitle);
+		addMetadata('pp. ', fields.pages);
+		addMetadata('', fields.publisher);
+	} else if (type === 'book') {
+		addMetadata('', fields.publisher);
+		addMetadata('Series: ', fields.series);
+		addMetadata('Edition: ', fields.edition);
+	} else if (type === 'preprint') {
+		addMetadata('', fields.institution);
+		addMetadata('', fields.type);
+		addMetadata('No. ', fields.number);
+	} else if (type === 'thesis') {
+		addMetadata('', fields.school ?? fields.institution);
+		addMetadata('', fields.type);
+	}
+	if (fields.doi) {
+		const doi = cleanDoi(fields.doi);
+		metadata.push({ label: 'DOI', href: `https://doi.org/${doi}` });
+	}
 	return {
 		id: entry.key,
-		type: classify(entry),
+		type,
+		bibtexType: entry.type,
+		typeLabel: publicationTypeLabels[type],
+		classificationResolved: entry.key === 'Schmidt:2020' || ['article', 'inproceedings', 'conference', 'incollection', 'inbook', 'book', 'report', 'techreport', 'phdthesis', 'mastersthesis', 'thesis'].includes(entry.type),
 		title: latexToText(fields.title) || '[Untitled publication]',
 		authors: formatAuthors(fields.author) || '[Author not recorded]',
 		venue: venue ? latexToText(venue) : undefined,
 		year,
 		month,
 		date: date || undefined,
+		metadata,
 		links: collectLinks(fields),
 	};
 }

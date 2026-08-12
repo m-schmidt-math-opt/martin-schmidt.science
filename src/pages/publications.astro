@@ -1,13 +1,20 @@
 ---
 import PublicationList from '../components/PublicationList.astro';
+import SectionNav from '../components/SectionNav.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { selectedPublicationKeys } from '../data/selected-publications';
-import { publications, publicationsByKeys, publicationTypes, publicationWarnings } from '../lib/publications';
+import { publications, publicationsByKeys, publicationTypeLabels, publicationTypes, publicationWarnings } from '../lib/publications';
 
 const selected = publicationsByKeys(selectedPublicationKeys);
 const recent = publications.slice(0, 8);
 const books = publications.filter((publication) => publication.type === 'book');
 const years = [...new Set(publications.flatMap((publication) => publication.year ? [publication.year] : []))].sort((a, b) => b - a);
+const sections = [
+	{ id: 'selected', label: 'Selected Publications' },
+	{ id: 'recent', label: 'Recent Publications' },
+	{ id: 'books', label: 'Books' },
+	{ id: 'all', label: 'All Publications' },
+];
 
 if (publicationWarnings.length) {
 	console.warn(`[publications.bib] ${publicationWarnings.length} recoverable warning(s):\n- ${publicationWarnings.join('\n- ')}`);
@@ -21,28 +28,23 @@ if (publicationWarnings.length) {
 	<header class="page-shell publications-intro" aria-labelledby="page-title">
 		<h1 id="page-title">Publications</h1>
 		<p class="intro__lead">Selected work and a complete bibliographic archive, spanning nonlinear, mixed-integer, and bilevel optimization and their applications.</p>
-		<nav class="section-nav" aria-label="Publication sections">
-			<a href="#selected">Selected</a>
-			<a href="#recent">Recent</a>
-			<a href="#books">Books</a>
-			<a href="#all">All publications</a>
-		</nav>
+		<SectionNav sections={sections} label="Publication sections" />
 	</header>
 
 	<div class="publication-sections">
 		<section id="selected" class="publication-section" aria-labelledby="selected-title">
 			<div class="publication-section__heading"><h2 id="selected-title">Selected Publications</h2></div>
-			<PublicationList publications={selected} />
+			<PublicationList publications={selected} sectionId="selected" />
 		</section>
 
 		<section id="recent" class="publication-section" aria-labelledby="recent-title">
 			<div class="publication-section__heading"><h2 id="recent-title">Recent Publications</h2></div>
-			<PublicationList publications={recent} />
+			<PublicationList publications={recent} sectionId="recent" />
 		</section>
 
 		<section id="books" class="publication-section" aria-labelledby="books-title">
 			<div class="publication-section__heading"><h2 id="books-title">Books</h2></div>
-			<PublicationList publications={books} />
+			<PublicationList publications={books} sectionId="books" />
 		</section>
 
 		<section id="all" class="publication-section publication-section--archive" aria-labelledby="all-title">
@@ -56,7 +58,7 @@ if (publicationWarnings.length) {
 					<label for="publication-type">Type</label>
 					<select id="publication-type" name="type">
 						<option value="">All types</option>
-						{publicationTypes.map((type) => <option value={type}>{type[0].toUpperCase() + type.slice(1)}</option>)}
+						{publicationTypes.map((type) => <option value={type}>{publicationTypeLabels[type]}</option>)}
 					</select>
 				</div>
 				<div class="filter-field">
@@ -69,7 +71,7 @@ if (publicationWarnings.length) {
 				<button type="reset">Reset</button>
 			</form>
 			<p class="filter-status" role="status" aria-live="polite" data-filter-status></p>
-			<PublicationList publications={publications} filterable />
+			<PublicationList publications={publications} sectionId="all" showBibliographicMetadata filterable />
 			<p class="filter-empty" data-filter-empty hidden>No publications match these filters.</p>
 		</section>
 	</div>

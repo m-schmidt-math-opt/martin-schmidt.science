@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { aboutProfile, reviewingActivity } from '../src/data/about.ts';
+import { aboutProfile } from '../src/data/about.ts';
+import { reviewingSummary } from '../src/data/reviewing.ts';
 
 const astroConfig = readFileSync(new URL('../astro.config.mjs', import.meta.url), 'utf8');
 const layout = readFileSync(new URL('../src/layouts/BaseLayout.astro', import.meta.url), 'utf8');
@@ -56,7 +57,7 @@ test('global editorial branding and personal voice remain distinct from factual 
 	assert.match(layout, /<small>\{aboutProfile\.siteSubtitle\}<\/small>/);
 	assert.match(footer, /\{aboutProfile\.siteSubtitle\}<br \/>\{aboutProfile\.institution\}/);
 	assert.match(aboutProfile.biography, /^I am Professor of Nonlinear Optimization/);
-	assert.match(reviewingActivity.summary, /^I have reviewed/);
+	assert.match(reviewingSummary, /^I have reviewed/);
 	assert.match(homepageSections, /My academic career has included positions/);
 });
 
@@ -73,7 +74,8 @@ test('decorative eyebrow labels and research-theme numbering are absent', () => 
 });
 
 test('homepage typography keeps the name restrained and group portraits readable', () => {
-	assert.match(globalCss, /\.hero h1\s*\{[^}]*font-size:\s*clamp\(2\.75rem, 8vw, 4\.75rem\)/s);
+	assert.match(globalCss, /--homepage-h1-size:\s*clamp\(2\.5rem, 7vw, 4\.2rem\)/);
+	assert.match(globalCss, /\.hero h1\s*\{[^}]*font-size:\s*var\(--homepage-h1-size\)/s);
 	assert.doesNotMatch(homepage, /<p[^>]*>\{aboutProfile\.position\}<\/p>/);
 	assert.equal([...homepageSections.matchAll(/grid-template-columns:\s*7rem minmax\(0, 1fr\)/g)].length, 2);
 	assert.equal([...homepageSections.matchAll(/width:\s*7rem/g)].length, 2);
@@ -81,7 +83,10 @@ test('homepage typography keeps the name restrained and group portraits readable
 
 test('homepage uses the supplied local optimization figure without the obsolete geometry', () => {
 	assert.match(homepage, /src="\/images\/homepage-optimization-abstract\.png"/);
-	assert.match(homepage, /alt="Abstract optimization diagram"/);
+	assert.match(homepage, /alt="Optimization diagram with feasible region and objective directions"/);
+	const heroAsset = readFileSync(new URL('../public/images/homepage-optimization-abstract.png', import.meta.url));
+	assert.equal(heroAsset[25], 6, 'hero PNG must use RGBA color type');
+	assert.doesNotMatch(homepage, /homepage-optimization\.png/);
 	assert.doesNotMatch(homepage, /hero-geometry/);
 	assert.doesNotMatch(globalCss, /hero-geometry/);
 });
@@ -91,13 +96,13 @@ test('research section terminology and compact spacing follow the current editor
 	assert.match(homepage, /Core Research Topics/);
 	assert.match(researchPage, /Core Research Topics/);
 	assert.doesNotMatch(`${homepage}\n${researchPage}`, /Core Research Themes/);
-	assert.match(globalCss, /--space-section-y:\s*clamp\(0\.75rem, 1\.5vw, 1\.25rem\)/);
+	assert.match(globalCss, /--space-section-y:\s*clamp\(1rem, 2vw, 1\.75rem\)/);
 });
 
 test('internal page headings remain smaller than the homepage heading by design', () => {
-	assert.match(globalCss, /--internal-h1-size:\s*clamp\(2\.25rem, 6vw, 4rem\)/);
+	assert.match(globalCss, /--internal-h1-size:\s*clamp\(2rem, 5\.25vw, 3\.55rem\)/);
 	assert.match(globalCss, /main > header:not\(\.hero\) > h1#page-title\s*\{[^}]*font-size:\s*var\(--internal-h1-size\)/s);
-	assert.match(globalCss, /\.hero h1\s*\{[^}]*font-size:\s*clamp\(2\.75rem, 8vw, 4\.75rem\)/s);
+	assert.match(globalCss, /\.hero h1\s*\{[^}]*font-size:\s*var\(--homepage-h1-size\)/s);
 	for (const page of ['research', 'group', 'software-data', 'teaching', 'about', 'talks', 'projects', 'news', 'theses']) {
 		const source = readFileSync(new URL(`../src/pages/${page}.astro`, import.meta.url), 'utf8');
 		assert.match(source, /h1\s*\{[^}]*font-size:\s*var\(--internal-h1-size\)/s);
@@ -144,7 +149,14 @@ test('footer profile links stay canonical and the shared shell provides one back
 	}
 	assert.doesNotMatch(footer, /https?:\/\/(?:scholar\.google|orcid\.org|bsky\.app|www\.instagram)/);
 	assert.match(footer, /site-footer__identity[\s\S]*site-footer__profiles[\s\S]*site-footer__nav/);
+	assert.match(footer, /\.site-footer__profiles\s*\{[^}]*display:\s*flex;[^}]*flex-direction:\s*column;/s);
 	assert.equal((layout.match(/id="top"/g) ?? []).length, 1);
 	assert.equal((layout.match(/class="back-to-top"/g) ?? []).length, 1);
 	assert.match(layout, /href="#top" aria-label="Back to top"/);
+});
+
+test('About page title is concise while the homepage profile heading remains personal', () => {
+	assert.match(aboutPage, /<h1 id="page-title">About<\/h1>/);
+	assert.doesNotMatch(aboutPage, /<h1 id="page-title">About Martin Schmidt<\/h1>/);
+	assert.match(homepageSections, /<h2 id="profile-preview-title">About Martin Schmidt<\/h2>/);
 });

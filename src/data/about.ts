@@ -132,15 +132,3 @@ export const editorialService: DatedItem[] = [
 	{ id: 'ejco-associate-editor', period: 'Since 2021', title: 'Associate Editor', organization: 'EURO Journal on Computational Optimization' },
 	{ id: 'mpc-technical-editor', period: 'Since 2011', title: 'Technical Editor', organization: 'Mathematical Programming Computation' },
 ];
-
-export const reviewingActivity = {
-	summary: 'I have reviewed for more than 40 journals in mathematical optimization, operations research, applied mathematics, and energy systems.',
-	selectedJournals: [
-		'Mathematical Programming A',
-		'Mathematical Programming B',
-		'Mathematical Programming C',
-		'SIAM Journal on Optimization',
-		'European Journal of Operational Research',
-		'INFORMS Journal on Computing',
-	],
-};

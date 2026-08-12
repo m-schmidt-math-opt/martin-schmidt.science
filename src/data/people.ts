@@ -15,7 +15,7 @@ export interface AlumniMembership {
 	currentPosition?: string;
 	dissertation?: {
 		title: string;
-		institution: string;
+		institution?: string;
 		coSupervisor?: string;
 		awards?: string[];
 	};
@@ -30,6 +30,9 @@ export interface Person {
 	};
 	email?: string;
 	homepage?: string;
+	biography?: string;
+	researchFocus?: string[];
+	formerAffiliation?: string;
 	current?: CurrentMembership;
 	alumni?: AlumniMembership[];
 }
@@ -99,17 +102,14 @@ export const people: Person[] = [
 		name: 'Ioana Molan',
 		portrait: { src: '/images/group/ioana-molan.jpg', alt: 'Ioana Molan' },
 		email: 'molan@uni-trier.de',
-		current: {
-			group: 'phd',
-			role: 'Doctoral Researcher',
-			affiliation: 'Research Training Group Algorithmic Optimization (ALOP)',
-			biography: 'Ioana studied at Trier University, receiving a bachelor’s degree in Business Mathematics in September 2019 and a master’s degree in Applied Mathematics in April 2022.',
-			researchFocus: [
-				'bilevel optimization',
-				'optimization under uncertainty',
-				'machine-learning approaches for uncertainty',
-			],
-		},
+		biography: 'Ioana studied at Trier University, receiving a bachelor’s degree in Business Mathematics in September 2019 and a master’s degree in Applied Mathematics in April 2022.',
+		researchFocus: [
+			'bilevel optimization',
+			'optimization under uncertainty',
+			'machine-learning approaches for uncertainty',
+		],
+		formerAffiliation: 'Research Training Group Algorithmic Optimization (ALOP)',
+		alumni: [{ group: 'former-phd', dissertation: { title: 'Inverse Optimization for Bilevel and Simultaneous Games using Sequential Learning', institution: 'Trier University' } }],
 	},
 	{ id: 'thomas-kleinert', name: 'Thomas Kleinert', alumni: [{ group: 'former-phd', dissertation: { title: 'Algorithms for Mixed-Integer Bilevel Problems with Convex Followers', institution: 'Friedrich-Alexander-Universität Erlangen-Nürnberg', awards: ['GOR-Dissertationspreis 2022'] } }] },
 	{ id: 'fraenk-plein', name: 'Fränk Plein', alumni: [{ group: 'former-phd', dissertation: { title: 'When Bilevel Optimization Meets Gas Networks: Feasibility of Bookings in the European Entry-Exit Gas Market Computational Complexity Results and Bilevel Optimization Approaches', institution: 'Trier University', awards: ['Förderpreis 2022 of the Freundeskreis Trierer Universität e.V.'] } }] },

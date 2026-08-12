@@ -31,7 +31,7 @@
 @layer base {
 	:root {
 		color-scheme: light;
-		--color-background: #f6f2e9;
+		--color-background: #faf8f3;
 		--color-text: #191d1c;
 		--color-muted: #626967;
 		--color-accent: #0b5d5b;
@@ -42,9 +42,13 @@
 		--page-width: 78rem;
 		--page-gutter: clamp(1.25rem, 4vw, 3.5rem);
 		--space-page-y: clamp(3rem, 8vw, 6rem);
-		--space-section-y: clamp(0.75rem, 1.5vw, 1.25rem);
+		--space-section-y: clamp(1rem, 2vw, 1.75rem);
+		--space-intro-to-first: clamp(0.6rem, 1vw, 1rem);
 		--space-section-heading: clamp(0.75rem, 1vw, 1rem);
-		--internal-h1-size: clamp(2.25rem, 6vw, 4rem);
+		--homepage-h1-size: clamp(2.5rem, 7vw, 4.2rem);
+		--internal-h1-size: clamp(2rem, 5.25vw, 3.55rem);
+		--section-h2-size: clamp(1.8rem, 5vw, 3.15rem);
+		--featured-h2-size: clamp(1.95rem, 5.25vw, 3.55rem);
 	}
 
 	html {
@@ -197,11 +201,11 @@
 	}
 
 	.publications-intro {
-		padding-bottom: var(--space-section-y);
+		padding-bottom: var(--space-intro-to-first);
 	}
 
 	.publications-intro h1 {
-		font-size: clamp(2.75rem, 9vw, 5.5rem);
+		font-size: var(--internal-h1-size);
 		letter-spacing: -0.035em;
 	}
 
@@ -210,6 +214,10 @@
 		flex-wrap: wrap;
 		gap: 0.5rem 1.5rem;
 		margin-top: 2.25rem;
+	}
+
+	.section-nav a {
+		overflow-wrap: anywhere;
 	}
 
 	.section-nav a {
@@ -224,12 +232,16 @@
 		padding: var(--space-section-y) var(--page-gutter);
 	}
 
+	.publication-sections > .publication-section:first-child {
+		padding-top: var(--space-intro-to-first);
+	}
+
 	.publication-section__heading {
 		margin-bottom: var(--space-section-heading);
 	}
 
 	.publication-section h2 {
-		font-size: clamp(2rem, 6vw, 3.5rem);
+		font-size: var(--section-h2-size);
 		letter-spacing: -0.025em;
 	}
 
@@ -271,6 +283,15 @@
 		min-width: 0;
 	}
 
+	.publication__type {
+		margin-bottom: 0.3rem;
+		color: var(--color-accent);
+		font-size: 0.66rem;
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+	}
+
 	.publication h3 {
 		font-family: var(--font-body);
 		font-size: clamp(1rem, 2.2vw, 1.12rem);
@@ -295,6 +316,26 @@
 
 	.publication__venue cite {
 		font-style: italic;
+	}
+
+	.publication__metadata {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.15rem 0;
+		margin-top: 0.35rem;
+		color: var(--color-muted);
+		font-size: 0.73rem;
+		line-height: 1.5;
+	}
+
+	.publication__metadata li {
+		display: inline;
+		overflow-wrap: anywhere;
+	}
+
+	.publication__metadata li + li::before {
+		margin-inline: 0.45rem;
+		content: '·';
 	}
 
 	.publication__links {
@@ -399,7 +440,8 @@
 		display: grid;
 		gap: 3rem;
 		min-height: min(30rem, calc(100vh - 8rem));
-		padding-block: clamp(2rem, 4vw, 3rem);
+		padding-top: clamp(2rem, 4vw, 3rem);
+		padding-bottom: var(--space-intro-to-first);
 	}
 
 	.hero__content {
@@ -409,7 +451,7 @@
 	}
 
 	.hero h1 {
-		font-size: clamp(2.75rem, 8vw, 4.75rem);
+		font-size: var(--homepage-h1-size);
 		letter-spacing: -0.045em;
 	}
 
@@ -474,7 +516,7 @@
 	}
 
 	.section-heading h2 {
-		font-size: clamp(2.35rem, 6vw, 4rem);
+		font-size: var(--featured-h2-size);
 		letter-spacing: -0.025em;
 	}
 

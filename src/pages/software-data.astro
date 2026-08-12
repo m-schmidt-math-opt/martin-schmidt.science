@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionNav from '../components/SectionNav.astro';
 import ResourceList from '../components/ResourceList.astro';
 import { archivedResources, dataResources } from '../data/resources';
 
@@ -13,10 +14,11 @@ const sections = [
 	<header class="editorial-intro page-shell" aria-labelledby="page-title">
 		<h1 id="page-title">Software &amp; Data</h1>
 		<p class="intro__lead">Software and benchmark resources accompanying work in mathematical optimization.</p>
+		<SectionNav sections={sections.map(({ id, title }) => ({ id, label: title }))} label="Software and data sections" />
 	</header>
 	<div class="editorial-sections">
 		{sections.map((section) => (
-			<section class="editorial-section" aria-labelledby={`${section.id}-title`}>
+			<section id={section.id} class="editorial-section" aria-labelledby={`${section.id}-title`}>
 				<header class="editorial-section__heading"><h2 id={`${section.id}-title`}>{section.title}</h2></header>
 				<ResourceList resources={section.resources} />
 			</section>
@@ -25,10 +27,11 @@ const sections = [
 </BaseLayout>
 
 <style>
-	.editorial-intro { padding-bottom: var(--space-section-y); }
+	.editorial-intro { padding-bottom: var(--space-intro-to-first); }
 	.editorial-intro h1 { font-size: var(--internal-h1-size); letter-spacing: -.035em; }
 	.editorial-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: var(--space-section-y) var(--page-gutter); }
+	.editorial-sections > .editorial-section:first-child { padding-top: var(--space-intro-to-first); }
 	.editorial-section__heading { margin-bottom: var(--space-section-heading); }
-	.editorial-section h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; }
+	.editorial-section h2 { font-size: var(--section-h2-size); letter-spacing: -.025em; }
 	.empty-note { padding-block: 1.25rem; border-block: 1px solid var(--color-rule); color: var(--color-muted); font-size: .88rem; }
 </style>

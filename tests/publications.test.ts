@@ -14,6 +14,38 @@ test('the bibliography has unique, case-sensitive citation keys', () => {
 test('selected publications contain keys only, not duplicate bibliography fields', () => {
 	const selected = readFileSync(new URL('../src/data/selected-publications.ts', import.meta.url), 'utf8');
 	assert.doesNotMatch(selected, /\b(title|author|journal|publisher|year)\s*:/i);
+	assert.deepEqual([...selected.matchAll(/'([^']+)'/g)].map((match) => match[1]), [
+		'Beck_Ljubic_Schmidt:2026',
+		'Beck_et_al:2023a',
+		'Kleinert_et_al:2020',
+		'Geissler_et_al:2017a',
+		'Krug_et_al:2021b',
+		'Hojny_et_al:2020',
+	]);
+});
+
+test('publication types use the requested human-readable mapping and the confirmed Review exception', () => {
+	const parser = readFileSync(new URL('../src/lib/publications.ts', import.meta.url), 'utf8');
+	assert.match(parser, /entry\.type === 'article'\) return 'journal'/);
+	assert.match(parser, /\['inproceedings', 'conference'\]\.includes\(entry\.type\)\) return 'conference'/);
+	assert.match(parser, /\['inbook', 'incollection'\]\.includes\(entry\.type\)\) return 'chapter'/);
+	assert.match(parser, /entry\.type === 'book'\) return 'book'/);
+	assert.match(parser, /\['techreport', 'report'\]\.includes\(entry\.type\)\) return 'preprint'/);
+	for (const label of ['Journal Article', 'Conference Proceedings Paper', 'Book Chapter', 'Book', 'Preprint']) assert.match(parser, new RegExp(label));
+	assert.match(parser, /classificationResolved:/);
+	assert.match(bib, /@misc\{Schmidt:2020,/);
+	assert.match(parser, /entry\.key === 'Schmidt:2020'\) return 'review'/);
+	assert.match(parser, /classificationResolved: entry\.key === 'Schmidt:2020'/);
+});
+
+test('All Publications can render canonical container metadata while omitting missing fields', () => {
+	const parser = readFileSync(new URL('../src/lib/publications.ts', import.meta.url), 'utf8');
+	const list = readFileSync(new URL('../src/components/PublicationList.astro', import.meta.url), 'utf8');
+	const page = readFileSync(new URL('../src/pages/publications.astro', import.meta.url), 'utf8');
+	for (const field of ['fields.volume', 'fields.number', 'fields.pages', 'fields.doi']) assert.match(parser, new RegExp(field.replace('.', '\\.')));
+	assert.match(list, /publication\.metadata\.length > 0/);
+	assert.match(list, /externalLinkAttributes\(item\.href\)/);
+	assert.match(page, /showBibliographicMetadata/);
 });
 
 test('the two verified legacy works and working publication artifact are canonical BibTeX records', () => {

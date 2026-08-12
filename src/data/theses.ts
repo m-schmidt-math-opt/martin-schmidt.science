@@ -5,15 +5,14 @@ export interface Thesis {
 	degree: ThesisDegree;
 	title: string;
 	student: string;
-	institution?: string;
+	institution: string;
 	year: number;
 	coSupervisor?: string;
 	award?: string;
 	note?: string;
 }
 
-// The old source does not state institutions for the Bachelor theses. Those
-// fields are intentionally left unset rather than inferred from dates.
+// Bachelor-thesis institutions were verified directly by the site owner.
 export const theses: Thesis[] = [
 	{ id: 'master-ernzerhoff-2025', degree: 'master', title: 'Robust Support Vector Machines', student: 'Florian Ernzerhoff', institution: 'Trier University', year: 2025 },
 	{ id: 'master-ostroman-2025', degree: 'master', title: 'A Multilevel Optimization Model for Regulatory Uncertainties with Applications in the Energy Sector', student: 'Arianna Ostroman', institution: 'Trier University and Università a degli Studi di Milano', year: 2025 },
@@ -58,30 +57,30 @@ export const theses: Thesis[] = [
 	{ id: 'master-krebs-2017', degree: 'master', title: 'On the uniqueness of competitive market equilibria on DC networks', student: 'Vanessa Krebs', institution: 'FAU Erlangen-Nuremberg', year: 2017 },
 	{ id: 'master-kleinert-2016', degree: 'master', title: 'A Decomposition Approach for a Multilevel Graph Partitioning Model of the German Electricity Market', student: 'Thomas Kleinert', institution: 'FAU Erlangen-Nuremberg', year: 2016 },
 
-	{ id: 'bachelor-brachtendorf-2022', degree: 'bachelor', title: 'Spieltheoretische Betrachtung von supply chain Netzwerken unter Arbeitsbeschränkungen', student: 'Jonas Brachtendorf', year: 2022 },
-	{ id: 'bachelor-orio-2022', degree: 'bachelor', title: 'Praktischer sowie theoretischer Vergleich des primalen und dualen Simplex', student: 'Tim Orio', year: 2022 },
-	{ id: 'bachelor-maier-2021', degree: 'bachelor', title: 'Flüsse und Schnitte in Netzwerken - Algorithmen im Vergleich', student: 'Stefan Maier', year: 2021 },
-	{ id: 'bachelor-stevens-2021', degree: 'bachelor', title: 'Robuste Portfoliooptimierung', student: 'Simon Stevens', year: 2021 },
-	{ id: 'bachelor-moench-2021', degree: 'bachelor', title: 'Lineare Komplementaritätsprobleme mit hinreichenden und copositiven Matrizen', student: 'Marius Mönch', year: 2021 },
-	{ id: 'bachelor-kappelmann-2021', degree: 'bachelor', title: 'Der Lemke-Algorithmus', student: 'Florian Kappelmann', year: 2021 },
-	{ id: 'bachelor-samarkhanova-2021', degree: 'bachelor', title: 'Line-Search Filter Methoden für nichtlineare Programmierung', student: 'Yana Samarkhanova', year: 2021 },
-	{ id: 'bachelor-podceka-2021', degree: 'bachelor', title: 'Trust-Region Methoden', student: 'Alina Podceka', year: 2021 },
-	{ id: 'bachelor-folz-2020', degree: 'bachelor', title: 'Lineare Komplementaritätsprobleme in Nash-Cournot Gleichgewichtsmodellen für Strommärkte', student: 'Simon Folz', year: 2020 },
-	{ id: 'bachelor-backes-2020', degree: 'bachelor', title: 'Lineare Optimierung im Schulunterricht', student: 'Lena Ulrike Backes', year: 2020 },
-	{ id: 'bachelor-scherer-2020', degree: 'bachelor', title: 'Bi-Matrixspiele und lineare Komplementaritätsprobleme', student: 'Jannis Scherer', year: 2020 },
-	{ id: 'bachelor-horlaender-2020', degree: 'bachelor', title: 'Splitting-Methoden für lineare Komplementaritätsprobleme', student: 'Andreas Horländer', year: 2020 },
-	{ id: 'bachelor-goetz-2020', degree: 'bachelor', title: 'Trust-Region Methoden', student: 'Florian Götz', year: 2020 },
-	{ id: 'bachelor-jordan-2020', degree: 'bachelor', title: 'Modellierung, Existenz und Eindeutigkeit von Nash-Cournot-Gleichgewichten auf Netzwerken', student: 'Julia Jordan', year: 2020 },
-	{ id: 'bachelor-plank-2018', degree: 'bachelor', title: 'Eindeutigkeit von Nash–Cournot-Gleichgewichten auf Netzwerken', student: 'Martin Plank', year: 2018 },
-	{ id: 'bachelor-bauer-2018', degree: 'bachelor', title: 'A Heuristic for Linear Bilevel Problems based on Penalty Alternating Direction Methods', student: 'Sarah June Bauer', year: 2018 },
-	{ id: 'bachelor-mueller-2016', degree: 'bachelor', title: 'Primalheuristiken für Graphpartitionierungsprobleme mit Zusammenhangsbedingungen mit Anwendungen in Strommarktmodellen', student: 'Michael Müller', year: 2016 },
-	{ id: 'bachelor-brose-2015', degree: 'bachelor', title: 'Vergleich verschiedener IP-/MIP-Formulierungen für das Graphpartitionierungsproblem', student: 'Alexander Brose', year: 2015 },
-	{ id: 'bachelor-wolfsteller-2015', degree: 'bachelor', title: 'Matroide und der Greedy-Algorithmus', student: 'Dörte Wolfsteller', year: 2015 },
-	{ id: 'bachelor-boelcke-2015', degree: 'bachelor', title: 'Innere-Punkte-Methoden für unzulässige lineare Optimierungsprobleme', student: 'Janina Boelcke', year: 2015 },
-	{ id: 'bachelor-beer-2015', degree: 'bachelor', title: 'Mathematische Dualitätstheorie in ökonomischen Strommarktmodellen', student: 'Rebecca Beer', year: 2015 },
-	{ id: 'bachelor-lieb-2015', degree: 'bachelor', title: 'Mehrgüterfluss-Modellierung des Gasnetzwerkes mit Schwerpunkt Leistungsberechnung', student: 'Anna Lieb', year: 2015 },
-	{ id: 'bachelor-weinmueller-2015', degree: 'bachelor', title: 'Edmonds Matching Algorithmus für gewichtete Graphen', student: 'Pascal Weinmüller', year: 2015 },
-	{ id: 'bachelor-graebner-2014', degree: 'bachelor', title: 'Regularisierungsverfahren für Optimierungsprobleme mit Komplementaritätsbedingungen', student: 'Jonas Gräbner', year: 2014 },
+	{ id: 'bachelor-brachtendorf-2022', degree: 'bachelor', title: 'Spieltheoretische Betrachtung von supply chain Netzwerken unter Arbeitsbeschränkungen', student: 'Jonas Brachtendorf', institution: 'Trier University', year: 2022 },
+	{ id: 'bachelor-orio-2022', degree: 'bachelor', title: 'Praktischer sowie theoretischer Vergleich des primalen und dualen Simplex', student: 'Tim Orio', institution: 'Trier University', year: 2022 },
+	{ id: 'bachelor-maier-2021', degree: 'bachelor', title: 'Flüsse und Schnitte in Netzwerken - Algorithmen im Vergleich', student: 'Stefan Maier', institution: 'Trier University', year: 2021 },
+	{ id: 'bachelor-stevens-2021', degree: 'bachelor', title: 'Robuste Portfoliooptimierung', student: 'Simon Stevens', institution: 'Trier University', year: 2021 },
+	{ id: 'bachelor-moench-2021', degree: 'bachelor', title: 'Lineare Komplementaritätsprobleme mit hinreichenden und copositiven Matrizen', student: 'Marius Mönch', institution: 'Trier University', year: 2021 },
+	{ id: 'bachelor-kappelmann-2021', degree: 'bachelor', title: 'Der Lemke-Algorithmus', student: 'Florian Kappelmann', institution: 'Trier University', year: 2021 },
+	{ id: 'bachelor-samarkhanova-2021', degree: 'bachelor', title: 'Line-Search Filter Methoden für nichtlineare Programmierung', student: 'Yana Samarkhanova', institution: 'Trier University', year: 2021 },
+	{ id: 'bachelor-podceka-2021', degree: 'bachelor', title: 'Trust-Region Methoden', student: 'Alina Podceka', institution: 'Trier University', year: 2021 },
+	{ id: 'bachelor-folz-2020', degree: 'bachelor', title: 'Lineare Komplementaritätsprobleme in Nash-Cournot Gleichgewichtsmodellen für Strommärkte', student: 'Simon Folz', institution: 'Trier University', year: 2020 },
+	{ id: 'bachelor-backes-2020', degree: 'bachelor', title: 'Lineare Optimierung im Schulunterricht', student: 'Lena Ulrike Backes', institution: 'Trier University', year: 2020 },
+	{ id: 'bachelor-scherer-2020', degree: 'bachelor', title: 'Bi-Matrixspiele und lineare Komplementaritätsprobleme', student: 'Jannis Scherer', institution: 'Trier University', year: 2020 },
+	{ id: 'bachelor-horlaender-2020', degree: 'bachelor', title: 'Splitting-Methoden für lineare Komplementaritätsprobleme', student: 'Andreas Horländer', institution: 'Trier University', year: 2020 },
+	{ id: 'bachelor-goetz-2020', degree: 'bachelor', title: 'Trust-Region Methoden', student: 'Florian Götz', institution: 'Trier University', year: 2020 },
+	{ id: 'bachelor-jordan-2020', degree: 'bachelor', title: 'Modellierung, Existenz und Eindeutigkeit von Nash-Cournot-Gleichgewichten auf Netzwerken', student: 'Julia Jordan', institution: 'FAU Erlangen-Nuremberg', year: 2020 },
+	{ id: 'bachelor-plank-2018', degree: 'bachelor', title: 'Eindeutigkeit von Nash–Cournot-Gleichgewichten auf Netzwerken', student: 'Martin Plank', institution: 'FAU Erlangen-Nuremberg', year: 2018 },
+	{ id: 'bachelor-bauer-2018', degree: 'bachelor', title: 'A Heuristic for Linear Bilevel Problems based on Penalty Alternating Direction Methods', student: 'Sarah June Bauer', institution: 'FAU Erlangen-Nuremberg', year: 2018 },
+	{ id: 'bachelor-mueller-2016', degree: 'bachelor', title: 'Primalheuristiken für Graphpartitionierungsprobleme mit Zusammenhangsbedingungen mit Anwendungen in Strommarktmodellen', student: 'Michael Müller', institution: 'FAU Erlangen-Nuremberg', year: 2016 },
+	{ id: 'bachelor-brose-2015', degree: 'bachelor', title: 'Vergleich verschiedener IP-/MIP-Formulierungen für das Graphpartitionierungsproblem', student: 'Alexander Brose', institution: 'FAU Erlangen-Nuremberg', year: 2015 },
+	{ id: 'bachelor-wolfsteller-2015', degree: 'bachelor', title: 'Matroide und der Greedy-Algorithmus', student: 'Dörte Wolfsteller', institution: 'FAU Erlangen-Nuremberg', year: 2015 },
+	{ id: 'bachelor-boelcke-2015', degree: 'bachelor', title: 'Innere-Punkte-Methoden für unzulässige lineare Optimierungsprobleme', student: 'Janina Boelcke', institution: 'FAU Erlangen-Nuremberg', year: 2015 },
+	{ id: 'bachelor-beer-2015', degree: 'bachelor', title: 'Mathematische Dualitätstheorie in ökonomischen Strommarktmodellen', student: 'Rebecca Beer', institution: 'FAU Erlangen-Nuremberg', year: 2015 },
+	{ id: 'bachelor-lieb-2015', degree: 'bachelor', title: 'Mehrgüterfluss-Modellierung des Gasnetzwerkes mit Schwerpunkt Leistungsberechnung', student: 'Anna Lieb', institution: 'FAU Erlangen-Nuremberg', year: 2015 },
+	{ id: 'bachelor-weinmueller-2015', degree: 'bachelor', title: 'Edmonds Matching Algorithmus für gewichtete Graphen', student: 'Pascal Weinmüller', institution: 'FAU Erlangen-Nuremberg', year: 2015 },
+	{ id: 'bachelor-graebner-2014', degree: 'bachelor', title: 'Regularisierungsverfahren für Optimierungsprobleme mit Komplementaritätsbedingungen', student: 'Jonas Gräbner', institution: 'FAU Erlangen-Nuremberg', year: 2014 },
 ];
 
 export const masterTheses = theses.filter((thesis) => thesis.degree === 'master');

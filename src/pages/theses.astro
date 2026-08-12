@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionNav from '../components/SectionNav.astro';
 import { bachelorTheses, masterTheses, type Thesis } from '../data/theses';
 
 const order = (items: Thesis[]) => [...items].sort((a, b) => b.year - a.year || a.title.localeCompare(b.title));
@@ -13,10 +14,11 @@ const sections = [
 	<header class="theses-intro page-shell" aria-labelledby="page-title">
 		<h1 id="page-title">Supervised Theses</h1>
 		<p class="intro__lead">An archive of supervised Master’s and Bachelor’s theses in mathematical optimization and related areas.</p>
+		<SectionNav sections={sections.map(({ id, title }) => ({ id: `${id}-theses`, label: title }))} label="Thesis sections" />
 	</header>
 	<div class="theses-sections">
 		{sections.map((section) => (
-			<section class="theses-section" aria-labelledby={`${section.id}-title`}>
+			<section id={`${section.id}-theses`} class="theses-section" aria-labelledby={`${section.id}-title`}>
 				<header class="theses-section__heading"><h2 id={`${section.id}-title`}>{section.title}</h2></header>
 				<ol class="thesis-list">
 					{section.items.map((thesis) => (
@@ -40,11 +42,12 @@ const sections = [
 </BaseLayout>
 
 <style>
-	.theses-intro { padding-bottom: var(--space-section-y); }
+	.theses-intro { padding-bottom: var(--space-intro-to-first); }
 	.theses-intro h1 { font-size: var(--internal-h1-size); letter-spacing: -.035em; }
 	.theses-section { width: min(100%, var(--page-width)); margin-inline: auto; padding: var(--space-section-y) var(--page-gutter); }
+	.theses-sections > .theses-section:first-child { padding-top: var(--space-intro-to-first); }
 	.theses-section__heading { margin-bottom: var(--space-section-heading); }
-	.theses-section h2 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.025em; }
+	.theses-section h2 { font-size: var(--section-h2-size); letter-spacing: -.025em; }
 	.thesis-list { border-bottom: 1px solid var(--color-rule); }
 	.thesis-list > li { padding-block: 1rem; border-top: 1px solid var(--color-rule); }
 	.thesis-list article { display: grid; grid-template-columns: 3.25rem minmax(0, 1fr); gap: .85rem; min-width: 0; }

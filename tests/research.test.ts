@@ -54,3 +54,34 @@ test('Research page derives current projects and project pages expose unique can
 test('Selected Research excludes the off-topic photography book', () => {
 	assert.doesNotMatch(selectedResearch, /Kleinert_Schmidt:2022|Bessere Fotos/);
 });
+
+test('Selected Research replaces implicit nonlinearities with the canonical adjustable robust network-design paper', () => {
+	assert.match(selectedResearch, /Thuerauf_et_al:2025/);
+	assert.doesNotMatch(selectedResearch, /Schmidt_et_al:2022/);
+	assert.match(readFileSync(new URL('../src/data/publications.bib', import.meta.url), 'utf8'), /@article\{Schmidt_et_al:2022,[\s\S]*The Cost of Not Knowing Enough/);
+	assert.match(researchPage, /\/images\/research-gnep-nep-figure1\.png/);
+});
+
+test('homepage Selected Research uses the A3G display title and canonical No Free Lunch publication', () => {
+	const a3g = projects.find((project) => project.id === 'a3g');
+	const symbi = projects.find((project) => project.id === 'symbi');
+	const bibliography = readFileSync(new URL('../src/data/publications.bib', import.meta.url), 'utf8');
+	assert.equal(a3g?.title, 'A3G: Aggregative gemischt-ganzzahlige Gleichgewichtsprobleme: Existenz, Approximation und Algorithmen');
+	assert.equal(a3g?.displayTitle, 'A3G: Aggregative Mixed-Integer Equilibrium Problems: Existence, Approximation, and Algorithms');
+	assert.equal(symbi?.title, 'SymBi: Exploiting Symmetries for Faster Bilevel Optimization Algorithms');
+	assert.match(bibliography, /@article\{Kleinert_et_al:2020,[\s\S]*There's No Free Lunch: On the Hardness of Choosing a Correct Big-M in Bilevel Optimization/);
+	assert.match(selectedResearch, /a3g\.displayTitle \?\? a3g\.title/);
+	assert.match(selectedResearch, /Kleinert_et_al:2020/);
+	assert.match(selectedResearch, /noFreeLunch\.title/);
+	assert.match(selectedResearch, /noFreeLunchLink\.href/);
+	assert.doesNotMatch(selectedResearch, /project\.id === 'symbi'|symbi\.title/);
+});
+
+test('Research Figure 1 keeps alt text, has no visible caption, and uses the cropped alpha PNG', () => {
+	const image = readFileSync(new URL('../public/images/research-gnep-nep-figure1.png', import.meta.url));
+	assert.equal(image.readUInt32BE(16), 2200);
+	assert.equal(image.readUInt32BE(20), 1086);
+	assert.equal(image[25], 6);
+	assert.match(researchPage, /research-gnep-nep-figure1\.png" width="2200" height="1086" alt="Figure 1/);
+	assert.doesNotMatch(researchPage, /<figcaption/);
+});
