@@ -11,6 +11,20 @@ test('the bibliography has unique, case-sensitive citation keys', () => {
 	assert.equal(new Set(keys).size, keys.length);
 });
 
+test('the complete canonical bibliography and DOI identities remain unique', () => {
+	const keys = [...bib.matchAll(/^@(?!COMMENT\b)[A-Za-z]+\s*[({]\s*([^,\s]+)/gm)].map((match) => match[1]);
+	assert.equal(keys.length, 165);
+	const dois = [...bib.matchAll(/^\s*doi\s*=\s*\{([^}]+)\}/gmi)]
+		.map((match) => match[1].toLowerCase().replace(/^https?:\/\/(?:dx\.)?doi\.org\//, ''));
+	assert.equal(new Set(dois).size, dois.length);
+});
+
+test('the verified ECC paper replaces its former preprint representation without changing its stable key', () => {
+	assert.match(bib, /@inproceedings\{Fabiani_et_al:2024,[\s\S]*2025 European Control Conference \(ECC\)[\s\S]*10\.23919\/ECC65951\.2025\.11187084/);
+	assert.doesNotMatch(bib, /@techreport\{Fabiani_et_al:2024,/);
+	assert.equal([...bib.matchAll(/@(?:inproceedings|techreport)\{Fabiani_et_al:2024,/g)].length, 1);
+});
+
 test('selected publications contain keys only, not duplicate bibliography fields', () => {
 	const selected = readFileSync(new URL('../src/data/selected-publications.ts', import.meta.url), 'utf8');
 	assert.doesNotMatch(selected, /\b(title|author|journal|publisher|year)\s*:/i);

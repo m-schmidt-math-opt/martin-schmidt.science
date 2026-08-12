@@ -36,3 +36,36 @@ test('the latest canonical talk is surfaced first in the Talks page recent secti
 	assert.match(talksPage, /title: 'Recent Talks', items: recentTalks/);
 	assert.equal(talks[0].date.start, '2026-08-03');
 });
+
+test('Squarespace-audited dates and date ranges remain canonical', () => {
+	assert.equal(talks.find((talk) => talk.id === 'talk-0014')?.date.start, '2024-11-10');
+	assert.equal(talks.find((talk) => talk.id === 'talk-0030')?.date.start, '2023-02-06');
+	assert.deepEqual(talks.find((talk) => talk.id === 'talk-0045')?.date, {
+		start: '2021-11-30',
+		end: '2021-12-01',
+		display: '30 November–1 December 2021',
+	});
+	assert.equal(talks.find((talk) => talk.id === 'talk-0053')?.date.start, '2020-10-26');
+});
+
+test('explicit source classifications and delivery metadata are preserved without title annotations', () => {
+	assert.ok(talks.find((talk) => talk.id === 'talk-0040')?.types.includes('invited'));
+	for (const id of ['talk-0041', 'talk-0043', 'talk-0044', 'talk-0046', 'talk-0051', 'talk-0052', 'talk-0053', 'talk-0054']) {
+		assert.equal(talks.find((talk) => talk.id === id)?.deliveryMode, 'online');
+	}
+	for (const id of ['talk-0051', 'talk-0052', 'talk-0053', 'talk-0054']) {
+		assert.doesNotMatch(talks.find((talk) => talk.id === id)?.title ?? '', /via (?:Zoom|BigBlueButton)/i);
+	}
+});
+
+test('verified legacy slide and recording links remain attached to canonical talks', () => {
+	const linkedTalks = talks.filter((talk) => talk.links.length > 0);
+	assert.ok(linkedTalks.some((talk) => talk.links.some((link) => link.kind === 'slides')));
+	assert.ok(linkedTalks.some((talk) => talk.links.some((link) => link.kind === 'video')));
+	assert.ok(talks.find((talk) => talk.id === 'talk-0043')?.links.some((link) => link.href === 'https://youtu.be/IwUoVF3H7cc'));
+	assert.equal(talks.find((talk) => talk.id === 'talk-0049')?.links.filter((link) => link.kind === 'video').length, 3);
+});
+
+test('talks absent from the current Squarespace list remain preserved canonically', () => {
+	for (const id of ['talk-0066', 'talk-0070']) assert.ok(talks.some((talk) => talk.id === id));
+});

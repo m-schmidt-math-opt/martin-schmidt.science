@@ -340,7 +340,7 @@ export const talks = [
     "id": "talk-0014",
     "title": "BOBILib: Bilevel Optimization (Benchmark) Instance Library",
     "date": {
-      "start": "2024-11-19"
+      "start": "2024-11-10"
     },
     "eventName": "PGMODays",
     "city": "Paris",
@@ -365,7 +365,13 @@ export const talks = [
     "country": "Canada",
     "deliveryMode": "unspecified",
     "types": [],
-    "links": [],
+    "links": [
+      {
+        "kind": "slides",
+        "label": "Slides",
+        "href": "https://martinschmidt.squarespace.com/s/2024-07-24-ISMP.pdf"
+      }
+    ],
     "notes": [],
     "source": {
       "recordNumber": 15,
@@ -619,7 +625,6 @@ export const talks = [
       "plenary"
     ],
     "curatedGroups": ["plenary-keynote"],
-    "curatedGroups": ["plenary-keynote"],
     "links": [],
     "notes": [],
     "source": {
@@ -670,7 +675,7 @@ export const talks = [
     "id": "talk-0030",
     "title": "A Primer on Bilevel Optimization Under Uncertainty",
     "date": {
-      "start": "2022-11-17"
+      "start": "2023-02-06"
     },
     "eventName": "Department of Computer, Control and Management Engineering",
     "eventKind": "institutional",
@@ -815,7 +820,13 @@ export const talks = [
       "keynote"
     ],
     "curatedGroups": ["plenary-keynote"],
-    "links": [],
+    "links": [
+      {
+        "kind": "slides",
+        "label": "Slides",
+        "href": "https://martinschmidt.squarespace.com/s/2022-07-05-EURO-Espoo.pdf"
+      }
+    ],
     "notes": [],
     "source": {
       "recordNumber": 36,
@@ -835,7 +846,13 @@ export const talks = [
     "venue": "Aalto University",
     "deliveryMode": "unspecified",
     "types": [],
-    "links": [],
+    "links": [
+      {
+        "kind": "slides",
+        "label": "Slides",
+        "href": "https://martinschmidt.squarespace.com/s/2022-07-04-EURO-Espoo-ejco-best-paper-award.pdf"
+      }
+    ],
     "notes": [],
     "source": {
       "recordNumber": 37,
@@ -858,7 +875,13 @@ export const talks = [
       "plenary"
     ],
     "curatedGroups": ["plenary-keynote"],
-    "links": [],
+    "links": [
+      {
+        "kind": "slides",
+        "label": "Slides",
+        "href": "https://martinschmidt.squarespace.com/s/2022-06-23-SIAM-UKIE-National-Student-Chapter-Conference.pdf"
+      }
+    ],
     "notes": [],
     "source": {
       "recordNumber": 38,
@@ -896,7 +919,9 @@ export const talks = [
     "city": "Stockholm",
     "country": "Sweden",
     "deliveryMode": "unspecified",
-    "types": [],
+    "types": [
+      "invited"
+    ],
     "links": [],
     "notes": [],
     "source": {
@@ -914,7 +939,13 @@ export const talks = [
     "eventKind": "webinar",
     "deliveryMode": "online",
     "types": [],
-    "links": [],
+    "links": [
+      {
+        "kind": "video",
+        "label": "Recording",
+        "href": "https://media.ed.ac.uk/id/1_e0pa53qk"
+      }
+    ],
     "notes": [
       "The source has an unmatched closing parenthesis after “via Zoom”."
     ],
@@ -949,9 +980,20 @@ export const talks = [
     },
     "eventName": "Séminaire du GERAD",
     "eventKind": "seminar",
-    "deliveryMode": "unspecified",
+    "deliveryMode": "online",
     "types": [],
-    "links": [],
+    "links": [
+      {
+        "kind": "slides",
+        "label": "Slides",
+        "href": "https://martinschmidt.squarespace.com/s/2022-02-24-GERAD-Seminar.pdf"
+      },
+      {
+        "kind": "video",
+        "label": "Recording",
+        "href": "https://youtu.be/IwUoVF3H7cc"
+      }
+    ],
     "notes": [],
     "source": {
       "recordNumber": 43,
@@ -969,7 +1011,13 @@ export const talks = [
     "hostInstitution": "MIT",
     "deliveryMode": "online",
     "types": [],
-    "links": [],
+    "links": [
+      {
+        "kind": "slides",
+        "label": "Slides",
+        "href": "https://martinschmidt.squarespace.com/s/2021-12-17-MIT-enOPTIMAL.pdf"
+      }
+    ],
     "notes": [],
     "source": {
       "recordNumber": 44,
@@ -980,14 +1028,22 @@ export const talks = [
     "id": "talk-0045",
     "title": "On Convex Lower-Level Black-Box Constraints in Bilevel Optimization with an Application to Gas Market Models with Chance Constraints",
     "date": {
-      "start": "2021-12-01"
+      "start": "2021-11-30",
+      "end": "2021-12-01",
+      "display": "30 November–1 December 2021"
     },
     "eventName": "PGMO Days 2021",
     "city": "Paris",
     "country": "France",
     "deliveryMode": "unspecified",
     "types": [],
-    "links": [],
+    "links": [
+      {
+        "kind": "slides",
+        "label": "Slides",
+        "href": "https://martinschmidt.squarespace.com/s/2021-11-30-PGMO-Days.pdf"
+      }
+    ],
     "notes": [],
     "source": {
       "recordNumber": 45,
@@ -1000,11 +1056,19 @@ export const talks = [
     "date": {
       "start": "2021-11-12"
     },
-    "eventName": "Trans-Atlantic Infraday Conference 2021 at Aalto University, Finland, via “Zoom”",
-    "venue": "Espoo, Finland",
-    "deliveryMode": "unspecified",
+    "eventName": "Trans-Atlantic Infraday Conference 2021",
+    "hostInstitution": "Aalto University",
+    "city": "Espoo",
+    "country": "Finland",
+    "deliveryMode": "online",
     "types": [],
-    "links": [],
+    "links": [
+      {
+        "kind": "slides",
+        "label": "Slides",
+        "href": "https://martinschmidt.squarespace.com/s/2021-11-12-TAI-Helsinki.pdf"
+      }
+    ],
     "notes": [],
     "source": {
       "recordNumber": 46,
@@ -1025,7 +1089,13 @@ export const talks = [
     "deliveryMode": "unspecified",
     "types": ["lecture", "course"],
     "curatedGroups": ["introductory-course"],
-    "links": [],
+    "links": [
+      {
+        "kind": "slides",
+        "label": "Course slides",
+        "href": "https://martinschmidt.squarespace.com/s/bilevel-opt-compact-course.pdf"
+      }
+    ],
     "notes": []
   },
   {
@@ -1057,7 +1127,11 @@ export const talks = [
     "deliveryMode": "online",
     "types": ["lecture", "course"],
     "curatedGroups": ["introductory-course"],
-    "links": [],
+    "links": [
+      { "kind": "video", "label": "Bilevel lecture 1", "href": "https://www.youtube.com/watch?v=mciH50nQZhU" },
+      { "kind": "video", "label": "Bilevel lecture 2", "href": "https://www.youtube.com/watch?v=MMITTjlVCYg" },
+      { "kind": "video", "label": "Bilevel lecture 3", "href": "https://www.youtube.com/watch?v=-NNibHQ0ttU" }
+    ],
     "notes": [],
     "source": {
       "recordNumber": 48,
@@ -1076,7 +1150,11 @@ export const talks = [
     "deliveryMode": "online",
     "types": ["lecture", "course"],
     "curatedGroups": ["introductory-course"],
-    "links": [],
+    "links": [
+      { "kind": "video", "label": "MINLP lecture 1", "href": "https://www.youtube.com/watch?v=PaBDA-Vp2a8" },
+      { "kind": "video", "label": "MINLP lecture 2", "href": "https://www.youtube.com/watch?v=X7VvtpoBF1g" },
+      { "kind": "video", "label": "MINLP lecture 3", "href": "https://www.youtube.com/watch?v=Nnz12kcfN20" }
+    ],
     "notes": [],
     "source": {
       "recordNumber": 49,
@@ -1102,7 +1180,7 @@ export const talks = [
   },
   {
     "id": "talk-0051",
-    "title": "Die Mathematik der Energiewende (via Zoom)",
+    "title": "Die Mathematik der Energiewende",
     "date": {
       "start": "2021-02-03"
     },
@@ -1119,7 +1197,7 @@ export const talks = [
   },
   {
     "id": "talk-0052",
-    "title": "(Mixed-Integer) Nonlinear Optimization for District Heating Networks (via Zoom)",
+    "title": "(Mixed-Integer) Nonlinear Optimization for District Heating Networks",
     "date": {
       "start": "2020-12-15"
     },
@@ -1136,15 +1214,23 @@ export const talks = [
   },
   {
     "id": "talk-0053",
-    "title": "Robust Linear Complementarity Problems (via Zoom)",
+    "title": "Robust Linear Complementarity Problems",
     "date": {
-      "start": "2020-06-26"
+      "start": "2020-10-26"
     },
     "eventName": "Weekly Seminar on Optimization and Equilibrium Problems: Models, Applications, Algorithms",
-    "venue": "University of Maryland, Baltmore, USA",
+    "hostInstitution": "University of Maryland",
+    "city": "Baltimore",
+    "country": "USA",
     "deliveryMode": "online",
     "types": [],
-    "links": [],
+    "links": [
+      {
+        "kind": "slides",
+        "label": "Slides",
+        "href": "https://martinschmidt.squarespace.com/s/2020-10-26-Seminar-Talk-UMB.pdf"
+      }
+    ],
     "notes": [],
     "source": {
       "recordNumber": 53,
@@ -1153,7 +1239,7 @@ export const talks = [
   },
   {
     "id": "talk-0054",
-    "title": "Robust Linear Complementarity Problems (via Zoom)",
+    "title": "Robust Linear Complementarity Problems",
     "date": {
       "start": "2020-06-26"
     },
@@ -1208,7 +1294,7 @@ export const talks = [
   },
   {
     "id": "talk-0057",
-    "title": "(Γ-)Robustified Market Equilibrium Models & (Γ-)Robust LCPs",
+    "title": "(Γ-)Robustified Market Equilibrium Models and (Γ-)Robust LCPs",
     "date": {
       "start": "2019-08-01"
     },
