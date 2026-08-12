@@ -1,0 +1,17 @@
+---
+interface SectionLink {
+	id: string;
+	label: string;
+}
+
+interface Props {
+	sections: SectionLink[];
+	label?: string;
+}
+
+const { sections, label = 'On this page' } = Astro.props;
+---
+
+<nav class="section-nav" aria-label={label}>
+	{sections.map((section) => <a href={`#${section.id}`}>{section.label}</a>)}
+</nav>
