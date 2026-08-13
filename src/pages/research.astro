@@ -18,21 +18,14 @@ const sections = [
 	description="Research by Martin Schmidt at Trier University in nonlinear, bilevel, mixed-integer, robust, equilibrium, and network optimization."
 >
 	<header class="research-intro page-shell" aria-labelledby="page-title">
-		<div class="research-intro__layout">
-			<div>
-				<h1 id="page-title">Research</h1>
-				<p class="intro__lead">
-					I work in mathematical optimization at Trier University, where I am Professor of
-					Nonlinear Optimization. Bilevel optimization is a central focus of my research, alongside
-					mixed-integer and nonlinear methods, optimization under uncertainty, equilibrium and
-					game-theoretic problems, and network optimization.
-				</p>
-				<SectionNav sections={sections} label="Research sections" />
-			</div>
-			<figure class="research-intro__figure">
-				<img src="/images/research-gnep-nep-figure1.png" width="2200" height="1086" alt="Figure 1 from A One-Extra Player Reduction of GNEPs to NEPs: the feasible set X, its convex hull, and the constraint 2x₁ + x₂ = 3" />
-			</figure>
-		</div>
+		<h1 id="page-title">Research</h1>
+		<p class="intro__lead">
+			I work in mathematical optimization at Trier University, where I am Professor of
+			Nonlinear Optimization. Bilevel optimization is a central focus of my research, alongside
+			mixed-integer and nonlinear methods, optimization under uncertainty, equilibrium and
+			game-theoretic problems, and network optimization.
+		</p>
+		<SectionNav sections={sections} label="Research sections" />
 	</header>
 
 	<section id="core-research-topics" class="research-section" aria-labelledby="core-themes-title">
@@ -130,21 +123,6 @@ const sections = [
 		letter-spacing: -0.025em;
 	}
 
-	.research-intro__layout {
-		display: grid;
-		gap: 2rem;
-	}
-
-	.research-intro__figure {
-		margin: 0;
-	}
-
-	.research-intro__figure img {
-		display: block;
-		width: 100%;
-		height: auto;
-	}
-
 	.section-link {
 		display: inline-block;
 		margin-top: 1.5rem;
@@ -217,15 +195,6 @@ const sections = [
 	}
 
 	@media (min-width: 45rem) {
-		.research-intro__layout {
-			align-items: start;
-			grid-template-columns: minmax(0, 1.5fr) minmax(15rem, 0.75fr);
-			gap: clamp(2.5rem, 5vw, 4.5rem);
-		}
-
-		.research-intro__figure {
-			padding-top: 0.5rem;
-		}
 		.research-section__heading--row {
 			display: flex;
 			align-items: end;

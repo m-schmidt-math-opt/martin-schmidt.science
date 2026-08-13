@@ -62,7 +62,6 @@ test('Selected Research replaces implicit nonlinearities with the canonical adju
 	assert.match(selectedResearch, /Thuerauf_et_al:2025/);
 	assert.doesNotMatch(selectedResearch, /Schmidt_et_al:2022/);
 	assert.match(readFileSync(new URL('../src/data/publications.bib', import.meta.url), 'utf8'), /@article\{Schmidt_et_al:2022,[\s\S]*The Cost of Not Knowing Enough/);
-	assert.match(researchPage, /\/images\/research-gnep-nep-figure1\.png/);
 });
 
 test('homepage Selected Research uses the A3G display title and canonical No Free Lunch publication', () => {
@@ -80,11 +79,11 @@ test('homepage Selected Research uses the A3G display title and canonical No Fre
 	assert.doesNotMatch(selectedResearch, /project\.id === 'symbi'|symbi\.title/);
 });
 
-test('Research Figure 1 keeps alt text, has no visible caption, and uses the cropped alpha PNG', () => {
+test('Research page omits Figure 1 while its source image remains unchanged', () => {
 	const image = readFileSync(new URL('../public/images/research-gnep-nep-figure1.png', import.meta.url));
 	assert.equal(image.readUInt32BE(16), 2200);
 	assert.equal(image.readUInt32BE(20), 1086);
 	assert.equal(image[25], 6);
-	assert.match(researchPage, /research-gnep-nep-figure1\.png" width="2200" height="1086" alt="Figure 1/);
+	assert.doesNotMatch(researchPage, /research-gnep-nep-figure1\.png|research-intro__figure/);
 	assert.doesNotMatch(researchPage, /<figcaption/);
 });
