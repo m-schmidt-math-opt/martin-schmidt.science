@@ -369,7 +369,7 @@ export const talks = [
       {
         "kind": "slides",
         "label": "Slides",
-        "href": "https://martinschmidt.squarespace.com/s/2024-07-24-ISMP.pdf"
+        "href": "/files/talks/2024-07-24-ISMP.pdf"
       }
     ],
     "notes": [],
@@ -824,7 +824,7 @@ export const talks = [
       {
         "kind": "slides",
         "label": "Slides",
-        "href": "https://martinschmidt.squarespace.com/s/2022-07-05-EURO-Espoo.pdf"
+        "href": "/files/talks/2022-07-05-EURO-Espoo.pdf"
       }
     ],
     "notes": [],
@@ -850,7 +850,7 @@ export const talks = [
       {
         "kind": "slides",
         "label": "Slides",
-        "href": "https://martinschmidt.squarespace.com/s/2022-07-04-EURO-Espoo-ejco-best-paper-award.pdf"
+        "href": "/files/talks/2022-07-04-EURO-Espoo-ejco-best-paper-award.pdf"
       }
     ],
     "notes": [],
@@ -879,7 +879,7 @@ export const talks = [
       {
         "kind": "slides",
         "label": "Slides",
-        "href": "https://martinschmidt.squarespace.com/s/2022-06-23-SIAM-UKIE-National-Student-Chapter-Conference.pdf"
+        "href": "/files/talks/2022-06-23-SIAM-UKIE-National-Student-Chapter-Conference.pdf"
       }
     ],
     "notes": [],
@@ -986,7 +986,7 @@ export const talks = [
       {
         "kind": "slides",
         "label": "Slides",
-        "href": "https://martinschmidt.squarespace.com/s/2022-02-24-GERAD-Seminar.pdf"
+        "href": "/files/talks/2022-02-24-GERAD-Seminar.pdf"
       },
       {
         "kind": "video",
@@ -1015,7 +1015,7 @@ export const talks = [
       {
         "kind": "slides",
         "label": "Slides",
-        "href": "https://martinschmidt.squarespace.com/s/2021-12-17-MIT-enOPTIMAL.pdf"
+        "href": "/files/talks/2021-12-17-MIT-enOPTIMAL.pdf"
       }
     ],
     "notes": [],
@@ -1041,7 +1041,7 @@ export const talks = [
       {
         "kind": "slides",
         "label": "Slides",
-        "href": "https://martinschmidt.squarespace.com/s/2021-11-30-PGMO-Days.pdf"
+        "href": "/files/talks/2021-11-30-PGMO-Days.pdf"
       }
     ],
     "notes": [],
@@ -1066,7 +1066,7 @@ export const talks = [
       {
         "kind": "slides",
         "label": "Slides",
-        "href": "https://martinschmidt.squarespace.com/s/2021-11-12-TAI-Helsinki.pdf"
+        "href": "/files/talks/2021-11-12-TAI-Helsinki.pdf"
       }
     ],
     "notes": [],
@@ -1093,7 +1093,7 @@ export const talks = [
       {
         "kind": "slides",
         "label": "Course slides",
-        "href": "https://martinschmidt.squarespace.com/s/bilevel-opt-compact-course.pdf"
+        "href": "/files/talks/bilevel-opt-compact-course.pdf"
       }
     ],
     "notes": []
@@ -1228,7 +1228,7 @@ export const talks = [
       {
         "kind": "slides",
         "label": "Slides",
-        "href": "https://martinschmidt.squarespace.com/s/2020-10-26-Seminar-Talk-UMB.pdf"
+        "href": "/files/talks/2020-10-26-Seminar-Talk-UMB.pdf"
       }
     ],
     "notes": [],

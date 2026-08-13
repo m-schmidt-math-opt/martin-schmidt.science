@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import test from 'node:test';
 import { introductoryCourseTalks, invitedTalks, plenaryAndKeynoteTalks, selectedPlenaryAndKeynoteTalks, talks } from '../src/data/talks.ts';
 
@@ -68,4 +68,14 @@ test('verified legacy slide and recording links remain attached to canonical tal
 
 test('talks absent from the current Squarespace list remain preserved canonically', () => {
 	for (const id of ['talk-0066', 'talk-0070']) assert.ok(talks.some((talk) => talk.id === id));
+});
+
+test('talk resources have no runtime dependency on the old Squarespace site', () => {
+	const serialized = JSON.stringify(talks);
+	assert.doesNotMatch(serialized, /squarespace/i);
+	const localResources = talks.flatMap((talk) => talk.links).filter((resource) => resource.href.startsWith('/files/'));
+	assert.equal(localResources.length, 10);
+	for (const resource of localResources) {
+		assert.ok(existsSync(new URL(`../public${resource.href}`, import.meta.url)), `Missing local talk resource: ${resource.href}`);
+	}
 });
