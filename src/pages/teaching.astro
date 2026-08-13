@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionNav from '../components/SectionNav.astro';
-import { currentTeaching, pastCourses, teachingPortfolio, teachingResources } from '../data/teaching';
+import { currentTeaching, teachingPortfolio, teachingResources } from '../data/teaching';
 import { externalLinkAttributes } from '../lib/links';
 
 const sections = [
@@ -9,10 +9,8 @@ const sections = [
 	{ id: 'portfolio', title: 'Teaching Portfolio', items: teachingPortfolio, pending: 'Recurring teaching subjects are pending verification.' },
 	{ id: 'resources', title: 'Lecture Notes & Resources', items: teachingResources, pending: 'Verified lecture notes and teaching resources will be added here.' },
 ];
-const orderedPastCourses = [...pastCourses].sort((a, b) => b.sortDate.localeCompare(a.sortDate));
 const sectionLinks = [
 	...sections.map(({ id, title }) => ({ id, label: title })),
-	{ id: 'past-courses', label: 'Past Courses' },
 	{ id: 'supervised-theses', label: 'Supervised Theses' },
 ];
 ---
@@ -36,10 +34,6 @@ const sectionLinks = [
 				) : <p class="pending-note">{section.pending}</p>}
 			</section>
 		))}
-		<section id="past-courses" class="teaching-section" aria-labelledby="past-title">
-			<header class="teaching-section__heading"><h2 id="past-title">Past Courses</h2></header>
-			{orderedPastCourses.length ? <ol class="teaching-list">{orderedPastCourses.map((course) => <li><article><p class="teaching-meta">{course.term}</p><h3>{course.title}</h3>{course.links.length > 0 && <ul class="item-links" aria-label={`Links for ${course.title}`}>{course.links.map((link) => <li><a href={link.href} {...externalLinkAttributes(link.href)}>{link.label}</a></li>)}</ul>}</article></li>)}</ol> : <p class="pending-note">Past course records are pending verification.</p>}
-		</section>
 		<section id="supervised-theses" class="teaching-section thesis-archive-link" aria-labelledby="theses-title">
 			<header class="teaching-section__heading"><h2 id="theses-title">Supervised Theses</h2></header>
 			<p>Browse the complete archive of supervised Master’s and Bachelor’s theses.</p>

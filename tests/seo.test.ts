@@ -30,7 +30,7 @@ test('homepage metadata is descriptive and derives identity from canonical About
 });
 
 test('homepage research statement and institution presentation use the reviewed wording', () => {
-	assert.match(homepage, /My research focuses on bilevel, mixed-integer, nonlinear, robust, equilibrium, and\s+network optimization, with applications in energy systems and markets as well as\s+machine learning and AI\./s);
+	assert.match(homepage, /My research focuses on bilevel, mixed-integer, nonlinear, robust, and network optimization and equilibrium problems with applications in energy systems and markets as well as machine learning and AI\./);
 	assert.match(homepage, /const homepageCountry = aboutProfile\.contact\.addressLines\.at\(-1\)/);
 	assert.match(homepage, /<p class="hero__affiliation">\{homepageInstitution\}<\/p>/);
 	assert.doesNotMatch(homepage, /structured optimization\s+problems, with a particular interest/);
@@ -44,6 +44,7 @@ test('shared shell identity derives from About data and primary navigation is un
 	assert.deepEqual([...layout.matchAll(/\{ label: '([^']+)', href:/g)].map((match) => match[1]), [
 		'Research',
 		'Publications',
+		'Talks',
 		'Group',
 		'Software & Data',
 		'Teaching',

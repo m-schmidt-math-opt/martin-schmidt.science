@@ -30,6 +30,7 @@ export const resources: ResearchResource[] = [
 		featured: true,
 		description: 'An open library of bilevel optimization benchmark instances in a standardized format.',
 		links: [{ kind: 'project', label: 'BOBILib website', href: 'https://bobilib.org/' }],
+		relatedPublicationKeys: ['Thuerauf_et_al:2026'],
 	},
 	{
 		id: 'gaslib',
@@ -39,6 +40,7 @@ export const resources: ResearchResource[] = [
 		featured: true,
 		description: 'A collection of gas network data sets for optimization and algorithmic research.',
 		links: [{ kind: 'project', label: 'GasLib website', href: 'https://gaslib.zib.de/' }],
+		relatedPublicationKeys: ['Schmidt_et_al:2017b'],
 	},
 	{
 		id: 'lamatto',

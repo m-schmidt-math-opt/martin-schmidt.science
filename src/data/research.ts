@@ -23,18 +23,18 @@ export const researchThemes: ResearchTheme[] = [
 	},
 	{
 		id: 'robust-optimization-uncertainty',
-		title: 'Robust Optimization & Uncertainty',
+		title: 'Optimization und Uncertainty',
 		description: 'Models and algorithms for optimization under uncertain parameters, including robust and decision-dependent formulations.',
 	},
 	{
 		id: 'equilibrium-problems-games',
 		title: 'Equilibrium Problems & Games',
-		description: 'Models and algorithms for interacting decision-makers, complementarity systems, and generalized Nash equilibrium problems.',
+		description: 'Models and algorithms for interacting decision-makers, complementarity problems, and generalized Nash equilibrium problems.',
 	},
 	{
 		id: 'network-optimization',
 		title: 'Network Optimization',
-		description: 'Optimization models and algorithms for flows and decisions on energy and infrastructure networks.',
+		description: 'Optimization models and algorithms for (particularly nonlinear) flows in energy and infrastructure networks.',
 	},
 ];
 
@@ -42,7 +42,7 @@ export const researchApplications: ResearchApplication[] = [
 	{
 		id: 'energy-systems',
 		title: 'Energy Systems',
-		description: 'Optimization models for the design and operation of energy systems, including coupled transport and supply networks.',
+		description: 'Optimization models for the design and operation of energy systems with a particular focus on problems defined on networks.',
 	},
 	{
 		id: 'energy-markets',

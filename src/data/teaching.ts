@@ -68,7 +68,7 @@ export const teachingResources: TeachingResource[] = [
 		id: 'lecture-cycle',
 		title: 'Optimization Lecture Cycle',
 		description: 'Overview of the recurring seven-lecture optimization cycle and its prerequisites.',
-		links: [{ label: 'Lecture cycle (PDF)', href: 'https://martinschmidt.squarespace.com/s/lecture-cycle-hj6k.pdf', kind: 'materials' }],
+		links: [{ label: 'Lecture cycle (PDF)', href: '/files/optimization-lecture-cycle.pdf', kind: 'materials' }],
 	},
 	{
 		id: 'bilevel-book',
@@ -89,7 +89,7 @@ export const teachingResources: TeachingResource[] = [
 		id: 'how-to-give-a-talk',
 		title: '(My personal opinions on) how to give a talk',
 		description: 'Personal notes on how to give a talk, last updated in July 2022.',
-		links: [{ label: 'Read the PDF', href: 'https://martinschmidt.squarespace.com/s/how-to-give-a-talk-kny9.pdf', kind: 'materials' }],
+		links: [{ label: 'Read the PDF', href: '/files/how-to-give-a-talk.pdf', kind: 'materials' }],
 	},
 ];
 

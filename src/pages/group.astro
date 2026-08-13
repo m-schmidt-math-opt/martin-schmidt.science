@@ -90,7 +90,7 @@ const sectionLinks = [
 					<h3 id="former-postdoc-title">Former Postdocs</h3>
 					<ul class="alumni-list">
 						{formerPostdocs.map((person) => (
-							<li><span>{person.name}</span>{person.alumniRecord.currentPosition && <small>{person.alumniRecord.currentPosition}</small>}</li>
+							<li><span>{person.name}</span>{person.alumniRecord.currentPosition && <small>{person.alumniRecord.currentPosition}</small>}{person.homepage && <a href={person.homepage} {...externalLinkAttributes(person.homepage)}>Homepage</a>}</li>
 						))}
 					</ul>
 				</section>

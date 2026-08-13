@@ -1,10 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionNav from '../components/SectionNav.astro';
-import TalkList from '../components/TalkList.astro';
 import { aboutProfile, academicLeadership, academicPositions, affiliationsAndFellowships, awards, editorialService, education } from '../data/about';
 import { reviewingSummary, selectedReviewingVenues } from '../data/reviewing';
-import { introductoryCourseTalks, selectedPlenaryAndKeynoteTalks } from '../data/talks';
 import { publicationsByKeys } from '../lib/publications';
 import { externalLinkAttributes } from '../lib/links';
 
@@ -23,8 +21,6 @@ const sections = [
 	{ id: 'awards', label: 'Awards & Honors' },
 	{ id: 'editorial', label: 'Editorial Service' },
 	{ id: 'reviewing', label: 'Reviewing Activity' },
-	{ id: 'plenary-talks', label: 'Plenary & Keynote Talks' },
-	{ id: 'courses', label: 'Courses & Schools' },
 ];
 ---
 
@@ -68,12 +64,6 @@ const sections = [
 			<header class="about-section__heading"><h2 id="reviewing-title">Reviewing Activity</h2></header>
 			<p class="reviewing-summary">{reviewingSummary}</p><p class="reviewing-selection">Selected venues: {selectedReviewingVenues.join(' · ')}</p>
 			<a class="section-link" href="/reviewing/">View full reviewing activity <span aria-hidden="true">→</span></a>
-		</section>
-		<section id="plenary-talks" class="about-section" aria-labelledby="plenary-title">
-			<header class="about-section__heading"><h2 id="plenary-title">Selected (Semi-)Plenary &amp; Keynote Talks</h2></header><TalkList talks={selectedPlenaryAndKeynoteTalks} /><a class="section-link" href="/talks/">View all talks <span aria-hidden="true">→</span></a>
-		</section>
-		<section id="courses" class="about-section" aria-labelledby="courses-title">
-			<header class="about-section__heading"><h2 id="courses-title">Introductory Courses &amp; Schools</h2></header><TalkList talks={introductoryCourseTalks} /><a class="section-link" href="/talks/">View all talks <span aria-hidden="true">→</span></a>
 		</section>
 	</div>
 </BaseLayout>

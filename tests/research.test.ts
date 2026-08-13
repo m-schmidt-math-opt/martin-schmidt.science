@@ -14,12 +14,14 @@ test('canonical research themes have the exact intended order', () => {
 	assert.deepEqual(researchThemes.map((theme) => theme.title), [
 		'Bilevel Optimization',
 		'Mixed-Integer & Nonlinear Optimization',
-		'Robust Optimization & Uncertainty',
+		'Optimization und Uncertainty',
 		'Equilibrium Problems & Games',
 		'Network Optimization',
 	]);
 	assert.equal(new Set(researchThemes.map((theme) => theme.id)).size, researchThemes.length);
 	assert.ok(researchThemes.every((theme) => theme.description.trim().length > 0));
+	assert.equal(researchThemes.find((theme) => theme.id === 'equilibrium-problems-games')?.description, 'Models and algorithms for interacting decision-makers, complementarity problems, and generalized Nash equilibrium problems.');
+	assert.equal(researchThemes.find((theme) => theme.id === 'network-optimization')?.description, 'Optimization models and algorithms for (particularly nonlinear) flows in energy and infrastructure networks.');
 });
 
 test('canonical research applications have the exact intended order', () => {
@@ -32,6 +34,7 @@ test('canonical research applications have the exact intended order', () => {
 	]);
 	assert.equal(new Set(researchApplications.map((application) => application.id)).size, researchApplications.length);
 	assert.ok(researchApplications.every((application) => application.description.trim().length > 0));
+	assert.equal(researchApplications.find((application) => application.id === 'energy-systems')?.description, 'Optimization models for the design and operation of energy systems with a particular focus on problems defined on networks.');
 });
 
 test('homepage and Research page render canonical research data', () => {

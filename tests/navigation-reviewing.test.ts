@@ -28,7 +28,16 @@ test('reviewing page and About derive from the complete canonical old-site list'
 	const page = readFileSync(new URL('../src/pages/reviewing.astro', import.meta.url), 'utf8');
 	const about = readFileSync(new URL('../src/pages/about.astro', import.meta.url), 'utf8');
 	assert.match(page, /reviewingVenues\.map/);
+	assert.doesNotMatch(page, />Reviewing Venues</);
 	assert.match(about, /href="\/reviewing\/"/);
+	assert.doesNotMatch(about, /Plenary & Keynote Talks|Courses & Schools|plenary-talks|id: 'courses'/);
+});
+
+test('About and Teaching section navigation contains only rendered sections', () => {
+	const about = readFileSync(new URL('../src/pages/about.astro', import.meta.url), 'utf8');
+	const teaching = readFileSync(new URL('../src/pages/teaching.astro', import.meta.url), 'utf8');
+	assert.doesNotMatch(about, /plenary-talks|id: 'courses'/);
+	assert.doesNotMatch(teaching, /past-courses|Past Courses/);
 });
 
 test('the exact source Figure 1 crop is a local asset and publication DOM IDs are section-namespaced', () => {

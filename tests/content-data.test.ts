@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { aboutProfile, academicPositions } from '../src/data/about.ts';
 import { resources } from '../src/data/resources.ts';
 import { currentTeaching, pastCourses, teachingResources } from '../src/data/teaching.ts';
@@ -60,14 +60,30 @@ test('homepage resource gateway stays canonical without repeating BOBILib copy',
 	assert.ok(bobilibDescription);
 	assert.doesNotMatch(homepageSections, new RegExp(bobilibDescription.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
 	assert.match(resourceList, /!gateway \|\| index > 0/);
+	assert.doesNotMatch(resourceList, /Featured resource/i);
 });
 
-test('the retained teaching resource and intentional PDF exclusions are explicit', () => {
-	assert.equal(teachingResources.find((resource) => resource.id === 'how-to-give-a-talk')?.links[0]?.href, 'https://martinschmidt.squarespace.com/s/how-to-give-a-talk-kny9.pdf');
+test('the retained teaching resources use local verified PDFs and intentional exclusions remain explicit', () => {
+	assert.equal(teachingResources.find((resource) => resource.id === 'lecture-cycle')?.links[0]?.href, '/files/optimization-lecture-cycle.pdf');
+	assert.equal(teachingResources.find((resource) => resource.id === 'how-to-give-a-talk')?.links[0]?.href, '/files/how-to-give-a-talk.pdf');
+	assert.ok(existsSync(new URL('../public/files/optimization-lecture-cycle.pdf', import.meta.url)));
+	assert.ok(existsSync(new URL('../public/files/how-to-give-a-talk.pdf', import.meta.url)));
 	const serialized = JSON.stringify(teachingResources);
+	assert.doesNotMatch(serialized, /martinschmidt\.squarespace\.com/);
 	assert.doesNotMatch(serialized, /Brief overview of potential topics|Detailed description of potential topics/);
 	assert.doesNotMatch(serialized, /Nonlinear Optimization.*\.pdf|Lineare Algebra.*\.pdf|Numerical Optimization.*\.pdf/i);
 	const teachingPage = readFileSync(new URL('../src/pages/teaching.astro', import.meta.url), 'utf8');
 	assert.match(teachingPage, /href="\/theses\/"/);
 	assert.doesNotMatch(teachingPage, /from ['"]\.\.\/data\/theses/);
+	assert.doesNotMatch(teachingPage, /Past Courses|past-courses/);
+	assert.equal(pastCourses.length, 11);
+});
+
+test('active featured resources resolve paper links by canonical BibTeX key', () => {
+	assert.deepEqual(resources.find((resource) => resource.id === 'bobilib')?.relatedPublicationKeys, ['Thuerauf_et_al:2026']);
+	assert.deepEqual(resources.find((resource) => resource.id === 'gaslib')?.relatedPublicationKeys, ['Schmidt_et_al:2017b']);
+	const resourceList = readFileSync(new URL('../src/components/ResourceList.astro', import.meta.url), 'utf8');
+	assert.match(resourceList, /publicationByKey/);
+	assert.match(resourceList, /link\.label === 'DOI'/);
+	assert.doesNotMatch(resourceList, /10\.1007\/s12532-025-00294-y|10\.3390\/data2040040/);
 });

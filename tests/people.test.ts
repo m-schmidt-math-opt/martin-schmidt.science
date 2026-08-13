@@ -7,6 +7,19 @@ test('people have unique stable IDs', () => {
 	assert.equal(new Set(people.map((person) => person.id)).size, people.length);
 });
 
+test('requested research-focus cleanup and alumni homepages stay canonical', () => {
+	assert.deepEqual(people.find((person) => person.id === 'alois-duguet')?.current?.researchFocus, [
+		'approximation of nonlinear functions by piecewise linear functions',
+		'Nash equilibria in mixed-integer programming games',
+	]);
+	assert.deepEqual(people.find((person) => person.id === 'andreas-horlaender')?.current?.researchFocus, ['bilevel optimization', 'mixed-integer optimization']);
+	assert.equal(people.find((person) => person.id === 'marina-leal-palazon')?.homepage, 'https://www.umh.es/contenido/Estudios/:persona_259463/datos_en.html');
+	assert.equal(people.find((person) => person.id === 'johannes-thuerauf')?.homepage, 'https://johannesthuerauf.gitlab.io');
+	assert.equal(people.find((person) => person.id === 'henri-lefebvre')?.homepage, 'https://henrilefebvre.com');
+	const groupPage = readFileSync(new URL('../src/pages/group.astro', import.meta.url), 'utf8');
+	assert.match(groupPage, /person\.homepage.*externalLinkAttributes\(person\.homepage\)/s);
+});
+
 test('current portraits and former PhD dissertation metadata remain canonical people facts', () => {
 	const current = people.filter((person) => person.current);
 	assert.equal(current.length, 5);

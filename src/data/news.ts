@@ -45,7 +45,7 @@ export const news: NewsItem[] = [
 		id: 'tu-clausthal-2026-colloquium',
 		date: '2026-06-17',
 		category: 'Talk',
-		title: 'Invited colloquium at TU Clausthal',
+		title: 'Invited colloquium talk at TU Clausthal',
 		text: 'A talk on coupling constraints in linear bilevel optimization.',
 		link: { label: 'Browse talks', href: '/talks/' },
 		homepage: 'automatic',

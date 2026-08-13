@@ -11,6 +11,8 @@ interface Props {
 
 const { resources, compact = false, gateway = false } = Astro.props;
 const publicationByKey = new Map(publications.map((publication) => [publication.id, publication]));
+const preferredPublicationLink = (key: string) => publicationByKey.get(key)?.links.find((link) => link.label === 'DOI')
+	?? publicationByKey.get(key)?.links[0];
 ---
 
 <div class:list={['research-resource-list', { 'research-resource-list--compact': compact, 'research-resource-list--gateway': gateway }]}>
@@ -19,14 +21,20 @@ const publicationByKey = new Map(publications.map((publication) => [publication.
 			<div class="research-resource__body">
 				<div class="research-resource__title-line">
 					<h3>{resource.name}</h3>
-					{gateway && index === 0 && <span>Featured resource</span>}
 					{resource.status === 'archived' && <span>Archived</span>}
 				</div>
 				{(!gateway || index > 0) && <p class:list={{ 'pending-copy': resource.descriptionPending }}>{resource.description}</p>}
 				{(resource.links.length > 0 || resource.relatedPublicationKeys?.length) && (
 					<ul class="research-resource__links" aria-label={`Links for ${resource.name}`}>
 						{resource.links.map((link) => <li><a href={link.href} {...externalLinkAttributes(link.href)}>{link.label}</a></li>)}
-						{resource.relatedPublicationKeys?.map((key) => { const publication = publicationByKey.get(key); return publication && <li><a href={`/publications/#all-publication-${publication.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`}>Related publication: {publication.title}</a></li>; })}
+						{resource.relatedPublicationKeys?.map((key) => {
+							const publication = publicationByKey.get(key);
+							const link = preferredPublicationLink(key);
+							if (!publication) return;
+							return resource.status === 'active' && link
+								? <li><a href={link.href} {...externalLinkAttributes(link.href)}>Paper <span aria-hidden="true">→</span></a></li>
+								: <li><a href={`/publications/#all-publication-${publication.id.replace(/[^a-zA-Z0-9_-]/g, '-')}`}>Related publication: {publication.title}</a></li>;
+						})}
 					</ul>
 				)}
 			</div>

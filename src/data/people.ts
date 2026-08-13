@@ -66,7 +66,6 @@ export const people: Person[] = [
 			researchFocus: [
 				'approximation of nonlinear functions by piecewise linear functions',
 				'Nash equilibria in mixed-integer programming games',
-				'branching methods',
 			],
 		},
 	},
@@ -80,7 +79,7 @@ export const people: Person[] = [
 			role: 'Postdoctoral Researcher',
 			startDate: '03/2026',
 			biography: 'Andreas studied Applied Mathematics at Trier University, received his master’s degree in 2022, and completed his PhD in 2025 in the Research Training Group Algorithmic Optimization (ALOP) under the supervision of Martin Schmidt. He subsequently worked as a researcher at UTN Nuremberg within CRC/TRR 154.',
-			researchFocus: ['bilevel optimization', 'mixed-integer optimization', 'nonlinear optimization'],
+			researchFocus: ['bilevel optimization', 'mixed-integer optimization'],
 		},
 		alumni: [{ group: 'former-phd', dissertation: { title: 'Algorithms and Complexity Theory for Bilevel Problems with Nonlinear Lower Levels', institution: 'Trier University' } }],
 	},
@@ -124,6 +123,7 @@ export const people: Person[] = [
 	{
 		id: 'marina-leal-palazon',
 		name: 'Marina Leal Palazon',
+		homepage: 'https://www.umh.es/contenido/Estudios/:persona_259463/datos_en.html',
 		alumni: [{ group: 'former-postdoc', currentPosition: 'Professor at Universidad Miguel Hernández, Spain' }],
 	},
 	{
@@ -134,11 +134,13 @@ export const people: Person[] = [
 	{
 		id: 'johannes-thuerauf',
 		name: 'Johannes Thürauf',
+		homepage: 'https://johannesthuerauf.gitlab.io',
 		alumni: [{ group: 'former-postdoc', currentPosition: 'Professor at the University of Technology Nuremberg' }],
 	},
 	{
 		id: 'henri-lefebvre',
 		name: 'Henri Lefebvre',
+		homepage: 'https://henrilefebvre.com',
 		alumni: [{ group: 'former-postdoc', currentPosition: 'Permanent CNRS researcher hosted by LIRMM, Montpellier, France' }],
 	},
 ];
