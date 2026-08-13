@@ -52,14 +52,15 @@ test('resource editorial statuses are explicit', () => {
 	assert.equal(resources.some((resource) => resource.id === 'robust-electricity-market-equilibria'), false);
 });
 
-test('homepage resource gateway stays canonical without repeating BOBILib copy', () => {
+test('homepage resource gateway renders canonical descriptions without a featured label', () => {
 	const homepageSections = readFileSync(new URL('../src/components/HomepageSections.astro', import.meta.url), 'utf8');
 	const resourceList = readFileSync(new URL('../src/components/ResourceList.astro', import.meta.url), 'utf8');
 	const bobilibDescription = resources.find((resource) => resource.id === 'bobilib')?.description;
 	assert.match(homepageSections, /<ResourceList resources=\{featuredResources\} compact gateway \/>/);
 	assert.ok(bobilibDescription);
 	assert.doesNotMatch(homepageSections, new RegExp(bobilibDescription.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
-	assert.match(resourceList, /!gateway \|\| index > 0/);
+	assert.equal(bobilibDescription, 'An open library of bilevel optimization benchmark instances in a standardized format.');
+	assert.match(resourceList, /<p class:list=\{\{ 'pending-copy': resource\.descriptionPending \}\}>\{resource\.description\}<\/p>/);
 	assert.doesNotMatch(resourceList, /Featured resource/i);
 });
 
@@ -76,6 +77,7 @@ test('the retained teaching resources use local verified PDFs and intentional ex
 	assert.match(teachingPage, /href="\/theses\/"/);
 	assert.doesNotMatch(teachingPage, /from ['"]\.\.\/data\/theses/);
 	assert.doesNotMatch(teachingPage, /Past Courses|past-courses/);
+	assert.match(teachingPage, /description="Current teaching, recurring subjects, lecture resources, and supervised theses/);
 	assert.equal(pastCourses.length, 11);
 });
 

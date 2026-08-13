@@ -2,19 +2,18 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionNav from '../components/SectionNav.astro';
 import TalkList from '../components/TalkList.astro';
-import { invitedTalks, plenaryAndKeynoteTalks, talks } from '../data/talks';
+import { plenaryAndKeynoteTalks, talks } from '../data/talks';
 const archive = [...talks].sort((a, b) => b.date.start.localeCompare(a.date.start) || (a.source?.recordNumber ?? Number.MAX_SAFE_INTEGER) - (b.source?.recordNumber ?? Number.MAX_SAFE_INTEGER));
 const recentTalks = archive.slice(0, 6);
 const sections = [
 	{ id: 'recent-talks', title: 'Recent Talks', items: recentTalks },
 	{ id: 'plenary-keynote-talks', title: 'Plenary & Keynote Talks', items: plenaryAndKeynoteTalks },
-	{ id: 'invited-talks', title: 'Invited Talks', items: invitedTalks },
 	{ id: 'full-archive', title: 'Full Archive', items: archive },
 ];
 ---
 <BaseLayout title="Talks" description="Plenary, keynote, invited, and other talks by Martin Schmidt on mathematical optimization.">
 	<header class="talks-intro page-shell" aria-labelledby="page-title"><h1 id="page-title">Talks</h1><p class="intro__lead">Selected invited presentations and a chronological archive of lectures, seminars, and conference talks.</p><SectionNav sections={sections.map(({ id, title }) => ({ id, label: title }))} label="Talk sections" /></header>
-	<div class="archive-sections">{sections.map((section) => <section id={section.id} class="archive-section" aria-labelledby={`${section.id}-title`}><header class="archive-heading"><h2 id={`${section.id}-title`}>{section.title}</h2></header><TalkList talks={section.items} /></section>)}</div>
+	<div class="archive-sections">{sections.map((section) => <section id={section.id} class="archive-section" aria-labelledby={`${section.id}-title`}><header class="archive-heading"><h2 id={`${section.id}-title`}>{section.title}</h2></header><TalkList talks={section.items} sectionId={section.id} /></section>)}</div>
 </BaseLayout>
 <style>
 	.talks-intro { padding-bottom: var(--space-intro-to-first); }

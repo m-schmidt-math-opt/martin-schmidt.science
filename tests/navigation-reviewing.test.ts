@@ -16,10 +16,11 @@ test('multi-section pages use the shared SectionNav with internal links', () => 
 	assert.doesNotMatch(component, /target=|externalLinkAttributes/);
 });
 
-test('Talks exposes the four requested section links and stable anchors', () => {
+test('Talks exposes the three requested section links and stable anchors', () => {
 	const talks = readFileSync(new URL('../src/pages/talks.astro', import.meta.url), 'utf8');
-	for (const title of ['Recent Talks', 'Plenary & Keynote Talks', 'Invited Talks', 'Full Archive']) assert.match(talks, new RegExp(title.replace('&', '&')));
-	for (const id of ['recent-talks', 'plenary-keynote-talks', 'invited-talks', 'full-archive']) assert.match(talks, new RegExp(id));
+	for (const title of ['Recent Talks', 'Plenary & Keynote Talks', 'Full Archive']) assert.match(talks, new RegExp(title.replace('&', '&')));
+	for (const id of ['recent-talks', 'plenary-keynote-talks', 'full-archive']) assert.match(talks, new RegExp(id));
+	assert.doesNotMatch(talks, /Invited Talks|invited-talks|invitedTalks/);
 });
 
 test('reviewing page and About derive from the complete canonical old-site list', () => {

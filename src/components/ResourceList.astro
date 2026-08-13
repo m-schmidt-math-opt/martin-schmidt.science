@@ -16,14 +16,14 @@ const preferredPublicationLink = (key: string) => publicationByKey.get(key)?.lin
 ---
 
 <div class:list={['research-resource-list', { 'research-resource-list--compact': compact, 'research-resource-list--gateway': gateway }]}>
-	{resources.map((resource, index) => (
+	{resources.map((resource) => (
 		<article class="research-resource">
 			<div class="research-resource__body">
 				<div class="research-resource__title-line">
 					<h3>{resource.name}</h3>
 					{resource.status === 'archived' && <span>Archived</span>}
 				</div>
-				{(!gateway || index > 0) && <p class:list={{ 'pending-copy': resource.descriptionPending }}>{resource.description}</p>}
+				<p class:list={{ 'pending-copy': resource.descriptionPending }}>{resource.description}</p>
 				{(resource.links.length > 0 || resource.relatedPublicationKeys?.length) && (
 					<ul class="research-resource__links" aria-label={`Links for ${resource.name}`}>
 						{resource.links.map((link) => <li><a href={link.href} {...externalLinkAttributes(link.href)}>{link.label}</a></li>)}

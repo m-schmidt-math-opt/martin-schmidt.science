@@ -2,8 +2,8 @@
 import type { Talk, TalkType } from '../data/talks';
 import { externalLinkAttributes } from '../lib/links';
 
-interface Props { talks: Talk[] }
-const { talks } = Astro.props;
+interface Props { talks: Talk[]; sectionId: string }
+const { talks, sectionId } = Astro.props;
 const typeLabels: Partial<Record<TalkType, string>> = {
 	plenary: 'Plenary', keynote: 'Keynote', invited: 'Invited', lightning: 'Lightning',
 	seminar: 'Seminar', lecture: 'Lecture', course: 'Course', 'mini-course': 'Mini-course', contributed: 'Contributed',
@@ -18,7 +18,7 @@ const location = (talk: Talk) => [talk.venue, talk.city, talk.region, talk.count
 
 <ol class="talk-list">
 	{talks.map((talk) => (
-		<li class="talk-entry">
+		<li id={`${sectionId}-talk-${talk.id}`} class="talk-entry" data-talk-id={talk.id}>
 			<article>
 				<time datetime={talk.date.start}>{formatDate(talk)}</time>
 				<div class="talk-entry__body">

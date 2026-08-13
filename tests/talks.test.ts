@@ -37,6 +37,14 @@ test('the latest canonical talk is surfaced first in the Talks page recent secti
 	assert.equal(talks[0].date.start, '2026-08-03');
 });
 
+test('Full Archive is the complete canonical talk set exactly once', () => {
+	const talksPage = readFileSync(new URL('../src/pages/talks.astro', import.meta.url), 'utf8');
+	assert.match(talksPage, /title: 'Full Archive', items: archive/);
+	assert.match(talksPage, /const archive = \[\.\.\.talks\]\.sort/);
+	assert.equal(new Set(talks.map((talk) => talk.id)).size, talks.length);
+	assert.ok(talks.some((talk) => talk.types.includes('invited')));
+});
+
 test('Squarespace-audited dates and date ranges remain canonical', () => {
 	assert.equal(talks.find((talk) => talk.id === 'talk-0014')?.date.start, '2024-11-10');
 	assert.equal(talks.find((talk) => talk.id === 'talk-0030')?.date.start, '2023-02-06');
