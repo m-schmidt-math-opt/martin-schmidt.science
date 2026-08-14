@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { projects } from '../src/data/projects.ts';
-import { news, newsCategories, selectHomepageNews, type NewsItem } from '../src/data/news.ts';
+import { formatNewsDate, homepageNews, news, newsCategories, selectHomepageNews, type NewsItem } from '../src/data/news.ts';
+import { readFileSync } from 'node:fs';
 
 test('projects have unique IDs, valid statuses, and required fields', () => {
 	assert.equal(new Set(projects.map((project) => project.id)).size, projects.length);
@@ -23,6 +24,22 @@ test('news has unique IDs and valid controlled values', () => {
 		assert.ok(newsCategories.includes(item.category));
 		assert.ok(['automatic', 'pinned', 'excluded'].includes(item.homepage));
 	}
+});
+
+test('the household assignment publication activity derives from its canonical publication', () => {
+	const activity = news.find((item) => item.id === 'household-assignment-paper-published');
+	assert.ok(activity);
+	assert.equal(activity.title, 'Computational Methods for the Household Assignment Problem published');
+	assert.equal(activity.date, '2026-08');
+	assert.equal(formatNewsDate(activity.date), 'August 2026');
+	assert.equal(activity.publicationKey, 'Friedrich_et_al:2026');
+	assert.equal(activity.link, undefined);
+	assert.ok(homepageNews.includes(activity));
+	assert.equal(news.length, 6);
+	const source = readFileSync(new URL('../src/data/news.ts', import.meta.url), 'utf8');
+	assert.doesNotMatch(source, /10\.1007\/s00186-026-00933-7|Mathematical Methods of Operations Research|Ulf Friedrich/);
+	const homepage = readFileSync(new URL('../src/components/HomepageSections.astro', import.meta.url), 'utf8');
+	assert.match(homepage, /publicationAnchor\(item\.publicationKey\)/);
 });
 
 test('homepage selection includes pins, excludes excluded items, caps at four, and returns newest first', () => {

@@ -74,6 +74,7 @@ test('the two verified legacy works and working publication artifact are canonic
 });
 
 test('verified publication months are parsed, displayed conditionally, and used for sorting', () => {
+	assert.match(bib, /@article\{Friedrich_et_al:2026,[\s\S]*?month\s*=\s*aug/);
 	assert.match(bib, /@article\{Reinmann_et_al:2022,[\s\S]*?month\s*=\s*Sep/);
 	assert.match(bib, /@article\{Vohle_Schmidt:2021,[\s\S]*?month\s*=\s*Aug/);
 	const parser = readFileSync(new URL('../src/lib/publications.ts', import.meta.url), 'utf8');

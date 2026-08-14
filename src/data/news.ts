@@ -9,11 +9,32 @@ export interface NewsItem {
 	title: string;
 	text: string;
 	link?: { label: string; href: string };
+	publicationKey?: string;
 	homepage: HomepageState;
+}
+
+export function formatNewsDate(date: string, month: 'short' | 'long' = 'long'): string {
+	const hasDay = /^\d{4}-\d{2}-\d{2}$/.test(date);
+	const value = new Date(`${date}${hasDay ? '' : '-01'}T00:00:00Z`);
+	return new Intl.DateTimeFormat('en-GB', {
+		...(hasDay && { day: 'numeric' }),
+		month,
+		year: 'numeric',
+		timeZone: 'UTC',
+	}).format(value);
 }
 
 // Initial entries use exact dates and facts from the canonical talks dataset.
 export const news: NewsItem[] = [
+	{
+		id: 'household-assignment-paper-published',
+		date: '2026-08',
+		category: 'Publication',
+		title: 'Computational Methods for the Household Assignment Problem published',
+		text: 'The paper is now published.',
+		publicationKey: 'Friedrich_et_al:2026',
+		homepage: 'automatic',
+	},
 	{
 		id: 'icbo-2026-bobilib-talk',
 		date: '2026-08-03',

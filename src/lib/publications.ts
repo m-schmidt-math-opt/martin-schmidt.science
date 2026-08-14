@@ -309,6 +309,8 @@ export const publications = parseBibTeX(bibliography)
 
 export const publicationTypes: PublicationType[] = ['journal', 'preprint', 'book', 'chapter', 'conference', 'thesis', 'review', 'other'];
 
+export const publicationAnchor = (key: string) => `all-publication-${key.replace(/[^a-zA-Z0-9_-]/g, '-')}`;
+
 export function publicationsByKeys(keys: readonly string[]): Publication[] {
 	const byKey = new Map(publications.map((publication) => [publication.id, publication]));
 	return keys.map((key) => byKey.get(key) ?? fail(`Selected publication key "${key}" does not exist.`));
