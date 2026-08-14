@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { projects } from '../src/data/projects.ts';
-import { formatNewsDate, homepageNews, news, newsCategories, selectHomepageNews, type NewsItem } from '../src/data/news.ts';
+import { formatNewsDate, homepageNews, homepageNewsLimit, news, newsCategories, selectHomepageNews, type NewsItem } from '../src/data/news.ts';
 import { readFileSync } from 'node:fs';
+import { externalLinkAttributes } from '../src/lib/links.ts';
 
 test('projects have unique IDs, valid statuses, and required fields', () => {
 	assert.equal(new Set(projects.map((project) => project.id)).size, projects.length);
@@ -35,19 +36,49 @@ test('the household assignment publication activity derives from its canonical p
 	assert.equal(activity.publicationKey, 'Friedrich_et_al:2026');
 	assert.equal(activity.link, undefined);
 	assert.ok(homepageNews.includes(activity));
-	assert.equal(news.length, 6);
+	assert.equal(news.length, 7);
 	const source = readFileSync(new URL('../src/data/news.ts', import.meta.url), 'utf8');
 	assert.doesNotMatch(source, /10\.1007\/s00186-026-00933-7|Mathematical Methods of Operations Research|Ulf Friedrich/);
 	const homepage = readFileSync(new URL('../src/components/HomepageSections.astro', import.meta.url), 'utf8');
 	assert.match(homepage, /publicationAnchor\(item\.publicationKey\)/);
 });
 
-test('homepage selection includes pins, excludes excluded items, caps at four, and returns newest first', () => {
+test('the canonical GreGOW activity uses the supplied announcement facts and external-link policy', () => {
+	const activity = news.find((item) => item.id === 'gregow-2027-save-the-date');
+	assert.ok(activity);
+	assert.equal(activity.title, 'Save the date: GreGOW, the next edition of the Global Optimization Workshop will be held in Grenoble from the 7th to the 10th of September 2027.');
+	assert.equal(activity.date, '2026-08-14');
+	assert.deepEqual(activity.link, {
+		label: 'GreGOW 2027',
+		href: 'https://ghost-team.gitlabpages.inria.fr/events/gregow27/',
+	});
+	assert.deepEqual(externalLinkAttributes(activity.link.href), { target: '_blank', rel: 'noopener noreferrer' });
+	assert.ok(homepageNews.includes(activity));
+	assert.deepEqual(news.map((item) => item.id), [
+		'gregow-2027-save-the-date',
+		'household-assignment-paper-published',
+		'icbo-2026-bobilib-talk',
+		'europt-2026-plenary',
+		'europt-2026-summer-school',
+		'tu-clausthal-2026-colloquium',
+		'vame-2026-talk',
+	]);
+});
+
+test('homepage selection includes pins, excludes excluded items, caps at five, and returns newest first', () => {
 	const selected = selectHomepageNews(news);
-	assert.equal(selected.length, 4);
+	assert.equal(homepageNewsLimit, 5);
+	assert.equal(selected.length, 5);
 	assert.ok(news.filter((item) => item.homepage === 'pinned').every((item) => selected.includes(item)));
 	assert.ok(selected.every((item) => item.homepage !== 'excluded'));
 	assert.deepEqual(selected.map((item) => item.date), [...selected.map((item) => item.date)].sort().reverse());
+	assert.deepEqual(selected.map((item) => item.id), [
+		'gregow-2027-save-the-date',
+		'icbo-2026-bobilib-talk',
+		'household-assignment-paper-published',
+		'europt-2026-plenary',
+		'europt-2026-summer-school',
+	]);
 });
 
 test('pinned inclusion and category diversity do not override visible chronology', () => {

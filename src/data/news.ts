@@ -1,6 +1,7 @@
 export const newsCategories = ['Publication', 'Talk', 'Project', 'Award', 'Book', 'Software', 'Other'] as const;
 export type NewsCategory = typeof newsCategories[number];
 export type HomepageState = 'automatic' | 'pinned' | 'excluded';
+export const homepageNewsLimit = 5;
 
 export interface NewsItem {
 	id: string;
@@ -26,6 +27,15 @@ export function formatNewsDate(date: string, month: 'short' | 'long' = 'long'): 
 
 // Initial entries use exact dates and facts from the canonical talks dataset.
 export const news: NewsItem[] = [
+	{
+		id: 'gregow-2027-save-the-date',
+		date: '2026-08-14',
+		category: 'Other',
+		title: 'Save the date: GreGOW, the next edition of the Global Optimization Workshop will be held in Grenoble from the 7th to the 10th of September 2027.',
+		text: 'Further information is available on the workshop website.',
+		link: { label: 'GreGOW 2027', href: 'https://ghost-team.gitlabpages.inria.fr/events/gregow27/' },
+		homepage: 'automatic',
+	},
 	{
 		id: 'household-assignment-paper-published',
 		date: '2026-08',
@@ -82,7 +92,7 @@ export const news: NewsItem[] = [
 	},
 ];
 
-export function selectHomepageNews(items: NewsItem[], limit = 4): NewsItem[] {
+export function selectHomepageNews(items: NewsItem[], limit = homepageNewsLimit): NewsItem[] {
 	const eligible = items.filter((item) => item.homepage !== 'excluded').sort((a, b) => b.date.localeCompare(a.date));
 	const pinned = eligible.filter((item) => item.homepage === 'pinned');
 	const selected = pinned.slice(0, limit);
