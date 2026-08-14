@@ -30,7 +30,7 @@ export const news: NewsItem[] = [
 		id: 'household-assignment-paper-published',
 		date: '2026-08',
 		category: 'Publication',
-		title: 'Computational Methods for the Household Assignment Problem published',
+		title: 'Our paper "Computational Methods for the Household Assignment Problem" is now published in MMOR',
 		text: 'The paper is now published.',
 		publicationKey: 'Friedrich_et_al:2026',
 		homepage: 'automatic',

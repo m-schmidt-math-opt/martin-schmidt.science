@@ -29,7 +29,7 @@ test('news has unique IDs and valid controlled values', () => {
 test('the household assignment publication activity derives from its canonical publication', () => {
 	const activity = news.find((item) => item.id === 'household-assignment-paper-published');
 	assert.ok(activity);
-	assert.equal(activity.title, 'Computational Methods for the Household Assignment Problem published');
+	assert.equal(activity.title, 'Our paper "Computational Methods for the Household Assignment Problem" is now published in MMOR');
 	assert.equal(activity.date, '2026-08');
 	assert.equal(formatNewsDate(activity.date), 'August 2026');
 	assert.equal(activity.publicationKey, 'Friedrich_et_al:2026');
