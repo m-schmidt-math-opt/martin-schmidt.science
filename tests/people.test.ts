@@ -4,7 +4,39 @@ import { existsSync, readFileSync } from 'node:fs';
 import { people, getAlumni, getCurrentPeople } from '../src/data/people.ts';
 
 test('people have unique stable IDs', () => {
+	assert.equal(people.length, 20);
 	assert.equal(new Set(people.map((person) => person.id)).size, people.length);
+});
+
+test('specified alumni career updates and personal homepages remain canonical', () => {
+	const carina = people.find((person) => person.id === 'carina-moreira-costa');
+	assert.match(carina?.alumni?.[0]?.currentPosition ?? '', /Professor/);
+	assert.match(carina?.alumni?.[0]?.currentPosition ?? '', /Department of Mathematics/);
+	assert.match(carina?.alumni?.[0]?.currentPosition ?? '', /State University of Maringá/);
+	assert.match(carina?.alumni?.[0]?.currentPosition ?? '', /Brazil/);
+
+	const maria = people.find((person) => person.id === 'maria-eduarda-pinheiro');
+	assert.match(maria?.alumni?.[0]?.currentPosition ?? '', /Professor/);
+	assert.match(maria?.alumni?.[0]?.currentPosition ?? '', /Universidade Federal de Santa Catarina/);
+	assert.match(maria?.alumni?.[0]?.currentPosition ?? '', /Brazil/);
+
+	const yasmine = people.find((person) => person.id === 'yasmine-beck');
+	assert.match(yasmine?.alumni?.[0]?.currentPosition ?? '', /Assistant Professor/);
+	assert.match(yasmine?.alumni?.[0]?.currentPosition ?? '', /Department of Industrial Engineering and Innovation Sciences/);
+	assert.match(yasmine?.alumni?.[0]?.currentPosition ?? '', /Eindhoven University of Technology/);
+	assert.equal(yasmine?.homepage, 'https://yasminebeck.github.io/about/');
+
+	const marius = people.find((person) => person.id === 'marius-roland');
+	assert.match(marius?.alumni?.[0]?.currentPosition ?? '', /CRCN/);
+	assert.match(marius?.alumni?.[0]?.currentPosition ?? '', /permanent research associate/);
+	assert.match(marius?.alumni?.[0]?.currentPosition ?? '', /Inria Centre/);
+	assert.match(marius?.alumni?.[0]?.currentPosition ?? '', /University of Lille/);
+	assert.equal(marius?.homepage, 'https://mariusroland.gitlab.io');
+
+	const groupPage = readFileSync(new URL('../src/pages/group.astro', import.meta.url), 'utf8');
+	const formerPhdTemplate = groupPage.slice(groupPage.indexOf('formerPhds.map'), groupPage.indexOf('formerPostdocs.map'));
+	assert.match(formerPhdTemplate, /person\.homepage \? <a href=\{person\.homepage\} \{\.\.\.externalLinkAttributes\(person\.homepage\)\}>\{person\.name\}<\/a> : person\.name/);
+	assert.doesNotMatch(formerPhdTemplate, />Homepage<|>Website</);
 });
 
 test('requested research-focus cleanup and alumni homepages stay canonical', () => {

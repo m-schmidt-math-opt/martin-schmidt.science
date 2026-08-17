@@ -72,7 +72,7 @@ const sectionLinks = [
 					<ul class="alumni-list">
 						{formerPhds.map((person) => (
 							<li>
-								<strong>{person.name}</strong>
+								<strong>{person.homepage ? <a href={person.homepage} {...externalLinkAttributes(person.homepage)}>{person.name}</a> : person.name}</strong>
 								{person.alumniRecord.dissertation && (
 									<>
 										<cite>{person.alumniRecord.dissertation.title}</cite>
