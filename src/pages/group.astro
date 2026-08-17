@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PersonNameLink from '../components/PersonNameLink.astro';
 import PersonPortrait from '../components/PersonPortrait.astro';
 import SectionNav from '../components/SectionNav.astro';
-import { focusLine, getAlumni, getCurrentPeople, type CurrentGroup } from '../data/people';
+import { focusLine, getAlumni, getCurrentPeople, personReferences, type CurrentGroup } from '../data/people';
 import { externalLinkAttributes } from '../lib/links';
 
 const currentSections: Array<{ group: CurrentGroup; title: string }> = [
@@ -72,12 +73,12 @@ const sectionLinks = [
 					<ul class="alumni-list">
 						{formerPhds.map((person) => (
 							<li>
-								<strong>{person.homepage ? <a href={person.homepage} {...externalLinkAttributes(person.homepage)}>{person.name}</a> : person.name}</strong>
+								<strong><PersonNameLink person={person} /></strong>
 								{person.alumniRecord.dissertation && (
 									<>
 										<cite>{person.alumniRecord.dissertation.title}</cite>
 										{person.alumniRecord.dissertation.institution && <small>{person.alumniRecord.dissertation.institution}</small>}
-										{person.alumniRecord.dissertation.coSupervisor && <small>Co-supervision with {person.alumniRecord.dissertation.coSupervisor}</small>}
+										{person.alumniRecord.dissertation.coSupervisor && <small>Co-supervision with <PersonNameLink person={personReferences[person.alumniRecord.dissertation.coSupervisor]} /></small>}
 										{person.alumniRecord.dissertation.awards?.map((award) => <small class="alumni-award">{award}</small>)}
 									</>
 								)}
@@ -90,7 +91,7 @@ const sectionLinks = [
 					<h3 id="former-postdoc-title">Former Postdocs</h3>
 					<ul class="alumni-list">
 						{formerPostdocs.map((person) => (
-							<li><span>{person.name}</span>{person.alumniRecord.currentPosition && <small>{person.alumniRecord.currentPosition}</small>}{person.homepage && <a href={person.homepage} {...externalLinkAttributes(person.homepage)}>Homepage</a>}</li>
+							<li><span><PersonNameLink person={person} /></span>{person.alumniRecord.currentPosition && <small>{person.alumniRecord.currentPosition}</small>}</li>
 						))}
 					</ul>
 				</section>

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { existsSync, readFileSync } from 'node:fs';
-import { people, getAlumni, getCurrentPeople } from '../src/data/people.ts';
+import { people, getAlumni, getCurrentPeople, personReferences } from '../src/data/people.ts';
 
 test('people have unique stable IDs', () => {
 	assert.equal(people.length, 20);
@@ -35,8 +35,39 @@ test('specified alumni career updates and personal homepages remain canonical', 
 
 	const groupPage = readFileSync(new URL('../src/pages/group.astro', import.meta.url), 'utf8');
 	const formerPhdTemplate = groupPage.slice(groupPage.indexOf('formerPhds.map'), groupPage.indexOf('formerPostdocs.map'));
-	assert.match(formerPhdTemplate, /person\.homepage \? <a href=\{person\.homepage\} \{\.\.\.externalLinkAttributes\(person\.homepage\)\}>\{person\.name\}<\/a> : person\.name/);
+	assert.match(formerPhdTemplate, /<PersonNameLink person=\{person\} \/>/);
 	assert.doesNotMatch(formerPhdTemplate, />Homepage<|>Website</);
+});
+
+test('former postdoc names use canonical homepages without standalone labels', () => {
+	const formerPostdocs = getAlumni('former-postdoc');
+	assert.deepEqual(formerPostdocs.map((person) => [person.name, person.homepage ?? null]), [
+		['Marina Leal Palazon', 'https://www.umh.es/contenido/Estudios/:persona_259463/datos_en.html'],
+		['Dennis Kreber', null],
+		['Johannes Th\u00fcrauf', 'https://johannesthuerauf.gitlab.io'],
+		['Henri Lefebvre', 'https://henrilefebvre.com'],
+	]);
+
+	const groupPage = readFileSync(new URL('../src/pages/group.astro', import.meta.url), 'utf8');
+	const formerPostdocTemplate = groupPage.slice(groupPage.indexOf('formerPostdocs.map'), groupPage.indexOf('</ul>', groupPage.indexOf('formerPostdocs.map')));
+	assert.match(formerPostdocTemplate, /<PersonNameLink person=\{person\} \/>/);
+	assert.doesNotMatch(formerPostdocTemplate, />Homepage<|>Website|person\.homepage/);
+
+	const personNameLink = readFileSync(new URL('../src/components/PersonNameLink.astro', import.meta.url), 'utf8');
+	assert.match(personNameLink, /person\.homepage \? <a href=\{person\.homepage\} \{\.\.\.externalLinkAttributes\(person\.homepage\)\}>\{person\.name\}<\/a> : person\.name/);
+});
+
+test('Burgard co-supervision references share one canonical non-member profile', () => {
+	const burgard = personReferences['jan-pablo-burgard'];
+	assert.equal(burgard.name, 'Jan Pablo Burgard');
+	assert.equal(burgard.homepage, 'https://www.uni-trier.de/universitaet/fachbereiche-faecher/fachbereich-iv/faecher/volkswirtschaftslehre/team/wirtschafts-und-sozialstatistik/team/dozierende/pd-dr-jan-pablo-burgard');
+	assert.equal(people.some((person) => person.id === burgard.id), false);
+
+	const burgardSupervisions = getAlumni('former-phd').filter((person) => person.alumniRecord.dissertation?.coSupervisor === burgard.id);
+	assert.deepEqual(burgardSupervisions.map((person) => person.id), ['carina-moreira-costa', 'maria-eduarda-pinheiro']);
+
+	const groupPage = readFileSync(new URL('../src/pages/group.astro', import.meta.url), 'utf8');
+	assert.match(groupPage, /<PersonNameLink person=\{personReferences\[person\.alumniRecord\.dissertation\.coSupervisor\]\} \/>/);
 });
 
 test('requested research-focus cleanup and alumni homepages stay canonical', () => {

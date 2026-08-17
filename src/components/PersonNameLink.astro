@@ -1,0 +1,11 @@
+---
+import { externalLinkAttributes } from '../lib/links';
+
+interface Props {
+	person: { name: string; homepage?: string };
+}
+
+const { person } = Astro.props;
+---
+
+{person.homepage ? <a href={person.homepage} {...externalLinkAttributes(person.homepage)}>{person.name}</a> : person.name}
