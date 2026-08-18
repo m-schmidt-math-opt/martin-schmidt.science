@@ -16,9 +16,10 @@ test('specified alumni career updates and personal homepages remain canonical', 
 	assert.match(carina?.alumni?.[0]?.currentPosition ?? '', /Brazil/);
 
 	const maria = people.find((person) => person.id === 'maria-eduarda-pinheiro');
-	assert.match(maria?.alumni?.[0]?.currentPosition ?? '', /Professor/);
-	assert.match(maria?.alumni?.[0]?.currentPosition ?? '', /Universidade Federal de Santa Catarina/);
-	assert.match(maria?.alumni?.[0]?.currentPosition ?? '', /Brazil/);
+	assert.equal(maria?.homepage, 'https://scholar.google.com/citations?user=ajbjSkEAAAAJ&hl');
+	assert.equal(maria?.alumni?.[0]?.currentPosition, 'Professor at the Department of Mathematics, Federal University of Santa Catarina, Blumenau Campus, Brazil');
+	assert.equal(people.filter((person) => person.id === 'maria-eduarda-pinheiro').length, 1);
+	assert.equal(people.filter((person) => person.name === 'Maria Eduarda Pinheiro').length, 1);
 
 	const yasmine = people.find((person) => person.id === 'yasmine-beck');
 	assert.match(yasmine?.alumni?.[0]?.currentPosition ?? '', /Assistant Professor/);
@@ -36,7 +37,10 @@ test('specified alumni career updates and personal homepages remain canonical', 
 	const groupPage = readFileSync(new URL('../src/pages/group.astro', import.meta.url), 'utf8');
 	const formerPhdTemplate = groupPage.slice(groupPage.indexOf('formerPhds.map'), groupPage.indexOf('formerPostdocs.map'));
 	assert.match(formerPhdTemplate, /<PersonNameLink person=\{person\} \/>/);
-	assert.doesNotMatch(formerPhdTemplate, />Homepage<|>Website</);
+	assert.doesNotMatch(formerPhdTemplate, />Homepage<|>Website|Google Scholar/);
+
+	const personNameLink = readFileSync(new URL('../src/components/PersonNameLink.astro', import.meta.url), 'utf8');
+	assert.match(personNameLink, /person\.homepage \? <a href=\{person\.homepage\} \{\.\.\.externalLinkAttributes\(person\.homepage\)\}>\{person\.name\}<\/a> : person\.name/);
 });
 
 test('former postdoc names use canonical homepages without standalone labels', () => {
