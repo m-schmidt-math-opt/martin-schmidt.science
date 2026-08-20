@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { existsSync, readFileSync } from 'node:fs';
 import { people, getAlumni, getCurrentPeople, personReferences } from '../src/data/people.ts';
+import { externalLinkAttributes } from '../src/lib/links.ts';
 
 test('people have unique stable IDs', () => {
 	assert.equal(people.length, 20);
@@ -10,10 +11,11 @@ test('people have unique stable IDs', () => {
 
 test('specified alumni career updates and personal homepages remain canonical', () => {
 	const carina = people.find((person) => person.id === 'carina-moreira-costa');
-	assert.match(carina?.alumni?.[0]?.currentPosition ?? '', /Professor/);
-	assert.match(carina?.alumni?.[0]?.currentPosition ?? '', /Department of Mathematics/);
-	assert.match(carina?.alumni?.[0]?.currentPosition ?? '', /State University of Maringá/);
-	assert.match(carina?.alumni?.[0]?.currentPosition ?? '', /Brazil/);
+	assert.equal(carina?.homepage, 'https://scholar.google.com/citations?user=wDnwKNYAAAAJ&hl=en&oi=ao');
+	assert.equal(carina?.alumni?.[0]?.currentPosition, 'Professor at the Department of Mathematics of the State University of Maringá, Brazil');
+	assert.equal(people.filter((person) => person.id === 'carina-moreira-costa').length, 1);
+	assert.equal(people.filter((person) => person.name === 'Carina Moreira Costa').length, 1);
+	assert.deepEqual(externalLinkAttributes(carina!.homepage!), { target: '_blank', rel: 'noopener noreferrer' });
 
 	const maria = people.find((person) => person.id === 'maria-eduarda-pinheiro');
 	assert.equal(maria?.homepage, 'https://scholar.google.com/citations?user=ajbjSkEAAAAJ&hl');
