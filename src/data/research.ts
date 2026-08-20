@@ -23,7 +23,7 @@ export const researchThemes: ResearchTheme[] = [
 	},
 	{
 		id: 'robust-optimization-uncertainty',
-		title: 'Optimization und Uncertainty',
+		title: 'Optimization under Uncertainty',
 		description: 'Models and algorithms for optimization under uncertain parameters, including robust and decision-dependent formulations.',
 	},
 	{

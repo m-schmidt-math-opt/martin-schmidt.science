@@ -14,7 +14,7 @@ test('canonical research themes have the exact intended order', () => {
 	assert.deepEqual(researchThemes.map((theme) => theme.title), [
 		'Bilevel Optimization',
 		'Mixed-Integer & Nonlinear Optimization',
-		'Optimization und Uncertainty',
+		'Optimization under Uncertainty',
 		'Equilibrium Problems & Games',
 		'Network Optimization',
 	]);
@@ -22,6 +22,14 @@ test('canonical research themes have the exact intended order', () => {
 	assert.ok(researchThemes.every((theme) => theme.description.trim().length > 0));
 	assert.equal(researchThemes.find((theme) => theme.id === 'equilibrium-problems-games')?.description, 'Models and algorithms for interacting decision-makers, complementarity problems, and generalized Nash equilibrium problems.');
 	assert.equal(researchThemes.find((theme) => theme.id === 'network-optimization')?.description, 'Optimization models and algorithms for (particularly nonlinear) flows in energy and infrastructure networks.');
+});
+
+test('uncertainty wording uses the correct English phrase in the topic title and prose', () => {
+	const uncertaintyTheme = researchThemes.find((theme) => theme.id === 'robust-optimization-uncertainty');
+	assert.equal(uncertaintyTheme?.title, 'Optimization under Uncertainty');
+	assert.match(uncertaintyTheme?.description ?? '', /optimization under uncertain parameters/);
+	assert.doesNotMatch(researchThemes.map((theme) => `${theme.title}\n${theme.description}`).join('\n'), /und Uncertainty/);
+	assert.match(researchPage, /optimization under uncertainty/);
 });
 
 test('canonical research applications have the exact intended order', () => {
