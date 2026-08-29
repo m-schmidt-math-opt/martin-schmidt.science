@@ -19,6 +19,13 @@ test('projects have unique IDs, valid statuses, and required fields', () => {
 	for (const id of ['energiemarktdesign', 'metis', 'forne']) assert.equal(projects.find((project) => project.id === id)?.endDate, undefined);
 });
 
+test('Projects uses verified English display titles while retaining official titles', () => {
+	const page = readFileSync(new URL('../src/pages/projects.astro', import.meta.url), 'utf8');
+	assert.match(page, /project\.displayTitle \?\? project\.title/);
+	assert.match(page, /Official title:/);
+	assert.match(page, /lang="de"/);
+});
+
 test('news has unique IDs and valid controlled values', () => {
 	assert.equal(new Set(news.map((item) => item.id)).size, news.length);
 	for (const item of news) {

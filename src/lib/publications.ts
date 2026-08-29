@@ -214,7 +214,7 @@ function normalizeUrl(value: string, field: string): string | undefined {
 		publicationWarnings.push(`Skipped non-URL value in ${field}: ${url}`);
 		return;
 	}
-	return url.replace(/^http:\/\/(arxiv\.org|www\.optimization-online\.org|optimization-online\.org|ssrn\.com)/i, 'https://$1');
+	return url.replace(/^http:\/\/(arxiv\.org|www\.optimization-online\.org|optimization-online\.org|ssrn\.com|www\.mdpi\.com)/i, 'https://$1');
 }
 
 function linkLabel(field: string, href: string): string {

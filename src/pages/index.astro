@@ -9,11 +9,26 @@ const homepageTitle = `${aboutProfile.name} — Nonlinear Optimization at ${abou
 const homepageDescription = `${aboutProfile.name} is ${aboutProfile.position} at ${aboutProfile.institution}, researching mathematical optimization with a focus on bilevel optimization.`;
 const homepageCountry = aboutProfile.contact.addressLines.at(-1);
 const homepageInstitution = [aboutProfile.institution, homepageCountry].filter(Boolean).join(', ');
+const personStructuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'Person',
+	name: aboutProfile.name,
+	url: 'https://martin-schmidt.science/',
+	image: new URL(aboutProfile.portrait.src, 'https://martin-schmidt.science').href,
+	jobTitle: aboutProfile.position,
+	worksFor: {
+		'@type': 'Organization',
+		name: aboutProfile.institution,
+	},
+	knowsAbout: researchThemes.map((theme) => theme.title),
+	sameAs: [aboutProfile.contact.institutionUrl, ...aboutProfile.profileLinks.map((link) => link.href)],
+};
 ---
 
 <BaseLayout
 	title={homepageTitle}
 	description={homepageDescription}
+	structuredData={personStructuredData}
 >
 	<section class="hero page-shell" aria-labelledby="page-title">
 		<div class="hero__content">
@@ -36,6 +51,8 @@ const homepageInstitution = [aboutProfile.institution, homepageCountry].filter(B
 				alt="Optimization diagram with feasible region and objective directions"
 				width="550"
 				height="425"
+				fetchpriority="high"
+				decoding="async"
 			/>
 		</figure>
 	</section>

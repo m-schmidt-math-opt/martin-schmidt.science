@@ -11,7 +11,7 @@ const { person, class: className = '' } = Astro.props;
 
 <div class:list={['person-portrait', className]}>
 	{person.portrait ? (
-		<img src={person.portrait.src} alt={person.portrait.alt} loading="lazy" decoding="async" />
+		<img src={person.portrait.src} alt={person.portrait.alt} width={person.portrait.width} height={person.portrait.height} loading="lazy" decoding="async" />
 	) : (
 		<div class="person-portrait__placeholder" role="img" aria-label={`Portrait placeholder for ${person.name}`}>
 			<span aria-hidden="true">{initialsFor(person)}</span>

@@ -34,6 +34,8 @@ export interface Person {
 	portrait?: {
 		src: string;
 		alt: string;
+		width: number;
+		height: number;
 	};
 	email?: string;
 	homepage?: string;
@@ -60,21 +62,21 @@ export const people: Person[] = [
 	{
 		id: 'monika-thieme-trapp',
 		name: 'Monika Thieme-Trapp',
-		portrait: { src: '/images/group/monika-thieme-trapp.jpg', alt: 'Monika Thieme-Trapp' },
+		portrait: { src: '/images/group/monika-thieme-trapp.jpg', alt: 'Monika Thieme-Trapp', width: 750, height: 1000 },
 		email: 'trapp@uni-trier.de',
 		current: { group: 'secretary', role: "Secretary's Office" },
 	},
 	{
 		id: 'laura-sokolowski',
 		name: 'Laura Sokolowski',
-		portrait: { src: '/images/group/laura-sokolowski.jpg', alt: 'Laura Sokolowski' },
+		portrait: { src: '/images/group/laura-sokolowski.jpg', alt: 'Laura Sokolowski', width: 855, height: 1000 },
 		email: 'sokolowski@uni-trier.de',
 		current: { group: 'secretary', role: "Secretary's Office" },
 	},
 	{
 		id: 'alois-duguet',
 		name: 'Aloïs Duguet',
-		portrait: { src: '/images/group/alois-duguet.jpg', alt: 'Aloïs Duguet' },
+		portrait: { src: '/images/group/alois-duguet.jpg', alt: 'Aloïs Duguet', width: 1000, height: 953 },
 		email: 'duguet@uni-trier.de',
 		current: {
 			group: 'postdoc',
@@ -89,7 +91,7 @@ export const people: Person[] = [
 	{
 		id: 'andreas-horlaender',
 		name: 'Andreas Horländer',
-		portrait: { src: '/images/group/andreas-horlaender.jpg', alt: 'Andreas Horländer' },
+		portrait: { src: '/images/group/andreas-horlaender.jpg', alt: 'Andreas Horländer', width: 750, height: 1000 },
 		email: 'horlaender@uni-trier.de',
 		current: {
 			group: 'postdoc',
@@ -103,7 +105,7 @@ export const people: Person[] = [
 	{
 		id: 'simon-stevens',
 		name: 'Simon Stevens',
-		portrait: { src: '/images/group/simon-stevens.jpg', alt: 'Simon Stevens' },
+		portrait: { src: '/images/group/simon-stevens.jpg', alt: 'Simon Stevens', width: 671, height: 1000 },
 		email: 'stevens@uni-trier.de',
 		current: {
 			group: 'phd',
@@ -116,7 +118,7 @@ export const people: Person[] = [
 	{
 		id: 'ioana-molan',
 		name: 'Ioana Molan',
-		portrait: { src: '/images/group/ioana-molan.jpg', alt: 'Ioana Molan' },
+		portrait: { src: '/images/group/ioana-molan.jpg', alt: 'Ioana Molan', width: 750, height: 1000 },
 		email: 'molan@uni-trier.de',
 		biography: 'Ioana studied at Trier University, receiving a bachelor’s degree in Business Mathematics in September 2019 and a master’s degree in Applied Mathematics in April 2022.',
 		researchFocus: [

@@ -87,3 +87,8 @@ test('external publication links use the shared new-tab policy', () => {
 	const list = readFileSync(new URL('../src/components/PublicationList.astro', import.meta.url), 'utf8');
 	assert.match(list, /externalLinkAttributes\(link\.href\)/);
 });
+
+test('known publication hosts are normalized to HTTPS', () => {
+	const parser = readFileSync(new URL('../src/lib/publications.ts', import.meta.url), 'utf8');
+	assert.match(parser, /www\\\.mdpi\\\.com/);
+});

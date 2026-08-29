@@ -3,7 +3,7 @@ import PublicationList from '../components/PublicationList.astro';
 import SectionNav from '../components/SectionNav.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { selectedPublicationKeys } from '../data/selected-publications';
-import { publications, publicationsByKeys, publicationTypeLabels, publicationTypes, publicationWarnings } from '../lib/publications';
+import { publicationAnchor, publications, publicationsByKeys, publicationTypeLabels, publicationTypes, publicationWarnings } from '../lib/publications';
 
 const selected = publicationsByKeys(selectedPublicationKeys);
 const recent = publications.slice(0, 8);
@@ -15,6 +15,17 @@ const sections = [
 	{ id: 'books', label: 'Books' },
 	{ id: 'all', label: 'All Publications' },
 ];
+const bilevelBook = publicationsByKeys(['Beck_Ljubic_Schmidt:2026'])[0];
+const bookStructuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'Book',
+	name: bilevelBook.title,
+	author: bilevelBook.authors.split(', ').map((name) => ({ '@type': 'Person', name })),
+	datePublished: bilevelBook.year?.toString(),
+	publisher: bilevelBook.venue && { '@type': 'Organization', name: bilevelBook.venue },
+	url: `https://martin-schmidt.science/publications/#${publicationAnchor(bilevelBook.id)}`,
+	sameAs: bilevelBook.links.find((link) => link.label === 'DOI')?.href,
+};
 
 if (publicationWarnings.length) {
 	console.warn(`[publications.bib] ${publicationWarnings.length} recoverable warning(s):\n- ${publicationWarnings.join('\n- ')}`);
@@ -24,6 +35,7 @@ if (publicationWarnings.length) {
 <BaseLayout
 	title="Publications"
 	description="Selected, recent, and complete publication archive of Martin Schmidt in nonlinear and mathematical optimization."
+	structuredData={bookStructuredData}
 >
 	<header class="page-shell publications-intro" aria-labelledby="page-title">
 		<h1 id="page-title">Publications</h1>

@@ -13,12 +13,24 @@ const homepageSections = readFileSync(new URL('../src/components/HomepageSection
 const groupPage = readFileSync(new URL('../src/pages/group.astro', import.meta.url), 'utf8');
 const softwareDataPage = readFileSync(new URL('../src/pages/software-data.astro', import.meta.url), 'utf8');
 const aboutPage = readFileSync(new URL('../src/pages/about.astro', import.meta.url), 'utf8');
+const notFoundPage = readFileSync(new URL('../src/pages/404.astro', import.meta.url), 'utf8');
 
 test('Astro has the verified canonical site origin and BaseLayout emits clean canonical URLs', () => {
 	assert.match(astroConfig, /site:\s*['"]https:\/\/martin-schmidt\.science['"]/);
 	assert.match(layout, /canonicalPath = Astro\.url\.pathname/);
 	assert.match(layout, /new URL\(canonicalPath, Astro\.site\)/);
 	assert.match(layout, /<link rel="canonical" href=\{canonicalUrl\.href\} \/>/);
+});
+
+test('shared metadata includes social cards, safe JSON-LD, active navigation, and a noindex 404', () => {
+	for (const field of ['og:title', 'og:description', 'og:url', 'og:image', 'twitter:card', 'twitter:title', 'twitter:description']) {
+		assert.match(layout, new RegExp(`(?:property|name)="${field}"`));
+	}
+	assert.match(layout, /type="application\/ld\+json"/);
+	assert.match(layout, /replaceAll\('<', '\\\\u003c'\)/);
+	assert.match(layout, /aria-current=\{Astro\.url\.pathname === item\.href \? 'page' : undefined\}/);
+	assert.match(notFoundPage, /robots="noindex, follow"/);
+	assert.match(notFoundPage, /<h1 id="page-title">Page not found<\/h1>/);
 });
 
 test('homepage metadata is descriptive and derives identity from canonical About data', () => {
