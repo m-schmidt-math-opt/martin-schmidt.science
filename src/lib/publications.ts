@@ -287,7 +287,7 @@ function normalize(entry: RawEntry): Publication {
 		id: entry.key,
 		type,
 		bibtexType: entry.type,
-		typeLabel: publicationTypeLabels[type],
+		typeLabel: `${publicationTypeLabels[type]}${fields.pubstate?.toLowerCase() === 'accepted' ? ' · Accepted for publication' : ''}`,
 		classificationResolved: entry.key === 'Schmidt:2020' || ['article', 'inproceedings', 'conference', 'incollection', 'inbook', 'book', 'report', 'techreport', 'phdthesis', 'mastersthesis', 'thesis'].includes(entry.type),
 		title: latexToText(fields.title) || '[Untitled publication]',
 		authors: formatAuthors(fields.author) || '[Author not recorded]',
