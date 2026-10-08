@@ -42,8 +42,8 @@ test('the household assignment publication activity derives from its canonical p
 	assert.equal(formatNewsDate(activity.date), 'August 2026');
 	assert.equal(activity.publicationKey, 'Friedrich_et_al:2026');
 	assert.equal(activity.link, undefined);
-	assert.ok(homepageNews.includes(activity));
-	assert.equal(news.length, 8);
+	assert.equal(activity.homepage, 'automatic');
+	assert.equal(news.length, 9);
 	const source = readFileSync(new URL('../src/data/news.ts', import.meta.url), 'utf8');
 	assert.doesNotMatch(source, /10\.1007\/s00186-026-00933-7|Mathematical Methods of Operations Research|Ulf Friedrich/);
 	const homepage = readFileSync(new URL('../src/components/HomepageSections.astro', import.meta.url), 'utf8');
@@ -63,6 +63,7 @@ test('the canonical GreGOW activity uses the supplied announcement facts and ext
 	assert.ok(homepageNews.includes(activity));
 	assert.deepEqual(news.map((item) => item.id), [
 		'henrion-schmidt-paper-accepted',
+		'lefebvre-et-al-paper-accepted',
 		'gregow-2027-save-the-date',
 		'household-assignment-paper-published',
 		'icbo-2026-bobilib-talk',
@@ -82,9 +83,9 @@ test('homepage selection includes pins, excludes excluded items, caps at five, a
 	assert.deepEqual(selected.map((item) => item.date), [...selected.map((item) => item.date)].sort().reverse());
 	assert.deepEqual(selected.map((item) => item.id), [
 		'henrion-schmidt-paper-accepted',
+		'lefebvre-et-al-paper-accepted',
 		'gregow-2027-save-the-date',
 		'icbo-2026-bobilib-talk',
-		'household-assignment-paper-published',
 		'europt-2026-plenary',
 	]);
 });

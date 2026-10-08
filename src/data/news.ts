@@ -57,6 +57,15 @@ export const news: NewsItem[] = [
 		homepage: 'automatic',
 	},
 	{
+		id: 'lefebvre-et-al-paper-accepted',
+		date: '2026-09-30',
+		category: 'Publication',
+		title: 'Our paper “{title}” (jointly with {coauthors}) has been accepted at {venue}.',
+		text: 'You can find the preprint via the publication entry.',
+		publicationKey: 'Lefebvre_et_al:2026',
+		homepage: 'automatic',
+	},
+	{
 		id: 'gregow-2027-save-the-date',
 		date: '2026-08-14',
 		category: 'Other',
