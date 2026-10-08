@@ -4,9 +4,9 @@ import ResourceList from './ResourceList.astro';
 import { aboutProfile, academicLeadership, academicPositions, editorialService } from '../data/about';
 import { focusLine, getCurrentPeople } from '../data/people';
 import { featuredResources } from '../data/resources';
-import { formatNewsDate, homepageNews } from '../data/news';
+import { formatNewsDate, formatNewsTitle, homepageNews } from '../data/news';
 import { externalLinkAttributes } from '../lib/links';
-import { publicationAnchor } from '../lib/publications';
+import { publicationAnchor, publications } from '../lib/publications';
 const activityHref = (item: (typeof homepageNews)[number]) => item.publicationKey
 	? `/publications/#${publicationAnchor(item.publicationKey)}`
 	: item.link?.href;
@@ -91,7 +91,7 @@ const supportStaff = getCurrentPeople('secretary');
 			{homepageNews.map((item) => (
 				<li>
 					<p class="activity__meta"><time datetime={item.date}>{formatNewsDate(item.date, 'short')}</time><span>{item.category}</span></p>
-					<p class="activity__title">{activityHref(item) ? <a href={activityHref(item)} {...externalLinkAttributes(activityHref(item)!)}>{item.title}</a> : item.title}</p>
+					<p class="activity__title">{activityHref(item) ? <a href={activityHref(item)} {...externalLinkAttributes(activityHref(item)!)}>{formatNewsTitle(item, publications)}</a> : formatNewsTitle(item, publications)}</p>
 				</li>
 			))}
 		</ol>

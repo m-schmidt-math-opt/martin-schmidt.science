@@ -1,3 +1,6 @@
+import { aboutProfile } from './about.ts';
+import type { Publication } from '../lib/publications.ts';
+
 export const newsCategories = ['Publication', 'Talk', 'Project', 'Award', 'Book', 'Software', 'Other'] as const;
 export type NewsCategory = typeof newsCategories[number];
 export type HomepageState = 'automatic' | 'pinned' | 'excluded';
@@ -25,8 +28,34 @@ export function formatNewsDate(date: string, month: 'short' | 'long' = 'long'): 
 	}).format(value);
 }
 
+export function formatNewsTitle(item: NewsItem, publications: readonly Publication[]): string {
+	if (!item.publicationKey) return item.title;
+	const publication = publications.find((publication) => publication.id === item.publicationKey);
+	if (!publication) throw new Error(`Unknown news publication key: ${item.publicationKey}`);
+	const coauthors = publication.authors.split(', ').filter((name) => name !== aboutProfile.name);
+	const details: Record<string, string | undefined> = {
+		title: publication.title,
+		coauthors: new Intl.ListFormat('en-GB', { style: 'long', type: 'conjunction' }).format(coauthors),
+		venue: publication.venue,
+	};
+	return item.title.replace(/\{(title|coauthors|venue)\}/g, (_, field: string) => {
+		const value = details[field];
+		if (!value) throw new Error(`Missing ${field} for news publication: ${item.publicationKey}`);
+		return value;
+	});
+}
+
 // Initial entries use exact dates and facts from the canonical talks dataset.
 export const news: NewsItem[] = [
+	{
+		id: 'henrion-schmidt-paper-accepted',
+		date: '2026-10-08',
+		category: 'Publication',
+		title: 'Our paper “{title}” (jointly with {coauthors}) has been accepted at {venue}.',
+		text: 'You can find the preprint via the publication entry.',
+		publicationKey: 'Henrion_Schmidt:2026',
+		homepage: 'automatic',
+	},
 	{
 		id: 'gregow-2027-save-the-date',
 		date: '2026-08-14',
