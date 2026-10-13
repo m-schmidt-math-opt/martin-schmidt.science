@@ -13,7 +13,7 @@ test('the bibliography has unique, case-sensitive citation keys', () => {
 
 test('the complete canonical bibliography and DOI identities remain unique', () => {
 	const keys = [...bib.matchAll(/^@(?!COMMENT\b)[A-Za-z]+\s*[({]\s*([^,\s]+)/gm)].map((match) => match[1]);
-	assert.equal(keys.length, 165);
+	assert.equal(keys.length, 166);
 	const dois = [...bib.matchAll(/^\s*doi\s*=\s*\{([^}]+)\}/gmi)]
 		.map((match) => match[1].toLowerCase().replace(/^https?:\/\/(?:dx\.)?doi\.org\//, ''));
 	assert.equal(new Set(dois).size, dois.length);
