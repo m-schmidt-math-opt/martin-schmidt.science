@@ -30,6 +30,12 @@ Before considering a feature complete:
 
 Fix all errors before proceeding.
 
+For data-only content or link updates that use existing presentation and do not
+change markup, styles, layout, or interactive behavior, browser checks are not
+required. Verify the affected generated HTML, run the relevant tests, run
+`npm run build`, and run `git diff --check` instead. Do not ask for browser
+access for these updates unless the user explicitly requests browser checks.
+
 Do not use the deployed website as a testing environment.
 
 ## Git
