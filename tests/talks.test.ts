@@ -3,9 +3,9 @@ import { existsSync, readFileSync } from 'node:fs';
 import test from 'node:test';
 import { introductoryCourseTalks, invitedTalks, plenaryAndKeynoteTalks, selectedPlenaryAndKeynoteTalks, talks } from '../src/data/talks.ts';
 
-test('all 102 talks remain represented with unique IDs after adding the verified UNIVERS course', () => {
-	assert.equal(talks.length, 102);
-	assert.equal(new Set(talks.map((talk) => talk.id)).size, 102);
+test('all 103 talks remain represented with unique IDs', () => {
+	assert.equal(talks.length, 103);
+	assert.equal(new Set(talks.map((talk) => talk.id)).size, 103);
 	const univers = talks.find((talk) => talk.id === 'talk-univers-winter-school-2021');
 	assert.ok(univers);
 	assert.equal(univers.eventKind, 'school');
@@ -34,7 +34,7 @@ test('the latest canonical talk is surfaced first in the Talks page recent secti
 	const talksPage = readFileSync(new URL('../src/pages/talks.astro', import.meta.url), 'utf8');
 	assert.match(talksPage, /const recentTalks = archive\.slice\(0, 6\)/);
 	assert.match(talksPage, /title: 'Recent Talks', items: recentTalks/);
-	assert.equal(talks[0].date.start, '2026-08-03');
+	assert.equal(talks[0].date.start, '2026-10-20');
 });
 
 test('Full Archive is the complete canonical talk set exactly once', () => {

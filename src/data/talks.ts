@@ -57,6 +57,27 @@ export interface Talk {
 
 export const talks = [
   {
+    "id": "talk-euromip-2026",
+    "title": "Branch-and-Cut for Mixed-Integer Nash Equilibrium Problems",
+    "date": {
+      "start": "2026-10-20"
+    },
+    "eventName": "Mixed Integer Programming European Workshop 2026",
+    "eventKind": "workshop",
+    "city": "Rome",
+    "country": "Italy",
+    "deliveryMode": "unspecified",
+    "types": ["invited"],
+    "links": [
+      {
+        "kind": "event",
+        "label": "Event website",
+        "href": "https://www.mixedinteger.org/EUROMIP/2026/"
+      }
+    ],
+    "notes": []
+  },
+  {
     "id": "talk-0001",
     "title": "BOBILib: Bilevel Optimization (Benchmark) Instance Library",
     "date": {
