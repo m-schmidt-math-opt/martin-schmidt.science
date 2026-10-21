@@ -1,4 +1,5 @@
 import { aboutProfile } from './about.ts';
+import { talks } from './talks.ts';
 import type { Publication } from '../lib/publications.ts';
 
 export const newsCategories = ['Publication', 'Talk', 'Project', 'Award', 'Book', 'Software', 'Other'] as const;
@@ -45,8 +46,20 @@ export function formatNewsTitle(item: NewsItem, publications: readonly Publicati
 	});
 }
 
+const mipEuropeTalk = talks.find((talk) => talk.id === 'talk-euromip-2026');
+if (!mipEuropeTalk) throw new Error('Missing canonical MIP Europe talk');
+
 // Initial entries use exact dates and facts from the canonical talks dataset.
 export const news: NewsItem[] = [
+	{
+		id: 'mip-europe-2026-talk',
+		date: mipEuropeTalk.date.start,
+		category: 'Talk',
+		title: `My talk at the ${mipEuropeTalk.eventName}`,
+		text: `I presented “${mipEuropeTalk.title}” in ${mipEuropeTalk.city}.`,
+		link: { label: 'View talk', href: `/talks/#full-archive-talk-${mipEuropeTalk.id}` },
+		homepage: 'automatic',
+	},
 	{
 		id: 'aussel-et-al-preprint',
 		date: '2026-10-13',
