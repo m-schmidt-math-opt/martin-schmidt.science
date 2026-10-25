@@ -43,7 +43,7 @@ test('the household assignment publication activity derives from its canonical p
 	assert.equal(activity.publicationKey, 'Friedrich_et_al:2026');
 	assert.equal(activity.link, undefined);
 	assert.equal(activity.homepage, 'automatic');
-	assert.equal(news.length, 11);
+	assert.equal(news.length, 12);
 	const source = readFileSync(new URL('../src/data/news.ts', import.meta.url), 'utf8');
 	assert.doesNotMatch(source, /10\.1007\/s00186-026-00933-7|Mathematical Methods of Operations Research|Ulf Friedrich/);
 	const homepage = readFileSync(new URL('../src/components/HomepageSections.astro', import.meta.url), 'utf8');
@@ -62,6 +62,7 @@ test('the canonical GreGOW activity uses the supplied announcement facts and ext
 	assert.deepEqual(externalLinkAttributes(activity.link.href), { target: '_blank', rel: 'noopener noreferrer' });
 	assert.ok(homepageNews.includes(activity));
 	assert.deepEqual(news.map((item) => item.id), [
+		'bucarey-et-al-preprint',
 		'mip-europe-2026-talk',
 		'aussel-et-al-preprint',
 		'henrion-schmidt-paper-accepted',
@@ -84,9 +85,9 @@ test('homepage selection includes pins, excludes excluded items, caps at five, a
 	assert.ok(selected.every((item) => item.homepage !== 'excluded'));
 	assert.deepEqual(selected.map((item) => item.date), [...selected.map((item) => item.date)].sort().reverse());
 	assert.deepEqual(selected.map((item) => item.id), [
+		'bucarey-et-al-preprint',
 		'mip-europe-2026-talk',
 		'aussel-et-al-preprint',
-		'henrion-schmidt-paper-accepted',
 		'gregow-2027-save-the-date',
 		'europt-2026-plenary',
 	]);
