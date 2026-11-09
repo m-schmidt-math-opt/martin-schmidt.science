@@ -52,6 +52,15 @@ if (!mipEuropeTalk) throw new Error('Missing canonical MIP Europe talk');
 // Initial entries use exact dates and facts from the canonical talks dataset.
 export const news: NewsItem[] = [
 	{
+		id: 'gas-networks-book-chapters-published',
+		date: '2026-11-07',
+		category: 'Book',
+		title: 'Our chapters in “{venue}” are now published.',
+		text: 'Together with my coauthors, I contributed five chapters. The book is open access.',
+		publicationKey: 'Pfetsch_et_al:2026',
+		homepage: 'automatic',
+	},
+	{
 		id: 'daniilidis-et-al-preprint',
 		date: '2026-10-30',
 		category: 'Publication',
