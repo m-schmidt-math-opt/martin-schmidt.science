@@ -55,7 +55,7 @@ export const news: NewsItem[] = [
 		id: 'gas-networks-book-chapters-published',
 		date: '2026-11-07',
 		category: 'Book',
-		title: 'Our chapters in “{venue}” are now published.',
+		title: 'My chapters in “{venue}” are now published.',
 		text: 'Together with my coauthors, I contributed five chapters. The book is open access.',
 		publicationKey: 'Pfetsch_et_al:2026',
 		homepage: 'automatic',
