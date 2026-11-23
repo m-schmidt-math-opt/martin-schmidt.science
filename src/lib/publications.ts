@@ -1,5 +1,7 @@
 import bibliography from '../data/publications.bib?raw';
 import { createPublicationMetadata } from './publication-metadata';
+import { latexToText } from './bibtex-text';
+import { parsePublicationAuthors, type PublicationAuthor } from './publication-authors';
 
 export type PublicationType =
 	| 'journal'
@@ -29,6 +31,7 @@ export interface Publication {
 	classificationResolved: boolean;
 	title: string;
 	authors: string;
+	authorNames: PublicationAuthor[];
 	venue?: string;
 	year?: number;
 	month?: number;
@@ -139,47 +142,6 @@ function parseBibTeX(source: string): RawEntry[] {
 	return entries;
 }
 
-const accents: Record<string, string> = {
-	'\\"a': 'ä', '\\"o': 'ö', '\\"u': 'ü', '\\"A': 'Ä', '\\"O': 'Ö', '\\"U': 'Ü',
-	"\\'a": 'á', "\\'e": 'é', "\\'i": 'í', "\\'o": 'ó', "\\'u": 'ú',
-	'\\`a': 'à', '\\`e': 'è', '\\`i': 'ì', '\\`o': 'ò', '\\`u': 'ù',
-	'\\~a': 'ã', '\\~n': 'ñ', '\\c c': 'ç', '\\ss': 'ß',
-};
-
-function latexToText(value = ''): string {
-	let text = value;
-	text = text.replace(/\$\\Gamma\$/g, 'Γ');
-	text = text.replace(/\$([^$]+)\$/g, '$1');
-	text = text.replace(/\\url\{([^}]*)\}/g, '$1').replace(/\\enquote\{([^}]*)\}/g, '“$1”');
-	text = text.replace(/\\(?:textit|emph|textbf|mathrm|operatorname)\{([^{}]*)\}/g, '$1');
-	text = text.replace(/\\(["'`~^=.uvHck])\s*\{?([A-Za-z])\}?/g, (match, mark, letter) => {
-		const key = `\\${mark}${letter}`;
-		return accents[key] ?? letter.normalize('NFC');
-	});
-	for (const [command, replacement] of Object.entries(accents)) text = text.replaceAll(command, replacement);
-	return text
-		.replace(/\{([“”])\}/g, '$1')
-		.replace(/[{}]/g, '')
-		.replace(/\\&/g, '&')
-		.replace(/\\_/g, '_')
-		.replace(/---/g, '—')
-		.replace(/--/g, '–')
-		.replace(/~+/g, ' ')
-		.replace(/\\([#$%])/g, '$1')
-		.replace(/\s+/g, ' ')
-		.trim();
-}
-
-function formatName(name: string): string {
-	const clean = latexToText(name.trim());
-	const comma = clean.indexOf(',');
-	return comma < 0 ? clean : `${clean.slice(comma + 1).trim()} ${clean.slice(0, comma).trim()}`;
-}
-
-function formatAuthors(author = ''): string {
-	return author.split(/\s+and\s+/i).map(formatName).join(', ');
-}
-
 function classify(entry: RawEntry): PublicationType {
 	if (entry.key === 'Schmidt:2020') return 'review';
 	if (entry.type === 'article') return 'journal';
@@ -274,6 +236,7 @@ function normalize(entry: RawEntry): Publication {
 	const venue = fields.journal ?? fields.journaltitle ?? fields.booktitle ?? fields.publisher ?? fields.institution ?? fields.school;
 	const type = classify(entry);
 	const normalizedVenue = venue ? latexToText(venue) : undefined;
+	const authorNames = parsePublicationAuthors(fields.author);
 	const metadata = createPublicationMetadata(type, normalizedVenue, {
 		volume: fields.volume && latexToText(fields.volume),
 		number: fields.number && latexToText(fields.number),
@@ -290,7 +253,8 @@ function normalize(entry: RawEntry): Publication {
 		typeLabel: `${publicationTypeLabels[type]}${fields.pubstate?.toLowerCase() === 'accepted' ? ' · Accepted for publication' : ''}`,
 		classificationResolved: entry.key === 'Schmidt:2020' || ['article', 'inproceedings', 'conference', 'incollection', 'inbook', 'book', 'report', 'techreport', 'phdthesis', 'mastersthesis', 'thesis'].includes(entry.type),
 		title: latexToText(fields.title) || '[Untitled publication]',
-		authors: formatAuthors(fields.author) || '[Author not recorded]',
+		authors: authorNames.map((author) => author.name).join(', ') || '[Author not recorded]',
+		authorNames,
 		venue: normalizedVenue,
 		year,
 		month,

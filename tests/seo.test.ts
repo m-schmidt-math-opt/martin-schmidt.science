@@ -28,7 +28,7 @@ test('shared metadata includes social cards, safe JSON-LD, active navigation, an
 	}
 	assert.match(layout, /type="application\/ld\+json"/);
 	assert.match(layout, /replaceAll\('<', '\\\\u003c'\)/);
-	assert.match(layout, /aria-current=\{Astro\.url\.pathname === item\.href \? 'page' : undefined\}/);
+	assert.match(layout, /aria-current=\{Astro\.url\.pathname === item\.href \? 'page' : Astro\.url\.pathname\.startsWith\(item\.href\) \? 'location' : undefined\}/);
 	assert.match(notFoundPage, /robots="noindex, follow"/);
 	assert.match(notFoundPage, /<h1 id="page-title">Page not found<\/h1>/);
 });

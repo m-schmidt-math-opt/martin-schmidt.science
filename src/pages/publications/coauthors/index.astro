@@ -1,0 +1,46 @@
+---
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import SectionNav from '../../../components/SectionNav.astro';
+import { aboutProfile } from '../../../data/about';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { coauthorPath, createCoauthorIndex } from '../../../lib/coauthors';
+import { publications } from '../../../lib/publications';
+
+const coauthors = createCoauthorIndex(publications, aboutProfile.name);
+const groups = [...Map.groupBy(coauthors, (coauthor) => coauthor.letter)].map(([letter, authors]) => ({ letter, authors }));
+---
+
+<BaseLayout title="Co-authors" description={`An alphabetical index of ${aboutProfile.name}’s co-authors, with links to their shared publications.`}>
+	<header class="page-shell publications-intro" aria-labelledby="page-title">
+		<Breadcrumbs items={[{ label: 'Publications', href: '/publications/' }, { label: 'Co-authors' }]} />
+		<h1 id="page-title">Co-authors</h1>
+		<p class="intro__lead">Browse my {coauthors.length} co-authors alphabetically by surname. Select a name to explore our shared publications.</p>
+		<SectionNav sections={groups.map(({ letter }) => ({ id: `letter-${letter.toLowerCase()}`, label: letter }))} label="Co-author surname initials" variant="alphabet" />
+	</header>
+	<div class="publication-sections">
+		{groups.map(({ letter, authors }) => (
+			<section id={`letter-${letter.toLowerCase()}`} class="publication-section" aria-labelledby={`letter-${letter.toLowerCase()}-title`}>
+				<div class="coauthor-group">
+					<h2 id={`letter-${letter.toLowerCase()}-title`}>{letter}</h2>
+					<ul class="coauthor-list">
+						{authors.map((coauthor) => <li><a href={coauthorPath(coauthor)}>{coauthor.name}</a></li>)}
+					</ul>
+				</div>
+			</section>
+		))}
+	</div>
+</BaseLayout>
+
+<style>
+	.coauthor-group { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--color-rule); }
+	.coauthor-group h2 { padding-top: .3rem; }
+	.coauthor-list { display: grid; align-content: start; column-gap: 2rem; }
+	.coauthor-list li { min-width: 0; }
+	.coauthor-list a { display: flex; align-items: center; min-height: 2.75rem; padding-block: .55rem; font-size: 1rem; line-height: 1.5; text-decoration: none; overflow-wrap: anywhere; }
+	.coauthor-list a:hover { text-decoration: underline; }
+	@media (min-width: 45rem) {
+		.coauthor-group { grid-template-columns: 3.5rem minmax(0, 1fr); gap: 2rem; }
+		.coauthor-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	}
+	@media (min-width: 64rem) { .coauthor-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+</style>

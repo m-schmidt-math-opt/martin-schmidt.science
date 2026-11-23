@@ -85,7 +85,7 @@ const navigation = [
 				<nav class="site-nav" aria-label="Primary navigation">
 					<ul>
 						{navigation.map((item) => (
-							<li><a href={item.href} aria-current={Astro.url.pathname === item.href ? 'page' : undefined}>{item.label}</a></li>
+							<li><a href={item.href} aria-current={Astro.url.pathname === item.href ? 'page' : Astro.url.pathname.startsWith(item.href) ? 'location' : undefined}>{item.label}</a></li>
 						))}
 					</ul>
 				</nav>

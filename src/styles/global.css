@@ -174,7 +174,8 @@
 		color: var(--color-accent);
 	}
 
-	.site-nav a[aria-current='page'] {
+	.site-nav a[aria-current='page'],
+	.site-nav a[aria-current='location'] {
 		color: var(--color-accent);
 		text-decoration: underline;
 		text-decoration-thickness: 0.08em;
@@ -231,6 +232,16 @@
 		font-size: 0.82rem;
 		font-weight: 600;
 		text-decoration: none;
+	}
+
+	.section-nav--alphabet { gap: .25rem; }
+	.section-nav--alphabet a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 2.75rem;
+		min-height: 2.75rem;
+		font-size: 1rem;
 	}
 
 	.publication-section {

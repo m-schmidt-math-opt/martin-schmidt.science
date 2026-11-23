@@ -1,0 +1,39 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import PublicationList from '../../../components/PublicationList.astro';
+import { aboutProfile } from '../../../data/about';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { createCoauthorIndex, type Coauthor } from '../../../lib/coauthors';
+import { publications, publicationsByKeys } from '../../../lib/publications';
+
+export const getStaticPaths = (() => createCoauthorIndex(publications, aboutProfile.name).map((coauthor) => ({
+	params: { coauthor: coauthor.id },
+	props: { coauthor },
+}))) satisfies GetStaticPaths;
+
+interface Props {
+	coauthor: Coauthor;
+}
+
+const { coauthor } = Astro.props;
+const sharedPublications = publicationsByKeys(coauthor.publicationIds);
+---
+
+<BaseLayout title={`Publications with ${coauthor.name}`} description={`Publications co-authored by ${aboutProfile.name} and ${coauthor.name}, with bibliographic details and links to the works.`}>
+	<header class="page-shell publications-intro" aria-labelledby="page-title">
+		<Breadcrumbs items={[
+			{ label: 'Publications', href: '/publications/' },
+			{ label: 'Co-authors', href: `/publications/coauthors/#letter-${coauthor.letter.toLowerCase()}` },
+			{ label: coauthor.name },
+		]} />
+		<h1 id="page-title">{coauthor.name}</h1>
+		<p class="intro__lead">{sharedPublications.length} {sharedPublications.length === 1 ? 'publication' : 'publications'} co-authored with {aboutProfile.name}.</p>
+	</header>
+	<div class="publication-sections">
+		<section class="publication-section" aria-labelledby="shared-publications-title">
+			<div class="publication-section__heading"><h2 id="shared-publications-title">Shared Publications</h2></div>
+			<PublicationList publications={sharedPublications} sectionId="shared" showBibliographicMetadata />
+		</section>
+	</div>
+</BaseLayout>

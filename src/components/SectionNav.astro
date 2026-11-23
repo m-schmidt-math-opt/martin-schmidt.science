@@ -7,11 +7,12 @@ interface SectionLink {
 interface Props {
 	sections: SectionLink[];
 	label?: string;
+	variant?: 'sections' | 'alphabet';
 }
 
-const { sections, label = 'On this page' } = Astro.props;
+const { sections, label = 'On this page', variant = 'sections' } = Astro.props;
 ---
 
-<nav class="section-nav" aria-label={label}>
+<nav class:list={['section-nav', { 'section-nav--alphabet': variant === 'alphabet' }]} aria-label={label}>
 	{sections.map((section) => <a href={`#${section.id}`}>{section.label}</a>)}
 </nav>
