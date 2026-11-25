@@ -57,6 +57,22 @@ export interface Talk {
 
 export const talks = [
   {
+    "id": "talk-optilaend-2026",
+    "title": "Calmness of the Solution-Set Mapping for Linear Bilevel and Pricing Problems",
+    "date": {
+      "start": "2026-11-25"
+    },
+    "eventName": "OptiLänd Workshop 2026",
+    "eventKind": "workshop",
+    "hostInstitution": "Universität Mannheim",
+    "city": "Mannheim",
+    "country": "Germany",
+    "deliveryMode": "unspecified",
+    "types": ["invited"],
+    "links": [],
+    "notes": []
+  },
+  {
     "id": "talk-euromip-2026",
     "title": "Branch-and-Cut for Mixed-Integer Nash Equilibrium Problems",
     "date": {
