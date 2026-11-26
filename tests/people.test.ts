@@ -5,7 +5,7 @@ import { people, getAlumni, getCurrentPeople, personReferences } from '../src/da
 import { externalLinkAttributes } from '../src/lib/links.ts';
 
 test('people have unique stable IDs', () => {
-	assert.equal(people.length, 20);
+	assert.equal(people.length, 21);
 	assert.equal(new Set(people.map((person) => person.id)).size, people.length);
 });
 
@@ -91,7 +91,7 @@ test('requested research-focus cleanup and alumni homepages stay canonical', () 
 
 test('current portraits and former PhD dissertation metadata remain canonical people facts', () => {
 	const current = people.filter((person) => person.current);
-	assert.equal(current.length, 5);
+	assert.equal(current.length, 6);
 	for (const person of current) {
 		assert.ok(person.portrait?.src);
 		assert.ok(existsSync(new URL(`../public${person.portrait!.src}`, import.meta.url)));
@@ -107,7 +107,7 @@ test('current portraits and former PhD dissertation metadata remain canonical pe
 
 test('current and alumni groups are derived from the canonical people records', () => {
 	assert.equal(getCurrentPeople('secretary').length, 2);
-	assert.equal(getCurrentPeople('postdoc').length, 2);
+	assert.equal(getCurrentPeople('postdoc').length, 3);
 	assert.equal(getCurrentPeople('phd').length, 1);
 	assert.equal(getAlumni('former-phd').length, 12);
 	assert.equal(getAlumni('former-postdoc').length, 4);
@@ -134,6 +134,7 @@ test('homepage groups every canonical current member with research staff first',
 	assert.deepEqual(researchStaff.map((person) => person.name), [
 		'Aloïs Duguet',
 		'Andreas Horländer',
+		'Noah Weninger',
 		'Simon Stevens',
 	]);
 	assert.deepEqual(supportStaff.map((person) => person.name), [

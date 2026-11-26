@@ -103,6 +103,17 @@ export const people: Person[] = [
 		alumni: [{ group: 'former-phd', dissertation: { title: 'Algorithms and Complexity Theory for Bilevel Problems with Nonlinear Lower Levels', institution: 'Trier University' } }],
 	},
 	{
+		id: 'noah-weninger',
+		name: 'Noah Weninger',
+		portrait: { src: '/images/group/noah-weninger.jpg', alt: 'Noah Weninger', width: 600, height: 750 },
+		current: {
+			group: 'postdoc',
+			role: 'Postdoctoral Researcher',
+			biography: 'Noah received his PhD in Combinatorics and Optimization from the University of Waterloo in 2026, under the supervision of Ricardo Fukasawa. He previously completed a master’s in Computer Science at the University of British Columbia, supervised by Bruce Shepherd, and a bachelor’s in Computer Science at the University of Alberta.',
+			researchFocus: ['bilevel optimization', 'interdiction games', 'approximation algorithms', 'symmetry'],
+		},
+	},
+	{
 		id: 'simon-stevens',
 		name: 'Simon Stevens',
 		portrait: { src: '/images/group/simon-stevens.jpg', alt: 'Simon Stevens', width: 671, height: 1000 },
