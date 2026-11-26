@@ -69,7 +69,13 @@ export const talks = [
     "country": "Germany",
     "deliveryMode": "unspecified",
     "types": ["invited"],
-    "links": [],
+    "links": [
+      {
+        "kind": "event",
+        "label": "Event website",
+        "href": "https://jschnebel.github.io/optimization-laend.de/"
+      }
+    ],
     "notes": []
   },
   {
