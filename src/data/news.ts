@@ -46,11 +46,23 @@ export function formatNewsTitle(item: NewsItem, publications: readonly Publicati
 	});
 }
 
+const optilaendTalk = talks.find((talk) => talk.id === 'talk-optilaend-2026');
+if (!optilaendTalk) throw new Error('Missing canonical OptiLänd talk');
+
 const mipEuropeTalk = talks.find((talk) => talk.id === 'talk-euromip-2026');
 if (!mipEuropeTalk) throw new Error('Missing canonical MIP Europe talk');
 
 // Initial entries use exact dates and facts from the canonical talks dataset.
 export const news: NewsItem[] = [
+	{
+		id: 'optilaend-2026-talk',
+		date: optilaendTalk.date.start,
+		category: 'Talk',
+		title: `My talk at the ${optilaendTalk.eventName}`,
+		text: `I presented “${optilaendTalk.title}” in ${optilaendTalk.city}.`,
+		link: { label: 'View talk', href: `/talks/#full-archive-talk-${optilaendTalk.id}` },
+		homepage: 'automatic',
+	},
 	{
 		id: 'costa-et-al-preprint',
 		date: '2026-11-12',
